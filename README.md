@@ -1,2 +1,2 @@
 # document-management-system
-Andela Javascript Checkpoint 3: Document Management Sysytem API
+Andela Javascript Checkpoint 3: Document Management System API

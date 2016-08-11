@@ -1,0 +1,31 @@
+{
+  "name": "document-management-system",
+  "version": "1.0.0",
+  "description": "Document Management System Application API",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andela-emabishi/document-management-system.git"
+  },
+  "keywords": [
+    "node",
+    "jasmine",
+    "describe"
+  ],
+  "author": "Elizabeth Mabishi",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/andela-emabishi/document-management-system/issues"
+  },
+  "homepage": "https://github.com/andela-emabishi/document-management-system#readme",
+  "devDependencies": {
+    "eslint": "^3.2.2",
+    "eslint-config-airbnb": "^10.0.0",
+    "eslint-plugin-import": "^1.12.0",
+    "eslint-plugin-jsx-a11y": "^2.1.0",
+    "eslint-plugin-react": "^6.0.0"
+  }
+}
