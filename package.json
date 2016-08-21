@@ -4,7 +4,7 @@
   "description": "Document Management System Application API",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/server"
+    "test": "istanbul cover jasmine --captureExceptions spec/*/*.js && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "repository": {
     "type": "git",
@@ -22,12 +22,17 @@
   },
   "homepage": "https://github.com/andela-emabishi/document-management-system#readme",
   "devDependencies": {
+    "coveralls": "^2.11.12",
     "eslint": "^3.2.2",
     "eslint-config-airbnb": "^10.0.0",
     "eslint-plugin-import": "^1.12.0",
     "eslint-plugin-jsx-a11y": "^2.1.0",
     "eslint-plugin-react": "^6.0.0",
-    "mocha": "^3.0.2",
+    "istanbul": "^0.4.4",
     "supertest": "^2.0.0"
+  },
+  "dependencies": {
+    "jasmine": "^2.4.1",
+    "jasmine-core": "^2.4.1"
   }
 }
