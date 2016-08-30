@@ -20,6 +20,7 @@ const userSchema = new Schema({
     trim: true,
   },
   userName: {
+    default: 'johndoe',
     type: String,
     required: true,
     trim: true,
