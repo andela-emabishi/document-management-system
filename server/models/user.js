@@ -7,19 +7,21 @@ const userSchema = new Schema({
     type: Number,
     unique: true,
   },
-  firstName: {
-    default: 'John',
-    type: String,
-    required: true,
-    trim: true,
+  name: {
+    first: {
+      default: 'John',
+      type: String,
+      required: true,
+      trim: true,
+    },
+    last: {
+      default: 'Doe',
+      type: String,
+      required: true,
+      trim: true,
+    },
   },
-  lastName: {
-    default: 'Doe',
-    type: String,
-    required: true,
-    trim: true,
-  },
-  userName: {
+  username: {
     default: 'johndoe',
     type: String,
     required: true,
@@ -31,6 +33,7 @@ const userSchema = new Schema({
     default: 'johndoe@gmail.com',
     required: true,
     trim: true,
+    unique: true,
   },
   password: {
     default: 'pass',
