@@ -10,17 +10,12 @@ const roles = ['editor', 'viewer', 'admin'];
 const roleSchema = new Schema({
   // Take _id as value generated organically by MongoDB
 
-  _id: {
-    required: true,
-    type: Schema.Types.ObjectId,
-    unique: true,
-  },
   title: {
+    _id: Schema.Types.ObjectId,
     enum: roles,
     required: true,
     type: String,
   },
-
 });
 
 module.exports = mongoose.model('Role', roleSchema);
