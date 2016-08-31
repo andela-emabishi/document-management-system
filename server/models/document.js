@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
+const accessLevel = ['global', 'private'];
+
 const documentSchema = new Schema({
   documentId: {
     required: true,
@@ -27,6 +29,10 @@ const documentSchema = new Schema({
   modifiedAt: {
     default: Date.now,
     type: Date,
+  },
+  permissions: {
+    enums: accessLevel,
+    required: true,
   },
 });
 
