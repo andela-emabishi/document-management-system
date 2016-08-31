@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  userId: {
-    type: Number,
+  _id: {
+    type: Schema.Types.ObjectId,
     unique: true,
   },
   name: {
@@ -39,9 +39,10 @@ const userSchema = new Schema({
     default: 'pass',
     required: true,
   },
-  // Create or Use role relationship from roleSchema
+  // Create or Use role relationship from roleSchema. User is either a viewer, editor or an admin
   role: {
     required: true,
+    ref: 'Role',
     type: String,
   },
 });
