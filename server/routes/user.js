@@ -88,13 +88,14 @@ apiRouter.post('/login', function(req, res) {
             name: user.name,
             username: user.username
           }, superSecret, {
+            // Token will expire in a day
             expiresIn: 86400
           });
 
           // Return an object of the information along with the token
           res.json({
             success: true,
-            message: 'Enjoy your token!',
+            message: 'Enjoy your token! You\'ve just been logged in',
             token: token
           });
         }
@@ -105,12 +106,50 @@ apiRouter.post('/login', function(req, res) {
 
 
 
-// Middlewear run before any requests are processed
-// Authenticate here
-apiRouter.use(function(req, res, next) {
-  console.log('Somebody just came to our app');
+// middlewear for all routes parsed by the instance apiRouter.
+// Execute this just before processing any request
 
-  next();
+// Route middlewear to verify a token before routing a user
+// Runs everytime request is made
+apiRouter.use(function(req, res, next) {
+  console.log('Someone just came to our app');
+  console.log('let\s verify that they have a token we can decode');
+
+  // Authenticate them
+  // Chck for token
+  var token = req.body.token || req.param('token') || req.headers['x-access-token'];
+
+  if (token) {
+    jwt.verify(token, superSecret, function(err, decoded) {
+      if (err) {
+        return res.status(403).send({
+          success: false,
+          message: 'Failed to authenticate token'
+        });
+      }
+      // Everything went well, we found and verified the token
+      else {
+        // console.log('===================================');
+        // console.log(res.status(404));
+        //
+        // console.log('====================================');
+        console.log('Token owner');
+        console.log(decoded);
+
+        req.decoded = decoded;
+
+        next();
+      }
+    });
+  }
+  // No token was found
+  // Return 403 Access Forbidden and an error message
+  else {
+    return res.status(403).send({
+      success: false,
+      message: 'No token provided'
+    });
+  }
 });
 
 
