@@ -318,6 +318,63 @@ documentRouter.route('/documents')
     });
   });
 
+documentRouter.route('/documents/:document_id')
+
+  .get(function(req, res) {
+    Document.findById(req.params.document_id, function(err, document) {
+      if (err) {
+        // Something happened and we can't find the user
+        res.send(err);
+      }
+      else {
+        res.json(document);
+      }
+    });
+  })
+
+  .put(function(req, res) {
+    Document.findById(req.params.document_id, function(err, document) {
+      if (err) {
+        res.send(err);
+      }
+      // Only update if a change has happened
+      if (req.body.title) document.title = req.body.title;
+      if (req.body.content) document.content = req.body.content;
+      if (req.body.privacy) document.privacy = req.body.privacy;
+
+      // Then save the user details
+      document.save(function(err) {
+        // If there's an error, tell us
+        if (err) {
+          res.send(err);
+        }
+        // Everything went well
+        else {
+          res.json({
+            success: true,
+            message: 'Document details updated successfully'
+          });
+        }
+      });
+    });
+  })
+
+  .delete(function(req, res) {
+    Document.remove({
+      _id: req.params.document_id
+    }, function(err) {
+      if (err) {
+        return res.send(err);
+      }
+      else {
+        res.json({
+          success: true,
+          message: 'Document deleted successfully'
+        });
+      }
+    });
+  });
+
 
 //  =================================== ================================
 
