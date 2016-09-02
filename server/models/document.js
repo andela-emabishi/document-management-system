@@ -1,17 +1,17 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose'),
+  Schema = mongoose.Schema;
 
-const Schema = mongoose.Schema;
+  // A public document can be seen by everybody
+  // A private document can only be seen by the person who created it
+  // var privacyLevel = ['public', 'private'];
 
-const accessLevel = ['global', 'private'];
-
-const documentSchema = new Schema({
-  documentId: {
+const DocumentSchema = new Schema({
+  // Different from the document's own document-id
+  _creatorId: {
     required: true,
-    type: Number,
-  },
-  ownerId: {
-    required: true,
-    type: Number,
+    ref: 'User',
+    type: Schema.Types.ObjectId,
+    unique: true,
   },
   title: {
     required: true,
@@ -25,15 +25,18 @@ const documentSchema = new Schema({
   createdAt: {
     default: Date.now,
     type: Date,
+    required: true,
   },
   modifiedAt: {
     default: Date.now,
     type: Date,
-  },
-  permissions: {
-    enums: accessLevel,
     required: true,
+  },
+  privacy: {
+    enum: ['public', 'private'],
+    required: true,
+    type: String,
   },
 });
 
-module.exports = mongoose.model('Document', documentSchema);
+module.exports = mongoose.model('Document', DocumentSchema);
