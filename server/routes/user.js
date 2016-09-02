@@ -375,35 +375,17 @@ documentRouter.route('/documents/:document_id')
     });
   });
 
-documentRouter.route('/users/:user_id/documents')
+documentRouter.route('/users/:creator_id/documents')
   .get(function(req, res) {
-    User.findById(req.params.user_id, function(err, user) {
-      if (err) {
-        res.json({
-          error: err,
-          message: 'Could not identify user'
-        });
-      }
-      else {
-        // Find the documents of this user and return them
-        Document.find(function(err, documents) {
-          if (err) {
-            res.json({
-              error: err,
-              message: 'Could not find documents'
-            });
-          }
-          else {
-            // We found the documents
-            // Return only those that belong to the logged in user
-
-            if (req.decoded._id == Document._creatorId) {
-              return res.json(documents);
-            }
-          }
-        });
-      }
-    });
+    Document.find({_creatorId: req.decoded.id})
+      .exec(function (err, documents) {
+        if (err) {
+          console.log(err);
+          res.send(err);
+          return;
+        }
+        res.send(documents);
+      });
   });
 
 //  =================================== ================================
