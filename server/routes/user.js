@@ -374,7 +374,7 @@ documentRouter.route('/documents/:document_id')
       }
     });
   });
-
+//  Find documents by creator id
 documentRouter.route('/users/:creator_id/documents')
   .get(function(req, res) {
     Document.find({_creatorId: req.decoded.id})
