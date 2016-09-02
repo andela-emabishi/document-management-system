@@ -1,21 +1,24 @@
 const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
-// An admin can create, edit and delete a document
-// An editor can view and edit a document
-// A viewer can only view a document and cannot edit or delete
 
-const roles = ['editor', 'viewer', 'admin'];
+// const accessLevel = ['read', 'write', 'delete'];
+
+// const roleTypes = ['viewer', 'editor', 'admin'];
 
 const roleSchema = new Schema({
-  // Take _id as value generated organically by MongoDB
-
   title: {
-    _id: Schema.Types.ObjectId,
-    enum: roles,
+    // enums: roleTypes,
     required: true,
     type: String,
+    unique: true
   },
+  permission: {
+    required: true,
+    type: String,
+    enum: ['read', 'readWrite', 'readWriteDelete'],
+    unique: false,
+  }
 });
 
 module.exports = mongoose.model('Role', roleSchema);
