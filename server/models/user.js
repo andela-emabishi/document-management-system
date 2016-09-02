@@ -7,28 +7,31 @@ const UserSchema = new Schema({
   firstname: {
     type: String,
     required: true,
-    // trim: true,
+    trim: true,
   },
   lastname: {
     type: String,
     required: true,
-    // trim: true,
+    trim: true,
   },
   username: {
     type: String,
     required: true,
     lowercase: true,
     unique: true,
+    trim: true
   },
   email: {
     required: true,
     unique: true,
     type: String,
+    trim: true,
   },
   password: {
     type: String,
     required: true,
     select: false,
+    trim: true,
   },
   // Create or Use role relationship from roleSchema. User is either a viewer, editor or an admin
   // role: {
