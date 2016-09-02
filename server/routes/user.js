@@ -48,6 +48,43 @@ app.get('/', function(req, res){
 var apiRouter = express.Router();
 
 
+apiRouter.route('/signup')
+
+// Create a new user
+
+  .post(function(req, res) {
+    var user = new User();
+
+    // Pass details of model instance to request
+    user.firstname = req.body.firstname;
+    user.lastname = req.body.lastname;
+    user.username = req.body.username;
+    user.email = req.body.email;
+    user.password = req.body.password;
+
+    user.save(function(err) {
+      if (err) {
+        if (err.code == 11000) {
+          return res.json({
+            success: false,
+            message: 'Please provide a unique username'
+          });
+        }
+        // It's another error
+        else {
+          res.send(err);
+        }
+      }
+      // No error
+      else {
+        res.json({
+          success: true,
+          message: 'User created successfully'
+        });
+      }
+    });
+  });
+
 // Authenticate
 // Make sure someone is who they say they are.
 // If they have the correct password, give them a token
@@ -152,51 +189,15 @@ apiRouter.use(function(req, res, next) {
   }
 });
 
-
 apiRouter.get('/', function(req, res) {
   res.json({
     message: 'Hooray! Welcome to the DOCHERO api'
   });
 });
 
+
 // On routes that end in users
 apiRouter.route('/users')
-
-// Create a new user
-
-  .post(function(req, res) {
-    var user = new User();
-
-    // Pass details of model instance to request
-    user.firstname = req.body.firstname;
-    user.lastname = req.body.lastname;
-    user.username = req.body.username;
-    user.email = req.body.email;
-    user.password = req.body.password;
-
-    user.save(function(err) {
-      if (err) {
-        if (err.code == 11000) {
-          return res.json({
-            success: false,
-            message: 'Please provide a unique username'
-          });
-        }
-        // It's another error
-        else {
-          res.send(err);
-        }
-      }
-      // No error
-      else {
-        res.json({
-          success: true,
-          message: 'User created successfully'
-        });
-      }
-    });
-  })
-
   // Get all Users
   .get(function(req, res) {
     User.find(function(err, users) {
@@ -268,10 +269,6 @@ apiRouter.route('/users/:user_id')
       }
     });
   });
-
-
-
-
 
 //  =================================== ================================
 
