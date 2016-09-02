@@ -374,17 +374,25 @@ documentRouter.route('/documents/:document_id')
       }
     });
   });
-//  Find documents by creator id
+
+//  Find documents by creator id - You can only find your documents
+// TODO: and documents set to public
 documentRouter.route('/users/:creator_id/documents')
   .get(function(req, res) {
     Document.find({_creatorId: req.decoded.id})
       .exec(function (err, documents) {
         if (err) {
-          console.log(err);
           res.send(err);
           return;
         }
-        res.send(documents);
+        // documents is an array of documents
+        else if (documents[0] == null) {
+          res.json({
+            message: 'No documents were found for that user'
+          });
+        } else {
+          res.send(documents);
+        }
       });
   });
 
