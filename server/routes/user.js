@@ -16,7 +16,8 @@ var express = require('express'),
 
   //  Require mongoose model
   User = require('../models/user'),
-  Document = require('../models/document');
+  Document = require('../models/document'),
+  Role = require ('../models/role');
 
    // Connect to database
 mongoose.connect('mongodb://localhost/27017/dochero');
@@ -397,6 +398,94 @@ documentRouter.route('/users/:creator_id/documents')
   });
 
 //  =================================== ================================
+// ROLE routes
+var roleRouter = express.Router();
+
+roleRouter.route('/roles')
+
+  // Create a role
+  .post(function(req, res) {
+    var role = new Role();
+
+    role.title = req.body.title;
+    role.permission = req.body.permission;
+
+    role.save(function(err) {
+      if (err) {
+        if (err.code == 11000) {
+          return res.json({
+            success: false,
+            message: 'Please provide a unique title'
+          });
+        }
+        else {
+          res.send(err);
+        }
+      }
+      else {
+        res.json({
+          success: true,
+          message: 'Role created successfully'
+        });
+      }
+    });
+  })
+  // Get all roles
+  .get(function(req, res) {
+    Role.find(function(err, roles) {
+      if (err) {
+        res.send(err);
+      }
+      else {
+        res.send(roles);
+      }
+    });
+  });
+
+roleRouter.route('/roles/:role_id')
+  // Edit a role by it's id
+  .put(function(req, res) {
+    Role.findById(req.params.role_id, function(err, role) {
+      if (err) {
+        res.send(err);
+      }
+      // Only update if a change has happened
+      if (req.body.title) role.firstname = req.body.title;
+      if (req.body.permission) role.permission = req.body.permission;
+
+      // Then save the role
+      role.save(function(err) {
+        // If there's an error, tell us
+        if (err) {
+          res.send(err);
+        }
+        // Everything went well
+        else {
+          res.json({
+            success: true,
+            message: 'Role details updated successfully'
+          });
+        }
+      });
+
+    });
+  })
+  .delete(function(req, res) {
+    Role.remove({
+      _id: req.params.role_id
+    }, function(err) {
+      if (err) {
+        return res.send(err);
+      }
+      else {
+        res.json({
+          success: true,
+          message: 'Role deleted successfully'
+        });
+      }
+    });
+  });
+
 
 // Register our rotes so we can use them
 // Prefix routes run by apiRouter instance with 'api'
@@ -407,7 +496,8 @@ app.use('/api', apiRouter);
 // Register routes to be run by express
 app.use('/api', documentRouter);
 
-
+// Register roleRouter routes
+app.use('/api', roleRouter);
 
 // SERVER ==================================== =============================
 // Start server
