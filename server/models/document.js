@@ -11,7 +11,6 @@ const DocumentSchema = new Schema({
     required: true,
     ref: 'User',
     type: Schema.Types.ObjectId,
-    unique: true,
   },
   title: {
     required: true,
