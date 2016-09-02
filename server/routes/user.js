@@ -15,7 +15,8 @@ var express = require('express'),
   port = process.env.PORT || 3000,
 
   //  Require mongoose model
-  User = require('../models/user');
+  User = require('../models/user'),
+  Document = require('../models/document');
 
    // Connect to database
 mongoose.connect('mongodb://localhost/27017/dochero');
@@ -44,12 +45,15 @@ app.get('/', function(req, res){
   res.send('Welcome to the homepage!');
 });
 
+app.get('/documents', function(req, res) {
+  res.send('You\'re viewing a document');
+});
+
 // Instanciate express router
 var apiRouter = express.Router();
 
-
+// SIGNUP
 apiRouter.route('/signup')
-
 // Create a new user
 
   .post(function(req, res) {
@@ -122,8 +126,9 @@ apiRouter.post('/login', function(req, res) {
         // Create a token
         else {
           var token = jwt.sign({
-            name: user.name,
-            username: user.username
+            firstname: user.firstname,
+            username: user.username,
+            id: user._id
           }, superSecret, {
             // Token will expire in a day
             expiresIn: 86400
@@ -270,16 +275,65 @@ apiRouter.route('/users/:user_id')
     });
   });
 
+//  ================================ ===================================
+//  =============================== ====================================
+// ======================= =======  DOCUMENT routes =============================
+// Only perform after login
+
+var documentRouter = express.Router();
+
+// For all routes that end in documents
+documentRouter.route('/documents')
+
+  .post(function(req, res) {
+    var document = new Document();
+
+    document.title = req.body.title;
+    document.content = req.body.content;
+    document.privacy = req.body.privacy;
+    document._creatorId = req.decoded.id;
+
+    document.save(function(err) {
+      if (err) {
+        return res.send(err);
+      }
+      else {
+        res.json({
+          success: true,
+          message: 'Document created successfully'
+        });
+      }
+    });
+  })
+
+  // Get all Documents
+  .get(function(req, res) {
+    Document.find(function(err, documents) {
+      if(err) {
+        res.send(err);
+      }
+      else {
+        res.json(documents);
+      }
+    });
+  });
+
+
 //  =================================== ================================
 
 // Register our rotes so we can use them
 // Prefix routes run by apiRouter instance with 'api'
 app.use('/api', apiRouter);
 
+
+// ===================================== ==================================
+// Register routes to be run by express
+app.use('/api', documentRouter);
+
+
+
 // SERVER ==================================== =============================
 // Start server
 app.listen(port, function(){
   console.log('Listening on port ' + port);
 });
-
-// TODO: SignIn ===== Authenticate User
