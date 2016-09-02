@@ -5,7 +5,7 @@
         "es6": true,
         "jasmine": true
     },
-    "extends": "airbnb",
+    "extends": "eslint:recommended",
     "parserOptions": {
         "sourceType": "module"
     },
