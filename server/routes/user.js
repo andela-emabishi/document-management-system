@@ -48,6 +48,63 @@ app.get('/', function(req, res){
 var apiRouter = express.Router();
 
 
+// Authenticate
+// Make sure someone is who they say they are.
+// If they have the correct password, give them a token
+apiRouter.post('/login', function(req, res) {
+
+  // Find the user
+  // Select the password
+  User.findOne({
+    username: req.body.username
+  }).select('username password').exec(function(err, user) {
+    if (err) {
+      throw err;
+    }
+
+    // No user with that username was found
+    if (!user) {
+      res.json({
+        success: false,
+        message: 'Authentication failed. User not found'
+      });
+    }
+    // If a user with that usernmame exists
+    else {
+      if (user) {
+
+        // Check if password matches
+        var validPassword = user.comparePassword(req.body.password);
+        if (!validPassword) {
+          res.json({
+            success: false,
+            message: 'Wrong password. Failed to authenticate'
+          });
+        }
+        // If username exists and password is right
+        // Create a token
+        else {
+          var token = jwt.sign({
+            name: user.name,
+            username: user.username
+          }, superSecret, {
+            expiresIn: 86400
+          });
+
+          // Return an object of the information along with the token
+          res.json({
+            success: true,
+            message: 'Enjoy your token!',
+            token: token
+          });
+        }
+      }
+    }
+  });
+});
+
+
+
 // Middlewear run before any requests are processed
 // Authenticate here
 apiRouter.use(function(req, res, next) {
@@ -188,14 +245,5 @@ app.use('/api', apiRouter);
 app.listen(port, function(){
   console.log('Listening on port ' + port);
 });
-
-
-// TODO: SignUp ==== Creates new unique user === POST/user OR POST/singup
-
-
-
-
-
-
 
 // TODO: SignIn ===== Authenticate User
