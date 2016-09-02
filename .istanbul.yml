@@ -1,4 +1,4 @@
 instrumentation:
   root: .
   extensions: ['.js']
-  excludes: ['test/**/*.js']
+  excludes: ['spec/**/*.js']
