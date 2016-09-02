@@ -376,11 +376,14 @@ documentRouter.route('/documents/:document_id')
     });
   });
 
-//  Find documents by creator id - You can only find your documents
-// TODO: and documents set to public
+//  Find documents by creator id -
+// You can only find your documents
+// TODO: and documents set to public. Use queries?
 documentRouter.route('/users/:creator_id/documents')
   .get(function(req, res) {
-    Document.find({_creatorId: req.decoded.id})
+    Document.find({_creatorId: req.decoded.id}
+    // && {privacy: 'public'}
+  )
       .exec(function (err, documents) {
         if (err) {
           res.send(err);
