@@ -308,6 +308,7 @@ documentRouter.route('/documents')
   })
 
   // Get all Documents
+  // TODO: Should be authenticated
   .get(function(req, res) {
     Document.find(function(err, documents) {
       if(err) {
@@ -320,7 +321,6 @@ documentRouter.route('/documents')
   });
 
 documentRouter.route('/documents/:document_id')
-
   .get(function(req, res) {
     Document.findById(req.params.document_id, function(err, document) {
       if (err) {
@@ -378,7 +378,6 @@ documentRouter.route('/documents/:document_id')
 
 //  Find documents by creator id -
 // You can only find your documents
-// TODO: and documents set to public. Use queries?
 documentRouter.route('/users/:creator_id/documents')
   .get(function(req, res) {
     Document.find({_creatorId: req.decoded.id}
@@ -398,6 +397,61 @@ documentRouter.route('/users/:creator_id/documents')
           res.send(documents);
         }
       });
+  });
+
+// Person.
+  // find({ occupation: /host/ }).
+  // where('name.last').equals('Ghost').
+
+  // GET all public documents
+// TODO: FIX
+documentRouter.route('/documents/public')
+  .get(function(req, res) {
+    Document.find()
+    .where ('privacy').equals('public')
+      .exec(function(err, documents) {
+        if (err) {
+          res.send(err);
+        }
+        else {
+          res.send(documents);
+        }
+      });
+  });
+
+  // GET all documents created on a specific date (query: date, limit)
+  // TODO: Enable document fetch using date part of createdAt field
+documentRouter.route('/documents/:date/:limit')
+    .get(function(req, res) {
+      Document.find({
+        createdAt : req.params.date
+      }).limit(parseInt(req.params.limit))
+      .exec(function(err,documents) {
+        if (err) {
+          res.send(err);
+        }
+        else {
+          res.send(documents);
+        }
+      });
+    });
+
+// A route that (query: limit) returns all the documents in order of the dates they were created (ascending or descending).
+ // It should also return results based on the limit.
+ // TODO: Merge with documents/date/limit route? If date param is null, fetch all documents regardless of created date
+ // TODO: FIX
+documentRouter.route('/documents/:limit')
+  .get(function(req, res) {
+    Document.find()
+    .limit(parseInt(req.params.limit))
+    .exec(function(err, documents) {
+      if (err) {
+        res.send(err);
+      }
+      else {
+        res.send(documents);
+      }
+    });
   });
 
 //  =================================== ================================
