@@ -16,7 +16,7 @@ const roleSchema = new Schema({
   permission: {
     required: true,
     type: String,
-    enum: ['read', 'readWrite', 'readWriteDelete'],
+    enum: ['read', 'readWrite', 'readWriteDelete','delete'],
     unique: false,
   }
 });
