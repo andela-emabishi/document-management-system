@@ -14,6 +14,9 @@
             "error",
             2
         ],
+        "import/newline-after-import": [
+          "off"
+        ],
         "linebreak-style": [
             "error",
             "unix"
