@@ -323,6 +323,26 @@ documentRouter.route('/documents')
     });
   });
 
+
+// GET all public or private documents
+// Set 'public' in route as param to enable get private docs. Document.find({privacy: req.params.public})
+documentRouter.route('/documents/access/public')
+  .get(function(req, res) {
+    Document.find({privacy: 'public'})
+      .exec(function(err, documents) {
+        if (err) {
+          res.send(err);
+          res.json({
+            success: false,
+            message: 'Cannot get private documents that are not the logged in users'
+          });
+        }
+        else {
+          res.send(documents);
+        }
+      });
+  });
+
 documentRouter.route('/documents/:document_id')
   .get(function(req, res) {
     Document.findById(req.params.document_id, function(err, document) {
@@ -381,11 +401,10 @@ documentRouter.route('/documents/:document_id')
 
 //  Find documents by creator id -
 // You can only find your documents
+// TODO: Find your documents and all public documents
 documentRouter.route('/users/:creator_id/documents')
   .get(function(req, res) {
-    Document.find({_creatorId: req.decoded.id}
-    // && {privacy: 'public'}
-  )
+    Document.find({_creatorId: req.decoded.id})
       .exec(function (err, documents) {
         if (err) {
           res.send(err);
@@ -397,26 +416,6 @@ documentRouter.route('/users/:creator_id/documents')
             message: 'No documents were found for that user'
           });
         } else {
-          res.send(documents);
-        }
-      });
-  });
-
-// Person.
-  // find({ occupation: /host/ }).
-  // where('name.last').equals('Ghost').
-
-  // GET all public documents
-// TODO: FIX
-documentRouter.route('/documents/public')
-  .get(function(req, res) {
-    Document.find({_creatorId: req.decoded.id})
-    .where ('privacy').equals('public')
-      .exec(function(err, documents) {
-        if (err) {
-          res.send(err);
-        }
-        else {
           res.send(documents);
         }
       });
@@ -445,7 +444,7 @@ documentRouter.route('/documents/:date/:limit')
  // TODO: FIX
 documentRouter.route('/documents/:limit')
    .get(function(req, res) {
-     Document.find()
+     Document.find({})
      .limit(parseInt(req.params.limit))
      .exec(function(err,documents) {
        if (err) {
@@ -462,7 +461,7 @@ documentRouter.route('/documents/:search_string')
   .get(function(req, res) {
     Document.find({
       title: req.params.search_string,
-      content: req.param.search_string
+      // content: req.param.search_string
     }).exec(function(err, documents) {
       if (err) {
         res.send(err);
