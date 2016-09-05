@@ -7,6 +7,7 @@ const mongoose = require('mongoose'),
 
 const DocumentSchema = new Schema({
   // Different from the document's own document-id
+  // Will be populated from the User models's id field
   _creatorId: {
     required: true,
     ref: 'User',
@@ -22,15 +23,19 @@ const DocumentSchema = new Schema({
     required: true,
     type: String,
   },
-  createdAt: {
-    default: Date.now,
-    type: Date,
-    required: true,
-  },
-  modifiedAt: {
-    default: Date.now,
-    type: Date,
-    required: true,
+  // createdAt: {
+  //   default: Date.now,
+  //   type: Date,
+  //   required: true,
+  // },
+  // modifiedAt: {
+  //   default: Date.now,
+  //   type: Date,
+  //   required: true,
+  // },
+  timestamps: {
+    createdAt: 'created_at',
+    modifiedAt: 'modified_at'
   },
   privacy: {
     enum: ['public', 'private'],
