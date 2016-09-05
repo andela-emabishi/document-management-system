@@ -23,25 +23,15 @@ const DocumentSchema = new Schema({
     required: true,
     type: String,
   },
-  // createdAt: {
-  //   default: Date.now,
-  //   type: Date,
-  //   required: true,
-  // },
-  // modifiedAt: {
-  //   default: Date.now,
-  //   type: Date,
-  //   required: true,
-  // },
-  timestamps: {
-    createdAt: 'created_at',
-    modifiedAt: 'modified_at'
-  },
   privacy: {
     enum: ['public', 'private'],
     required: true,
     type: String,
   },
-});
+},
+  {
+    timestamps: true
+  }
+);
 
 module.exports = mongoose.model('Document', DocumentSchema);
