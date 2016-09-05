@@ -20,7 +20,10 @@ var express = require('express'),
   Role = require ('../models/role');
 
    // Connect to database
-mongoose.connect('mongodb://localhost/27017/dochero');
+mongoose.connect('mongodb://localhost:27017/27017');
+// TODO: FIX above to below
+// mongoose.connect('mongodb://localhost:27017/dochero');
+
 // mongoose.connect('mongodb://dochero:dochero@ds019826.mlab.com:19826/dochero');
 
 // Configure body-parser
@@ -407,7 +410,7 @@ documentRouter.route('/users/:creator_id/documents')
 // TODO: FIX
 documentRouter.route('/documents/public')
   .get(function(req, res) {
-    Document.find()
+    Document.find({_creatorId: req.decoded.id})
     .where ('privacy').equals('public')
       .exec(function(err, documents) {
         if (err) {
@@ -441,10 +444,26 @@ documentRouter.route('/documents/:date/:limit')
  // TODO: Merge with documents/date/limit route? If date param is null, fetch all documents regardless of created date
  // TODO: FIX
 documentRouter.route('/documents/:limit')
+   .get(function(req, res) {
+     Document.find()
+     .limit(parseInt(req.params.limit))
+     .exec(function(err,documents) {
+       if (err) {
+         res.send(err);
+       }
+       else {
+         res.send(documents);
+       }
+     });
+   });
+
+// TODO: FIX
+documentRouter.route('/documents/:search_string')
   .get(function(req, res) {
-    Document.find()
-    .limit(parseInt(req.params.limit))
-    .exec(function(err, documents) {
+    Document.find({
+      title: req.params.search_string,
+      content: req.param.search_string
+    }).exec(function(err, documents) {
       if (err) {
         res.send(err);
       }
@@ -453,6 +472,7 @@ documentRouter.route('/documents/:limit')
       }
     });
   });
+
 
 //  =================================== ================================
 // ROLE routes
