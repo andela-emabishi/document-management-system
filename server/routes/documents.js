@@ -22,7 +22,11 @@ module.exports = function(router) {
   router.route('/documents/access/public')
   .get(DocumentController.getPublicDocuments);
 
-  // TODO: [Restricted] Search public documents for title and content for phrase
+  // [Restricted route] Search public documents for title and content for phrase
   router.route('/documents/search/:search_string')
   .get(DocumentController.search);
+
+// TODO: Get documents by role
+  // router.route('/documents/role/:role')
+  // .get(DocumentController.getByRole);
 };
