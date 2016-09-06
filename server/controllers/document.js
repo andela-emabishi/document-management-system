@@ -177,7 +177,7 @@ module.exports = {
       else {
         // No results for the search
         if (documents[0] == null) {
-          return res.send('No results found for that search term');
+          return res.send('No results found.');
         }
         else {
           return res.json(documents);
