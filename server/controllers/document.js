@@ -93,7 +93,7 @@ module.exports = {
   },
 
   // Find all documents that belong to a particular user of a certain user id
-  // TODO: You should only be able to see public documents here of another creator i.e not logged in now
+  // [Restricted] One must only see their own documents or public documents
   getByCreatorId: function(req, res) {
     Document.find({_creatorId: req.decoded.id})
           .exec(function (err, documents) {
@@ -132,7 +132,6 @@ module.exports = {
   // A route that (query: limit) returns all the documents in order of the dates they were created (ascending or descending).
   // It should also return results based on the limit.
   // TODO: Merge with documents/date/limit route? If date param is null, fetch all documents regardless of created date
-  // TODO: FIX
   getDocumentsWithLimit: (req, res) => {
     Document.find()
      .limit(parseInt(req.params.limit))
@@ -162,14 +161,32 @@ module.exports = {
           res.send(documents);
         }
       });
-  }
+  },
+
+  // Search document title or content for a phrase
+  // Works with word strings i.e bull winter - will evaluate as OR
+  search: (req, res) => {
+    // To create the index on the documents collection, do this in the terminal
+    // db.documents.createIndex({"title":"text","content":"text"})
+
+    Document.find({$text:{$search:req.params.search_string}},{score:{$meta:'textScore'}}).sort({score:{$meta:'textScore'}})
+    .exec(function(err, documents) {
+      if (err) {
+        return res.send(err);
+      }
+      else {
+        // No results for the search
+        if (documents[0] == null) {
+          return res.send('No results found for that search term');
+        }
+        else {
+          return res.json(documents);
+        }
+      }
+    });
+  },
 };
 
-// TODO
-// search: function(req, res) {
-//   // Filter document pool based on certain phrase
-//
-// },
 
 // TODO
 // getByRole: (req, res) => {
