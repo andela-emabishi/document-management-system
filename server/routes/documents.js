@@ -29,4 +29,8 @@ module.exports = function(router) {
 // TODO: Get documents by role
   // router.route('/documents/role/:role')
   // .get(DocumentController.getByRole);
+
+  // Get all documents with limit and pagination offset
+  router.route('/documents/offset/:offset/:per_page')
+  .get(DocumentController.getByOffset);
 };
