@@ -18,7 +18,7 @@ module.exports = function(apiRouter) {
       message: 'Welcome to the DOCHERO api'
     });
   });
-
+// signup
   apiRouter.route('/signup')
     .post(function(req, res) {
       var user = new User();
@@ -146,7 +146,7 @@ module.exports = function(apiRouter) {
     }
   });
 
-  // users(apiRouter);
+  users(apiRouter);
   documents(apiRouter);
   roles(apiRouter);
 
