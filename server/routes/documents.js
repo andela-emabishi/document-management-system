@@ -23,6 +23,6 @@ module.exports = function(router) {
   .get(DocumentController.getPublicDocuments);
 
   // TODO: [Restricted] Search public documents for title and content for phrase
-  // router.route('/documents/:search_string')
-  // .get(DocumentController.search);
+  router.route('/documents/search/:search_string')
+  .get(DocumentController.search);
 };
