@@ -147,7 +147,7 @@ module.exports = function(apiRouter) {
   });
 
   // users(apiRouter);
-  // documents(apiRouter);
+  documents(apiRouter);
   roles(apiRouter);
 
   return apiRouter;
