@@ -165,11 +165,14 @@ module.exports = {
 
   // Search document title or content for a phrase
   // Works with word strings i.e bull winter - will evaluate as OR
+  // Possible phrase capability
   search: (req, res) => {
     // To create the index on the documents collection, do this in the terminal
     // db.documents.createIndex({"title":"text","content":"text"})
 
     Document.find({$text:{$search:req.params.search_string}},{score:{$meta:'textScore'}}).sort({score:{$meta:'textScore'}})
+    // Hide private documents from search. To enable search for all documents, omit line below
+    .where('privacy').equals('public')
     .exec(function(err, documents) {
       if (err) {
         return res.send(err);
@@ -185,11 +188,10 @@ module.exports = {
       }
     });
   },
+
+  // TODO
+  // getByRole: (req, res) => {
+  //   // Find all documents that can be accessed by a certain role
+  //
+  // },
 };
-
-
-// TODO
-// getByRole: (req, res) => {
-//   // Find all documents that can be accessed by a certain role
-//
-// },
