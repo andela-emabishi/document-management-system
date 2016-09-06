@@ -28,6 +28,18 @@ const DocumentSchema = new Schema({
     required: true,
     type: String,
   },
+  // sharewith: {
+  //   ref: 'User',
+  //   // Use username instead?
+  //   type: Schema.Types.ObjectId,
+  //   required: false,
+  // },
+  // access: {
+  //   ref: 'Role',
+  //   // Use permission title instad?
+  //   type: Schema.Types.ObjectId,
+  //   required: false,
+  // }
 },
   {
     timestamps: true
