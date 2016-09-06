@@ -165,11 +165,13 @@ module.exports = {
   }
 };
 
+// TODO
 // search: function(req, res) {
 //   // Filter document pool based on certain phrase
 //
 // },
 
+// TODO
 // getByRole: (req, res) => {
 //   // Find all documents that can be accessed by a certain role
 //
