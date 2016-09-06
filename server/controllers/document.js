@@ -194,4 +194,18 @@ module.exports = {
   //   // Find all documents that can be accessed by a certain role
   //
   // },
+
+  getByOffset: (req, res) => {
+    Document.find()
+    .skip(parseInt(req.params.offset))
+    .limit(parseInt(req.params.per_page))
+    .exec(function(err, documents) {
+      if (err) {
+        res.send(err);
+      }
+      else {
+        res.json(documents);
+      }
+    });
+  },
 };
