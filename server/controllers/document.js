@@ -206,6 +206,7 @@ module.exports = {
   // Search document title or content for a phrase
   // Works with word strings i.e bull winter - will evaluate as OR
   // Possible phrase capability
+  // TODO: Restrict
   search: (req, res) => {
     // To create the index on the documents collection, do this in the terminal
     // db.documents.createIndex({"title":"text","content":"text"})
@@ -240,11 +241,15 @@ module.exports = {
         res.json(documents);
       }
     });
-
   },
 
+// [Restricted]
   getByOffset: (req, res) => {
-    Document.find()
+    Document.find(
+      {
+        $or: [  {_creatorId: req.decoded.id }, {privacy: 'public'} ]
+      }
+    )
     .skip(parseInt(req.params.offset))
     .limit(parseInt(req.params.per_page))
     .exec(function(err, documents) {
