@@ -26,9 +26,8 @@ module.exports = function(router) {
   router.route('/documents/search/:search_string')
   .get(DocumentController.search);
 
-// TODO: Get documents by role
-  // router.route('/documents/role/:role')
-  // .get(DocumentController.getByRole);
+  router.route('/documents/share/:role')
+  .get(DocumentController.getByRole);
 
   // Get all documents with limit and pagination offset
   // Offset === start from nth number of documents
