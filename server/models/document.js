@@ -28,22 +28,37 @@ const DocumentSchema = new Schema({
     required: true,
     type: String,
   },
-  // sharewith: {
-  //   ref: 'User',
-  //   // Use username instead?
-  //   type: Schema.Types.ObjectId,
-  //   required: false,
-  // },
-  // access: {
-  //   ref: 'Role',
-  //   // Use permission title instad?
-  //   type: Schema.Types.ObjectId,
-  //   required: false,
-  // }
+  sharewith: {
+    ref: 'User',
+    // Use username instead?
+    type: Schema.Types.ObjectId,
+    required: false,
+  },
+  access: {
+    ref: 'Role',
+    // Use permission title instead?
+    type: Schema.Types.ObjectId,
+    required: false,
+  }
 },
   {
     timestamps: true
   }
 );
+
+// DocumentSchema.add(
+//   {
+//     sharewith: {
+//       ref: 'User',
+//       type: Schema.Types.ObjectId,
+//       required: false,
+//     },
+//     access: {
+//       ref: 'Role',
+//       type: Schema.Types.ObjectId,
+//       required: false,
+//     }
+//   }
+// );
 
 module.exports = mongoose.model('Document', DocumentSchema);
