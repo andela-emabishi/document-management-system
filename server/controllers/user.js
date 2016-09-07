@@ -35,6 +35,7 @@ module.exports = {
       if (req.body.username) user.username = req.body.username;
       if (req.body.email) user.email = req.body.email;
       if (req.body.password) user.password = req.body.password;
+      if (req.body.role) user.role = req.body.role;
 
       // Then save the user details
       user.save(function(err) {
