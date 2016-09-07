@@ -34,11 +34,11 @@ const UserSchema = new Schema({
     trim: true,
   },
   // Create or Use role relationship from roleSchema. User is either a viewer, editor or an admin
-  // role: {
-  //   required: true,
-  //   ref: 'Role',
-  //   type: Schema.Types.ObjectId,
-  // },
+  role: {
+    required: false,
+    ref: 'Role',
+    type: Schema.Types.ObjectId,
+  },
 });
 
 // hash the password before it is saved
