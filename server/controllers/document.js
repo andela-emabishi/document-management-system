@@ -206,7 +206,7 @@ module.exports = {
   // Search document title or content for a phrase
   // Works with word strings i.e bull winter - will evaluate as OR
   // Possible phrase capability
-  // TODO: Restrict
+  // TODO: should be able to search your own documents
   search: (req, res) => {
     // To create the index on the documents collection, do this in the terminal
     // db.documents.createIndex({"title":"text","content":"text"})
@@ -221,7 +221,11 @@ module.exports = {
       else {
         // No results for the search
         if (documents[0] == null) {
-          return res.send('No results found.');
+          return res.json({
+            success: false,
+            message: 'No results found.',
+            status: -1
+          });
         }
         else {
           return res.json(documents);
