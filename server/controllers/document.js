@@ -27,9 +27,12 @@ module.exports = {
 
   // Get all documents
   // [Restricted] Only able to get your documents and public documents
-
   getAll: (req, res) => {
-    Document.find()
+    Document.find(
+      {
+        $or: [ { _creatorId: req.decoded.id }, { privacy: 'public' } ]
+      }
+    )
     // .where('privacy').equals('public')
     .sort('-createdAt')
     .exec(function(err, documents) {
@@ -42,24 +45,36 @@ module.exports = {
     });
   },
 
+// [Restricted] Can only fetch documents of logged in user
   getDocumentById: (req, res) => {
-    Document.findById(req.params.document_id, function(err, document) {
+    Document.findById(req.params.document_id)
+    .where('_creatorId').equals(req.decoded.id)
+    .exec(function(err, documents){
       if (err) {
-        // Something happened and we can't find the user
         res.send(err);
       }
+      else if (!documents) {
+        res.json({
+          success: false,
+          message: 'Cannot access document by that id',
+          status: -1
+        });
+      }
       else {
-        res.json(document);
+        res.json(documents);
       }
     });
   },
 
+  // [Restricted] Can only edit documents of logged in user
   updateDocumentById: function(req, res) {
-    Document.findById(req.params.document_id, function(err, document) {
+    Document.findById(req.params.document_id)
+    .where('_creatorId').equals(req.decoded.id)
+    .exec(function(err, document) {
       if (err) {
         res.send(err);
       }
-      // Only update if a change has happened
+       // Only update if a change has happened
       if (req.body.title) document.title = req.body.title;
       if (req.body.content) document.content = req.body.content;
       if (req.body.privacy) document.privacy = req.body.privacy;
@@ -83,6 +98,8 @@ module.exports = {
     });
   },
 
+// TODO: middlewear
+// [Restricted] Can only edit documents of logged in user
   deleteDocumentById: function(req, res) {
     Document.remove({
       _id: req.params.document_id
@@ -102,30 +119,42 @@ module.exports = {
   // Find all documents that belong to a particular user of a certain user id
   // [Restricted] One must only see their own documents or public documents
   getByCreatorId: function(req, res) {
-    Document.find({_creatorId: req.decoded.id})
-          .exec(function (err, documents) {
-            if (err) {
-              res.send(err);
-              return;
-            }
-            // documents is an array of documents
-            else if (documents[0] == null) {
-              res.json({
-                message: 'No documents were found for that user'
-              });
-            } else {
-              res.send(documents);
-            }
+    Document.find(
+      {
+        $or: [
+          { $and: [ {_creatorId: req.params.creator_id }, {privacy: 'public'} ] },
+          { $and: [ {_creatorId: req.decoded.id } ] },
+        ]
+      }
+    )
+      .exec(function (err, documents) {
+        if (err) {
+          res.send(err);
+          return;
+        }
+        // documents is an array of documents
+        else if (documents[0] == null) {
+          res.json({
+            message: 'No documents were found for that user.The document you are refering to may be private'
           });
+        } else {
+          res.send(documents);
+        }
+      });
 
   },
 
   // GET all documents created on a specific date (query: date, limit)
+  //  [Restricted] Cannot get private documents not yours
   // TODO: Enable document fetch using date part of createdAt field
   getByDatePublished: (req, res) => {
     Document.find({
-      createdAt : req.params.date
-    }).limit(parseInt(req.params.limit))
+      $or: [
+        { $and: [ {createdAt: req.params.date }, {privacy: 'public'} ] },
+        { $and: [ {_creatorId: req.decoded.id }, {createdAt: req.params.date } ] },
+      ]
+    })
+    .limit(parseInt(req.params.limit))
     .exec(function(err,documents) {
       if (err) {
         res.send(err);
@@ -137,11 +166,15 @@ module.exports = {
   },
 
   // A route that (query: limit) returns all the documents in order of the dates they were created (ascending or descending).
-  // It should also return results based on the limit.
   // TODO: Merge with documents/date/limit route? If date param is null, fetch all documents regardless of created date
   getDocumentsWithLimit: (req, res) => {
-    Document.find()
+    Document.find(
+      {
+        $or: [  {_creatorId: req.decoded.id }, {privacy: 'public'} ]
+      }
+    )
      .limit(parseInt(req.params.limit))
+     .sort('-createdAt')
      .exec(function(err,documents) {
        if (err) {
          res.send(err);
@@ -229,4 +262,16 @@ module.exports = {
       }
     });
   },
+
+  getBySharedWith: (req, res) => {
+    Document.find({sharewith: req.params.share})
+    .exec(function(err, documents) {
+      if (err) {
+        res.send(err);
+      }
+      else {
+        res.json(documents);
+      }
+    });
+  }
 };
