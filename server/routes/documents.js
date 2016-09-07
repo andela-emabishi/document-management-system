@@ -31,6 +31,7 @@ module.exports = function(router) {
   // .get(DocumentController.getByRole);
 
   // Get all documents with limit and pagination offset
+  // Offset === start from nth number of documents
   router.route('/documents/offset/:offset/:per_page')
   .get(DocumentController.getByOffset);
 };
