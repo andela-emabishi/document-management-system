@@ -9,6 +9,8 @@ module.exports = {
     document.content = req.body.content;
     document.privacy = req.body.privacy;
     document._creatorId = req.decoded.id;
+    document.sharewith = req.body.sharewith;
+    document.access = req.body.access;
 
     document.save(function(err) {
       if (err) {
@@ -28,7 +30,7 @@ module.exports = {
 
   getAll: (req, res) => {
     Document.find()
-    .where('privacy').equals('public')
+    // .where('privacy').equals('public')
     .sort('-createdAt')
     .exec(function(err, documents) {
       if (err) {
@@ -61,6 +63,8 @@ module.exports = {
       if (req.body.title) document.title = req.body.title;
       if (req.body.content) document.content = req.body.content;
       if (req.body.privacy) document.privacy = req.body.privacy;
+      if (req.body.sharewith) document.sharewith = req.body.sharewith;
+      if (req.body.access) document.access = req.body.access;
 
       // Then save the user details
       document.save(function(err) {
@@ -192,11 +196,19 @@ module.exports = {
     });
   },
 
-  // TODO
-  // getByRole: (req, res) => {
-  //   // Find all documents that can be accessed by a certain role
-  //
-  // },
+  getByRole: (req, res) => {
+    // Find all documents that can be accessed by a certain role
+    Document.find({access: req.params.role})
+    .exec(function(err, documents) {
+      if (err) {
+        res.send(err);
+      }
+      else {
+        res.json(documents);
+      }
+    });
+
+  },
 
   getByOffset: (req, res) => {
     Document.find()
