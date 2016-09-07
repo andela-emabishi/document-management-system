@@ -1,8 +1,8 @@
 const Document = require('../models/document');
 
 module.exports = {
+  // Create document with a unique title
   create: (req, res) =>  {
-    // Create document with a unique title
     var document = new Document();
 
     document.title = req.body.title;
@@ -24,11 +24,14 @@ module.exports = {
   },
 
   // Get all documents
-  // TODO: Should only be able to get your documents and public documents
+  // [Restricted] Only able to get your documents and public documents
 
   getAll: (req, res) => {
-    Document.find(function(err, documents) {
-      if(err) {
+    Document.find()
+    .where('privacy').equals('public')
+    .sort('-createdAt')
+    .exec(function(err, documents) {
+      if (err) {
         res.send(err);
       }
       else {
@@ -202,6 +205,12 @@ module.exports = {
     .exec(function(err, documents) {
       if (err) {
         res.send(err);
+      } else if (parseInt(req.params.offset) > documents.length) {
+        res.json({
+          success: false,
+          message: 'Offset greater than number of documents or limit param. Cannot fetch',
+          status: -1
+        });
       }
       else {
         res.json(documents);
