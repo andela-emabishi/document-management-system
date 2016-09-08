@@ -18,7 +18,7 @@ module.exports = function(apiRouter) {
       message: 'Welcome to the DOCHERO api'
     });
   });
-  
+
 // signup
   apiRouter.route('/signup')
     .post(function(req, res) {
@@ -30,7 +30,7 @@ module.exports = function(apiRouter) {
       user.username = req.body.username;
       user.email = req.body.email;
       user.password = req.body.password;
-      user.role = req.body.role;
+      user.title = req.body.title;
 
       user.save(function(err) {
         if (err) {
@@ -63,7 +63,7 @@ module.exports = function(apiRouter) {
     // Select the password
     User.findOne({
       username: req.body.username
-    }).select('username password').exec(function(err, user) {
+    }).select('username password title').exec(function(err, user) {
       if (err) {
         throw err;
       }
@@ -78,7 +78,6 @@ module.exports = function(apiRouter) {
       // If a user with that usernmame exists
       else {
         if (user) {
-
           // Check if password matches
           var validPassword = user.comparePassword(req.body.password);
           if (!validPassword) {
@@ -90,10 +89,12 @@ module.exports = function(apiRouter) {
           // If username exists and password is right
           // Create a token
           else {
+            console.log('========',user.title);
             var token = jwt.sign({
               firstname: user.firstname,
               username: user.username,
-              id: user._id
+              id: user._id,
+              title: user.title
             }, config.superSecret, {
               // Token will expire in a day
               expiresIn: 86400
