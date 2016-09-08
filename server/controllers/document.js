@@ -98,19 +98,29 @@ module.exports = {
     });
   },
 
-// TODO: middlewear
-// [Restricted] Can only edit documents of logged in user
+// [Restricted] To logged in user
   deleteDocumentById: function(req, res) {
-    Document.remove({
-      _id: req.params.document_id
-    }, function(err) {
+    Document.find()
+    .where('_creatorId').equals(req.decoded.id)
+    .exec(function(err) {
       if (err) {
-        return res.send(err);
+        res.send(err);
       }
       else {
-        res.json({
-          success: true,
-          message: 'Document deleted successfully'
+        Document.remove(
+          {
+            $and: [ { _creatorId: req.decoded.id }, { _id: req.params.document_id } ]
+          }
+      , function(err) {
+          if (err) {
+            res.send(err);
+          }
+          else {
+            res.json({
+              success: true,
+              message: 'Deleted successfully if document was yours. Failed to delete another users\' documents'
+            });
+          }
         });
       }
     });
@@ -203,33 +213,39 @@ module.exports = {
       });
   },
 
-  // Search document title or content for a phrase
-  // Works with word strings i.e bull winter - will evaluate as OR
-  // Possible phrase capability
-  // TODO: should be able to search your own documents
+    // [Restricted]: Able to search logged in users documents and public documents
   search: (req, res) => {
     // To create the index on the documents collection, do this in the terminal
     // db.documents.createIndex({"title":"text","content":"text"})
-
-    Document.find({$text:{$search:req.params.search_string}},{score:{$meta:'textScore'}}).sort({score:{$meta:'textScore'}})
-    // Hide private documents from search. To enable search for all documents, omit line below
-    .where('privacy').equals('public')
-    .exec(function(err, documents) {
+    Document.find(
+      {
+        $or: [  {_creatorId: req.decoded.id }, {privacy: 'public'} ]
+      }
+    )
+    .exec(function(err) {
       if (err) {
-        return res.send(err);
+        res.send(err);
       }
       else {
-        // No results for the search
-        if (documents[0] == null) {
-          return res.json({
-            success: false,
-            message: 'No results found.',
-            status: -1
-          });
-        }
-        else {
-          return res.json(documents);
-        }
+        Document.find({$text:{$search:req.params.search_string}},{score:{$meta:'textScore'}}).sort({score:{$meta:'textScore'}})
+        .exec(function(err, documents) {
+          if (err) {
+            return res.send(err);
+          }
+          else {
+            // No results for the search
+            if (documents[0] == null) {
+              return res.json({
+                success: false,
+                message: 'No results found.',
+                status: -1
+              });
+            }
+            else {
+              return res.json(documents);
+            }
+          }
+        });
       }
     });
   },
