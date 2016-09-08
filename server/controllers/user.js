@@ -74,20 +74,29 @@ module.exports = {
     });
   },
 
-// TODO: Restrict to admin or logged in user
+// [Restricted] to admin or logged in user
   deleteUserById: (req, res) => {
-    User.remove({
-      _id: req.params.user_id
-    }, function(err) {
-      if (err) {
-        return res.send(err);
-      }
-      else {
-        res.json({
-          success: true,
-          message: 'User deleted successfully'
-        });
-      }
-    });
+    if ((req.decoded.id == req.params.user_id) || (req.decoded.title == 'supra-admin')) {
+      User.remove({
+        _id: req.params.user_id
+      }, function(err) {
+        if (err) {
+          return res.send(err);
+        }
+        else {
+          res.json({
+            success: true,
+            message: 'User deleted successfully'
+          });
+        }
+      });
+    }
+    else {
+      res.json({
+        success: false,
+        message: 'Cannot delete another user. Can only delete yourself',
+        status: -1
+      });
+    }
   },
 };
