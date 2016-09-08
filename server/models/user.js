@@ -34,12 +34,24 @@ const UserSchema = new Schema({
     trim: true,
   },
   // Create or Use role relationship from roleSchema. User is either a viewer, editor or an admin
-  role: {
+  title: {
     required: false,
     ref: 'Role',
-    type: Schema.Types.ObjectId,
+    // type: Schema.Types.ObjectId,
+    type: String,
   },
 });
+
+// UserSchema.add(
+//   {
+//     role: {
+//       required: false,
+//       ref: 'Role',
+//       // type: Schema.Types.ObjectId,
+//       type: String,
+//     },
+//   }
+// );
 
 // hash the password before it is saved
 // Call middlewear before password is saved
