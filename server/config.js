@@ -6,7 +6,7 @@ module.exports = {
   },
   test: {
     port: process.env.PORT || 8080,
-    database: 'mongodb://loacalhost:27017/dochero-test',
+    database: 'mongodb://localhost:27017/dochero-test',
     superSecret: 'iloveexistentialquestionslikewhydoweexist',
   }
 };
