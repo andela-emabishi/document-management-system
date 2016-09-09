@@ -8,4 +8,7 @@ module.exports = function(router){
   .get(UserController.getUserById)
   .put(UserController.updateUserById)
   .delete(UserController.deleteUserById);
+  //
+  // router.route('/users/me/role')
+  // .get(UserController.getRole);
 };
