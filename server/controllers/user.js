@@ -10,15 +10,15 @@ module.exports = {
           res.send(err);
         }
         else {
-          res.json(users);
+          res.status(200).send(users);
         }
       });
     }
     else {
-      res.json({
+      res.status(401).send({
         success: false,
         message: 'Invalid operation. No access',
-        status: -1,
+        status: '401: Unauthorised',
       });
     }
 
@@ -29,10 +29,15 @@ module.exports = {
     User.findById(req.params.user_id, function(err, user) {
       if (err) {
         // Something happened and we can't find the user
-        res.send(err);
+        // 404 Not found
+        res.status(404).send({
+          error: err,
+          success: false,
+          status: '404: Resource Not Found'
+        });
       }
       else {
-        res.json(user);
+        res.status(200).send(user);
       }
     });
   },
