@@ -47,9 +47,10 @@ module.exports = function(apiRouter) {
         }
         // No error
         else {
-          res.json({
+          res.status(201).send({
             success: true,
-            message: 'User created successfully'
+            message: 'User created successfully',
+            status: '201: Resource created'
           });
         }
       });
@@ -89,7 +90,6 @@ module.exports = function(apiRouter) {
           // If username exists and password is right
           // Create a token
           else {
-            console.log('========',user.title);
             var token = jwt.sign({
               firstname: user.firstname,
               username: user.username,
