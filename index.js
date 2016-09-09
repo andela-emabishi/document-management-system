@@ -12,6 +12,13 @@ const routes = require('./server/routes/');
 
 const apiRouter = express.Router();
 
+const env = process.env.NODE_ENV;
+
+if (env === 'test') {
+  config.developemnt.database = config.test.database;
+  config.development.port = config.test.port;
+}
+
 // Configure body-parser
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -29,7 +36,7 @@ app.use(function(req, res, next) {
 // Use morgan to log all requests to the console
 app.use(morgan('dev'));
 
-mongoose.connect(config.database, (err) => {
+mongoose.connect(config.development.database, (err) => {
   if (err) {
     console.log('connection error', err);
   } else {
@@ -37,11 +44,11 @@ mongoose.connect(config.database, (err) => {
   }
 });
 
-app.listen(config.port, (err) => {
+app.listen(config.development.port, (err) => {
   if (err) {
     console.log('Connection error', err);
   } else {
-    console.log('Server is now listening at port: ', config.port);
+    console.log('Server is now listening at port: ', config.development.port);
   }
 });
 
