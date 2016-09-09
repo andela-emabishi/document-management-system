@@ -37,7 +37,6 @@ const UserSchema = new Schema({
   title: {
     required: false,
     ref: 'Role',
-    // type: Schema.Types.ObjectId,
     type: String,
   },
 });
