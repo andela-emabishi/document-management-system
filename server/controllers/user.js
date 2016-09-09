@@ -33,6 +33,7 @@ module.exports = {
         res.status(404).send({
           error: err,
           success: false,
+          message: 'User not found',
           status: '404: Resource Not Found'
         });
       }
@@ -62,7 +63,7 @@ module.exports = {
           }
           // Everything went well
           else {
-            res.json({
+            res.status(200).send({
               success: true,
               message: 'User details updated successfully'
             });
@@ -70,10 +71,11 @@ module.exports = {
         });
       }
       else {
-        res.json({
+        res.status(401).send({
           success: false,
           error: err,
-          message: 'Cannot update another users details'
+          message: 'Cannot update another users details',
+          status: '401: Unauthorised'
         });
       }
     });
@@ -89,7 +91,7 @@ module.exports = {
           return res.send(err);
         }
         else {
-          res.json({
+          res.status(200).send({
             success: true,
             message: 'User deleted successfully'
           });
@@ -97,11 +99,23 @@ module.exports = {
       });
     }
     else {
-      res.json({
+      res.status(401).send({
         success: false,
         message: 'Cannot delete another user. Can only delete yourself',
-        status: -1
+        status: '401: Unauthorised'
       });
     }
   },
+
+  // getRole: (req, res) => {
+  //   if (req.decoded.title) {
+  //     res.status(200).send(req.decoded.title);
+  //   }
+  //   else {
+  //     res.status(404).send({
+  //       message: 'No role found',
+  //       status: '404: Resource Not Found'
+  //     });
+  //   }
+  // }
 };
