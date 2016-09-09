@@ -15,7 +15,7 @@ const apiRouter = express.Router();
 const env = process.env.NODE_ENV;
 
 if (env === 'test') {
-  config.developemnt.database = config.test.database;
+  config.development.database = config.test.database;
   config.development.port = config.test.port;
 }
 
