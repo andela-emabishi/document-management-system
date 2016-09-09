@@ -5,10 +5,10 @@ const config = require('../../server/config');
 const seedData = require('./seeddata');
 
 const User = require('../../server/models/user');
-const Document = require('/../../server/models/document');
+const Document = require('../../server/models/document');
 const Role = require('../../server/models/role');
 
-// use createConnection?
+
 mongoose.connect(config.test.database, (err) => {
   if (err) {
     console.log('Mongoose connection error ', err);
@@ -20,13 +20,16 @@ mongoose.connection.on('connected', function () {
   console.log('Mongoose default connection open to ' + config.test.port);
 });
 
-// If the connection throws an error
+// // If the connection throws an error
 mongoose.connection.on('error',function (err) {
+  console.log('===========================================');
   console.log('Mongoose default connection error: ' + err);
+  console.log('========================================');
 });
 
 // Seed data to test database
 mongoose.connection.on('connected', () => {
+
   User.create(seedData.users, (err) => {
     if (err) {
       console.log('Error seeding users into test database', err);
@@ -34,7 +37,8 @@ mongoose.connection.on('connected', () => {
     else {
       console.log('successfully seeded users into the test db');
     }
-  }),
+    process.exit();
+  });
 
   Document.create(seedData.documents, (err) => {
     if (err) {
@@ -43,7 +47,7 @@ mongoose.connection.on('connected', () => {
     else {
       console.log('Successfully seeded documents into the test db');
     }
-  }),
+  });
 
   Role.create(seedData.roles, (err) => {
     if (err) {
@@ -59,11 +63,3 @@ mongoose.connection.on('connected', () => {
 mongoose.connection.on('disconnected', function () {
   console.log('Mongoose default connection disconnected');
 });
-
-// If the Node process ends, close the Mongoose connection
-// process.on('SIGINT', function() {
-//   mongoose.connection.close(function () {
-//     console.log('Mongoose default connection disconnected through app termination');
-//     process.exit(0);
-//   });
-// });
