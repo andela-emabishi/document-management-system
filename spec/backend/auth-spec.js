@@ -21,7 +21,7 @@ describe('Authentication tests', () => {
         title: 'admin'
       })
       .end((err, res) => {
-        expect(res.status).toBe(200);
+        expect(res.status).toBe(201);
         expect(res.body.message).toBe('User created successfully');
         done();
       });
