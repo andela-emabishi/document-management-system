@@ -17,9 +17,10 @@ module.exports = {
         return res.send(err);
       }
       else {
-        res.json({
+        res.status(201).send({
           success: true,
-          message: 'Document created successfully'
+          message: 'Document created successfully',
+          status: '201'
         });
       }
     });
@@ -40,7 +41,7 @@ module.exports = {
         res.send(err);
       }
       else {
-        res.json(documents);
+        res.status(200).send(documents);
       }
     });
   },
@@ -54,14 +55,14 @@ module.exports = {
         res.send(err);
       }
       else if (!documents) {
-        res.json({
+        res.status(401).send({
           success: false,
           message: 'Cannot access document by that id',
-          status: -1
+          status: '401: Unauthorised'
         });
       }
       else {
-        res.json(documents);
+        res.status(200).send(documents);
       }
     });
   },
@@ -85,11 +86,11 @@ module.exports = {
       document.save(function(err) {
         // If there's an error, tell us
         if (err) {
-          res.send(err);
+          res.status(401).send(err);
         }
         // Everything went well
         else {
-          res.json({
+          res.status(200).send({
             success: true,
             message: 'Document details updated successfully'
           });
@@ -116,7 +117,7 @@ module.exports = {
             res.send(err);
           }
           else {
-            res.json({
+            res.status(200).send({
               success: true,
               message: 'Deleted successfully if document was yours. Failed to delete another users\' documents'
             });
@@ -144,11 +145,11 @@ module.exports = {
         }
         // documents is an array of documents
         else if (documents[0] == null) {
-          res.json({
-            message: 'No documents were found for that user.The document you are refering to may be private'
+          res.status(404).send({
+            message: 'No documents were found for that user. The document you are refering to may be private'
           });
         } else {
-          res.send(documents);
+          res.status(200).send(documents);
         }
       });
 
