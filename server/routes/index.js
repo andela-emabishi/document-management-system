@@ -95,7 +95,7 @@ module.exports = function(apiRouter) {
               username: user.username,
               id: user._id,
               title: user.title
-            }, config.superSecret, {
+            }, config.development.superSecret, {
               // Token will expire in a day
               expiresIn: 86400
             });
@@ -121,7 +121,7 @@ module.exports = function(apiRouter) {
     var token = req.body.token || req.param('token') || req.headers['x-access-token'];
 
     if (token) {
-      jwt.verify(token, config.superSecret, function(err, decoded) {
+      jwt.verify(token, config.development.superSecret, function(err, decoded) {
         if (err) {
           return res.status(403).send({
             success: false,
