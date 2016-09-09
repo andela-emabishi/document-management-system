@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 module.exports = {
   users: [
     {
-      id: mongoose.Schema.Types.ObjectId('57c96a56cd9ca231483f082b'),
+      _id: mongoose.Schema.Types.ObjectId('57c96a56cd9ca231483f082b'),
       firstname: 'Charlotte',
       lastname: 'Bronte',
       username: 'charl',
@@ -12,7 +12,7 @@ module.exports = {
       title: 'editor'
     },
     {
-      id: mongoose.Schema.Types.ObjectId('57c94278517ca48c9e5af00f'),
+      _id: mongoose.Schema.Types.ObjectId('57c94278517ca48c9e5af00f'),
       firstname: 'Victor',
       lastname: 'Hugo',
       username: 'vichugo',
@@ -21,7 +21,7 @@ module.exports = {
       title: 'supra-admin'
     },
     {
-      id: mongoose.Schema.Types.ObjectId('57c942a8517ca48c9e5af010'),
+      _id: mongoose.Schema.Types.ObjectId('57c942a8517ca48c9e5af010'),
       firstname: 'Aldous',
       lastname: 'Huxley',
       username: 'al',
@@ -30,7 +30,7 @@ module.exports = {
       title: 'admin'
     },
     {
-      id: mongoose.Schema.Types.ObjectId('57d05aea1cd5386e0d2ca88a'),
+      _id: mongoose.Schema.Types.ObjectId('57d05aea1cd5386e0d2ca88a'),
       firstname: 'Clark',
       lastname: 'Kent',
       username: 'kal',
@@ -38,7 +38,7 @@ module.exports = {
       password: 'krypton',
     },
     {
-      id: mongoose.Schema.Types.ObjectId('57d1a854a13e763a1d5b89f1'),
+      _id: mongoose.Schema.Types.ObjectId('57d1a854a13e763a1d5b89f1'),
       firstname: 'Clark',
       lastname: 'Kent',
       username: 'kal',
@@ -46,7 +46,7 @@ module.exports = {
       password: 'krypton',
     },
     {
-      id: mongoose.Schema.Types.ObjectId('57d05aea1cd5386e0d2ca88a'),
+      _id: mongoose.Schema.Types.ObjectId('57d05aea1cd5386e0d2ca88a'),
       firstname: 'Arthur',
       lastname: 'Curry',
       username: 'ac',
@@ -54,7 +54,7 @@ module.exports = {
       password: 'triton',
     },
     {
-      id: mongoose.Schema.Types.ObjectId('57d00913bc185f810bcd0d87'),
+      _id: mongoose.Schema.Types.ObjectId('57d00913bc185f810bcd0d87'),
       firstname: 'Wonder',
       lastname: 'Woman',
       username: 'wonderwoman',
@@ -66,7 +66,7 @@ module.exports = {
   documents: [
 
     {
-      id: mongoose.Schema.Types.ObjectId('57c975eb2c3d08864b51cd0a'),
+      _id: mongoose.Schema.Types.ObjectId('57c975eb2c3d08864b51cd0a'),
       // wonderwoman
       _creatorId: mongoose.Schema.Types.ObjectId('57d00913bc185f810bcd0d87'),
       title: 'We should all be feminitsts',
@@ -77,7 +77,7 @@ module.exports = {
     },
 
     {
-      id: mongoose.Schema.Types.ObjectId('57c975eb2c3d08864b51cd09'),
+      _id: mongoose.Schema.Types.ObjectId('57c975eb2c3d08864b51cd09'),
       // arthur
       _creatorId: mongoose.Schema.Types.ObjectId('57d05aea1cd5386e0d2ca88a'),
       title: 'Topology of the Marianas Trench',
@@ -87,7 +87,7 @@ module.exports = {
       sharewith: mongoose.Schema.Types.ObjectId('57d1a854a13e763a1d5b89f1'),
     },
     {
-      id: mongoose.Schema.Types.ObjectId('57c975eb2c3d08864b51cd07'),
+      _id: mongoose.Schema.Types.ObjectId('57c975eb2c3d08864b51cd07'),
       // arthur
       _creatorId: mongoose.Schema.Types.ObjectId('57d05aea1cd5386e0d2ca88a'),
       title: 'Life underwater',
@@ -95,7 +95,7 @@ module.exports = {
       privacy: 'public',
     },
     {
-      id: mongoose.Schema.Types.ObjectId('57c975eb2c3d08864b51cd08'),
+      _id: mongoose.Schema.Types.ObjectId('57c975eb2c3d08864b51cd08'),
       // Victor Hugo
       _creatorId: mongoose.Schema.Types.ObjectId('57c94278517ca48c9e5af00f'),
       title: 'A Tale of Two Cities',
@@ -106,18 +106,22 @@ module.exports = {
 
   roles: [
     {
+      _id: mongoose.Schema.Types.ObjectId('55c975eb2c3d08864b51cd08'),
       title: 'supra-admin',
       permission: 'readWriteDelete'
     },
     {
+      _id: mongoose.Schema.Types.ObjectId('65c975eb2c3d08864b51cd08'),
       title: 'editor',
       permission: 'readWrite'
     },
     {
+      _id: mongoose.Schema.Types.ObjectId('45c975eb2c3d08864b51cd08'),
       title: 'viewer',
       permission: 'read'
     },
     {
+      _id: mongoose.Schema.Types.ObjectId('55c975eb2c3d08864b53cd08'),
       title: 'admin',
       permission: 'readWrite'
     },
