@@ -4,7 +4,8 @@
   "description": "Document Management System Application API",
   "main": "index.js",
   "scripts": {
-    "test": "istanbul cover jasmine --captureExceptions spec/*/*.js && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+    "pretest": "node spec/seeders/dropdb.js & \n sleep 3 \n node spec/seeders/seeddb.js",
+    "test": "NODE_ENV='test' istanbul cover jasmine --captureExceptions spec/*/*.js && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "serve": "nodemon index.js"
   },
   "repository": {
@@ -30,10 +31,11 @@
     "eslint-plugin-jsx-a11y": "^2.1.0",
     "eslint-plugin-react": "^6.0.0",
     "istanbul": "^0.4.4",
-    "supertest": "^2.0.0",
-    "nodemon": "^1.10.2",
     "jasmine": "^2.4.1",
-    "jasmine-core": "^2.4.1"
+    "jasmine-core": "^2.4.1",
+    "mongoose-seeder": "^1.2.1",
+    "nodemon": "^1.10.2",
+    "supertest": "^2.0.0"
   },
   "dependencies": {
     "body-parser": "^1.15.2",
