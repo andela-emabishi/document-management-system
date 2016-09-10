@@ -24,7 +24,7 @@ module.exports = {
         }
       }
       else {
-        res.json({
+        res.status(201).send({
           success: true,
           message: 'Role created successfully'
         });

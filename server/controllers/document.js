@@ -171,7 +171,7 @@ module.exports = {
         res.send(err);
       }
       else {
-        res.send(documents);
+        res.status(200).send(documents);
       }
     });
   },
@@ -191,7 +191,7 @@ module.exports = {
          res.send(err);
        }
        else {
-         res.send(documents);
+         res.status(200).send(documents);
        }
      });
   },
@@ -254,6 +254,7 @@ module.exports = {
   getByRole: (req, res) => {
     // Find all documents that can be accessed by a certain role
     Document.find({access: req.params.role})
+    .limit(parseInt(req.params.limit))
     .exec(function(err, documents) {
       if (err) {
         res.send(err);
@@ -277,14 +278,14 @@ module.exports = {
       if (err) {
         res.send(err);
       } else if (parseInt(req.params.offset) > documents.length) {
-        res.json({
+        res.status(400).send({
           success: false,
           message: 'Offset greater than number of documents or limit param. Cannot fetch',
-          status: -1
+          status: '400: Bad request'
         });
       }
       else {
-        res.json(documents);
+        res.status(200).send(documents);
       }
     });
   },
@@ -296,7 +297,7 @@ module.exports = {
         res.send(err);
       }
       else {
-        res.json(documents);
+        res.status(200).send(documents);
       }
     });
   }
