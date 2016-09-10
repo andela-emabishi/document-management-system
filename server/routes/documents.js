@@ -26,7 +26,7 @@ module.exports = function(router) {
   router.route('/documents/search/:search_string')
   .get(DocumentController.search);
 
-  router.route('/documents/role/:role')
+  router.route('/documents/role/:role/:limit')
   .get(DocumentController.getByRole);
 
   // get document by shared with
