@@ -93,6 +93,15 @@ module.exports = {
       content: 'The French Revolution',
       privacy: 'public',
     },
+    {
+      _id: mongoose.Types.ObjectId('57c975eb2c3d08874b51cd08'),
+      // Victor Hugo
+      _creatorId: mongoose.Types.ObjectId('57c94278517ca48c9e5af00f'),
+      title: 'Administrator things',
+      content: 'Only for adminnistrators',
+      privacy: 'private',
+      access: mongoose.Types.ObjectId('55c975eb2c3d08864b51cd08')
+    },
   ],
 
   roles: [
