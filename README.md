@@ -13,22 +13,18 @@ The system abstracts its resources into the following:
 
 ### users
 
-VERB | ENDPOINT
------| --------
-GET | /users
-GET/PUT/POST | /users/:user_id
+`GET               /users`
+`GET/PUT/POST     /users/:user_id`
 
 ### documents
 
-VERB | ENDPOINT
------|----------
-GET/POST | /documents
-GET/PUT/DELETE | /documents/:document_id
-GET | /users/:creator_id/documents
-GET | /documents/date/:date/:limit
-GET | /documents/limit/:limit
-GET | /documents/acc/public
-GET | /documents/search/:search_string
-GET | /documents/role/:role/:limit
-GET | /documents/share/:share
-GET | documents/offset/:offset/:per_page
+`GET/POST         /documents`
+`GET/PUT/DELETE  /documents/:document_id`
+`GET             /users/:creator_id/documents`
+`GET             /documents/date/:date/:limit`
+`GET            /documents/limit/:limit`
+`GET            /documents/acc/public`
+`GET            /documents/search/:search_string`
+`GET            /documents/role/:role/:limit`
+`GET            /documents/share/:share`
+`GET            /documents/offset/:offset/:per_page`
