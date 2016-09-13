@@ -14,7 +14,11 @@ module.exports = {
 
     document.save(function(err) {
       if (err) {
-        return res.send(err);
+        return res.status(500).send({
+          error: err,
+          message: 'Document could not be created',
+          status: '500: Internal Server Error'
+        });
       }
       else {
         res.status(201).send({
@@ -86,7 +90,11 @@ module.exports = {
       document.save(function(err) {
         // If there's an error, tell us
         if (err) {
-          res.status(401).send(err);
+          res.status(500).send({
+            error: err,
+            message: 'Error saving document',
+            status: '500: Server Error'
+          });
         }
         // Everything went well
         else {
@@ -114,12 +122,16 @@ module.exports = {
           }
       , function(err) {
           if (err) {
-            res.send(err);
+            res.status(500).send({
+              error: err,
+              message: 'Error deleting document',
+              status: '500: Server Error'
+            });
           }
           else {
             res.status(200).send({
               success: true,
-              message: 'Deleted successfully if document was yours. Failed to delete another users\' documents'
+              message: 'Document Deleted successfully if document was yours. Failed to delete another users\' documents'
             });
           }
         });
@@ -146,7 +158,8 @@ module.exports = {
         // documents is an array of documents
         else if (documents[0] == null) {
           res.status(404).send({
-            message: 'No documents were found for that user. The document you are refering to may be private'
+            message: 'No documents were found for that user. The document you are referring to may be private',
+            status: '404: Resource Not Found'
           });
         } else {
           res.status(200).send(documents);
