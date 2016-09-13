@@ -20,7 +20,7 @@ Show all users
 `/users`
 
 #### Method
-GET
+`GET`
 
 #### Success Response
 ```javascript
@@ -62,7 +62,7 @@ Retrieve user information for a single user
 `/users/:user_id`
 
 #### Method
-GET
+`GET`
 
 ### URL params
 Required: `user_id`
@@ -101,7 +101,7 @@ Update user information for a single user
 `/users/:user_id`
 
 #### Method
-PUT
+`PUT`
 
 ### URL params
 Required: `user_id`
@@ -152,7 +152,7 @@ Delete a single users' information
 `/users/:user_id`
 
 #### Method
-DELETE
+`DELETE`
 
 ### URL params
 Required: `user_id`
@@ -192,7 +192,7 @@ Create a document
 `/documents`
 
 #### Method
-POST
+`POST`
 
 ### Data params
 ```javascript
@@ -239,7 +239,7 @@ Show all documents
 `/documents`
 
 #### Method
-GET
+`GET`
 
 #### Success Response
 ```javascript
@@ -266,7 +266,7 @@ Show a specific document
 `/documents/:document_id`
 
 #### Method
-GET
+`GET`
 
 ### URL params
 Required: `document_id`
@@ -307,7 +307,7 @@ Edit a specific document
 `/documents/:document_id`
 
 #### Method
-PUT
+`PUT`
 
 ### URL params
 Required: `document_id`
@@ -415,3 +415,6 @@ content:
   status: '404: Resource Not Found'
 }
 ```
+Notes: This route is restricted to the logged in users' documents and public documents
+
+### Roles
