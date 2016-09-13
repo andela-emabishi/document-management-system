@@ -7,7 +7,11 @@ module.exports = {
     if (req.decoded.title == 'supra-admin') {
       User.find(function(err, users) {
         if (err) {
-          res.send(err);
+          res.status(404).send({
+            success: false,
+            error: err,
+            status: '404: Resource Not Found'
+          });
         }
         else {
           res.status(200).send(users);
@@ -31,8 +35,8 @@ module.exports = {
         // Something happened and we can't find the user
         // 404 Not found
         res.status(404).send({
-          error: err,
           success: false,
+          error: err,
           message: 'User not found',
           status: '404: Resource Not Found'
         });
@@ -81,19 +85,23 @@ module.exports = {
     });
   },
 
-// [Restricted] to admin or logged in user
+// [Restricted] to admin or logged in user.
+// TODO: Once a user is deleted, all their notes should be too.
   deleteUserById: (req, res) => {
     if ((req.decoded.id == req.params.user_id) || (req.decoded.title == 'supra-admin')) {
       User.remove({
         _id: req.params.user_id
       }, function(err) {
         if (err) {
-          return res.send(err);
+          return res.send({
+            error: err,
+            message: 'Error deleting user'
+          });
         }
         else {
           res.status(200).send({
             success: true,
-            message: 'User deleted successfully'
+            message: 'User deleted successfully',
           });
         }
       });
