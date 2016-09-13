@@ -13,17 +13,254 @@ The system abstracts its resources into the following:
 
 ### Users
 
-| HTTP VERB  |ENDPOINT   |
-|---|---|
-| `GET`   | `/users`  |
-|`GET/PUT/POST`   |`/users/:user_id`   |
+#### Title
+Show all users
+
+#### URL
+`/users`
+
+#### Method
+GET
+
+#### Success Response
+```javascript
+code: 200
+content:
+[
+  {
+    "_id": "57c94278517ca48c9e5af00f",
+    "email": "kingkong@dochero.com",
+    "username": "kingkong",
+    "lastname": "Kong",
+    "firstname": "King",
+    "__v": 0
+  }]
+```
+### Error
+```javascript
+code: 401 / 404
+content:
+{
+  success: false,
+  message: 'Invalid operation. No access',
+  status: '401: Unauthorised',
+}
+OR
+{
+  success: false,
+  error: err,
+  status: '404: Resource Not Found'
+}
+
+```
+Note: This route is restricted to a user with the role `supra-admin`
+
+#### Title
+Retrieve user information for a single user
+
+#### URL
+`/users/:user_id`
+
+#### Method
+GET
+
+### URL params
+Required: `user_id`
+Type: `ObjectID`
+
+#### Success Response
+```javascript
+code: 200
+content:
+  {
+    "_id": "57c94278517ca48c9e5af00f",
+    "email": "kingkong@dochero.com",
+    "username": "kingkong",
+    "lastname": "Kong",
+    "firstname": "King",
+    "__v": 0
+  }
+```
+### Error
+```javascript
+code: 404
+content:
+{
+  success: false,
+  error: err,
+  message: 'User not found',
+  status: '404: Resource Not Found'
+}
+
+```
+
+#### Title
+Update user information for a single user
+
+#### URL
+`/users/:user_id`
+
+#### Method
+PUT
+
+### URL params
+Required: `user_id`
+Type: `ObjectID`
+
+### Data params
+```javascript
+{
+  firstname: [String],
+  lastname: [String],
+  username: [String],
+  email: [String],
+  password: [String],
+  role(optional): [String]
+}
+```
+
+#### Success Response
+```javascript
+code: 200
+content:
+  {
+    "_id": "57c94278517ca48c9e5af00f",
+    "email": "kingkong@dochero.com",
+    "username": "kingkong",
+    "lastname": "Kong",
+    "firstname": "King",
+    "__v": 0
+  }
+```
+### Error
+```javascript
+code: 401
+content:
+{
+  success: false,
+  error: err,
+  message: 'Cannot update another users details',
+  status: '401: Unauthorised'
+}
+```
+Notes: This route is restricted to the logged in user and their details.
+
+#### Title
+Delete a single users' information
+
+#### URL
+`/users/:user_id`
+
+#### Method
+DELETE
+
+### URL params
+Required: `user_id`
+Type: `ObjectID`
+
+#### Success Response
+```javascript
+code: 200
+content:
+{
+  success: true,
+  message: 'User deleted successfully'
+}
+```
+### Error
+```javascript
+code: 401
+content:
+{
+  success: false,
+  message: 'Cannot delete another user. Can only delete yourself',
+  status: '401: Unauthorised'
+}
+OR
+{
+  error: err,
+  message: 'Error deleting user'
+}
+```
+Notes: This route is restricted to the logged in user and their details.
 
 ### Documents
+#### Title
+Create a document
 
-| HTTP VERB  | ENDPOINT   |
-|---|---|
-| `GET/POST`  | `/documents`  |
-|`GET/PUT/DELETE`   |`/documents/:document_id`   |
+#### URL
+`/documents`
+
+#### Method
+POST
+
+### Data params
+```javascript
+{
+  title: [String],
+  content: [String],
+  privacy: [String],
+  sharewith: [ObjectID],
+  access: [ObjectID],
+}
+```
+
+#### Success Response
+```javascript
+code: 201
+content:
+  {
+    success: true,
+    message: 'Document created successfully',
+    status: '201'
+  }
+
+```
+### Error
+```javascript
+code: 401
+content:
+{
+  error: err,
+  message: 'Document could not be created',
+  status: '500: Internal Server Error'
+}
+OR
+{
+  success: true,
+  message: 'Document created successfully',
+  status: '201'
+}
+```
+#### Title
+Show all documents
+
+#### URL
+`/documents`
+
+#### Method
+GET
+
+#### Success Response
+```javascript
+code: 201
+content:
+[{
+   "_id": "57d3b9b4589d180754870376",
+   "updatedAt": "2016-09-10T07:43:48.081Z",
+   "createdAt": "2016-09-10T07:43:48.081Z",
+   "access": "57d07f4985e43ea1140ed44e",
+   "_creatorId": "57d1218482900bba18cd6142",
+   "privacy": "private",
+   "content": "Top secret",
+   "title": "Other secret admin things",
+   "__v": 0
+ }]
+```
+Note: This route is restricted to the logged in users documents and all public documents
+
+
+<!-- |`GET/PUT/DELETE`   |`/documents/:document_id`   |
 | `GET`   | `/users/:creator_id/documents`  |
 | `GET`    | `/documents/date/:date/:limit`  |
 | `GET`    | `/documents/limit/:limit`  |
@@ -31,4 +268,4 @@ The system abstracts its resources into the following:
 |`GET`     |   `/documents/search/:search_string` |
 | `GET`    |  `/documents/role/:role/:limit`  |
 |`GET`     | `/documents/share/:share` |
-| `GET ``   | `/documents/offset/:offset/:per_page`  |
+| `GET`   | `/documents/offset/:offset/:per_page`  | -->
