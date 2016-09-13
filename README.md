@@ -179,7 +179,8 @@ content:
 OR
 {
   error: err,
-  message: 'Error deleting user'
+  message: 'Error deleting user',
+  status: '500: Server Error',
 }
 ```
 Notes: This route is restricted to the logged in user and their details.
@@ -212,7 +213,7 @@ content:
   {
     success: true,
     message: 'Document created successfully',
-    status: '201'
+    status: '201: Resource Created'
   }
 
 ```
@@ -224,12 +225,6 @@ content:
   error: err,
   message: 'Document could not be created',
   status: '500: Internal Server Error'
-}
-OR
-{
-  success: true,
-  message: 'Document created successfully',
-  status: '201'
 }
 ```
 #### Title
@@ -418,3 +413,7 @@ content:
 Notes: This route is restricted to the logged in users' documents and public documents
 
 ### Roles
+The role resource is managed be the following routes and has a similar format of results as the users and documents resources.
+
+`POST/GET /roles`
+`GET/PUT/DELETE /roles/:role_id`
