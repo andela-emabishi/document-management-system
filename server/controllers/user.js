@@ -95,7 +95,8 @@ module.exports = {
         if (err) {
           return res.send({
             error: err,
-            message: 'Error deleting user'
+            message: 'Error deleting user',
+            status: '500: Server Error',
           });
         }
         else {

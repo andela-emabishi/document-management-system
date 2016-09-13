@@ -24,7 +24,7 @@ module.exports = {
         res.status(201).send({
           success: true,
           message: 'Document created successfully',
-          status: '201'
+          status: '201: Resource Created'
         });
       }
     });
