@@ -250,7 +250,7 @@ content:
    "updatedAt": "2016-09-10T07:43:48.081Z",
    "createdAt": "2016-09-10T07:43:48.081Z",
    "access": "57d07f4985e43ea1140ed44e",
-   "_creatorId": "57d1218482900bba18cd6142",
+   "_creatorId": "57d121848xxxxxxxxcd6142",
    "privacy": "private",
    "content": "Top secret",
    "title": "Other secret admin things",
@@ -259,13 +259,159 @@ content:
 ```
 Note: This route is restricted to the logged in users documents and all public documents
 
+#### Title
+Show a specific document
 
-<!-- |`GET/PUT/DELETE`   |`/documents/:document_id`   |
-| `GET`   | `/users/:creator_id/documents`  |
-| `GET`    | `/documents/date/:date/:limit`  |
-| `GET`    | `/documents/limit/:limit`  |
-|`GET`    | `/documents/access/public`  |
-|`GET`     |   `/documents/search/:search_string` |
-| `GET`    |  `/documents/role/:role/:limit`  |
-|`GET`     | `/documents/share/:share` |
-| `GET`   | `/documents/offset/:offset/:per_page`  | -->
+#### URL
+`/documents/:document_id`
+
+#### Method
+GET
+
+### URL params
+Required: `document_id`
+Type: `ObjectID`
+
+#### Success Response
+```javascript
+code: 201
+content:
+{
+   "_id": "57d3b9b4589d180754870376",
+   "updatedAt": "2016-09-10T07:43:48.081Z",
+   "createdAt": "2016-09-10T07:43:48.081Z",
+   "access": "57d07f4985e43ea1140ed44e",
+   "_creatorId": "57d121848xxxxxxxxcd6142",
+   "privacy": "private",
+   "content": "Top secret",
+   "title": "Other secret admin things",
+   "__v": 0
+ }
+```
+### Error
+```javascript
+code: 401
+content:
+{
+  success: false,
+  message: 'Cannot access document by that id',
+  status: '401: Unauthorised'
+}
+```
+Note: This route is restricted to the logged in users' documents
+
+#### Title
+Edit a specific document
+
+#### URL
+`/documents/:document_id`
+
+#### Method
+PUT
+
+### URL params
+Required: `document_id`
+Type: `ObjectID`
+
+### Data params
+```javascript
+{
+  title: [String], Required
+  content: [String], Required,
+  privacy: [String], Required either: public or private
+  sharewith: [ObjectID]: Optional,
+  access: [ObjectID]: Optional
+}
+```
+
+#### Success Response
+```javascript
+code: 200
+content:
+{
+  success: true,
+  message: 'Document details updated successfully'
+}
+```
+### Error
+```javascript
+code: 500
+content:
+{
+  error: err,
+  message: 'Error saving document',
+  status: '500: Server Error'
+}
+```
+#### Title
+Delete a specific document
+
+#### URL
+`/documents/:document_id`
+
+#### Method
+`DELETE`
+
+### URL params
+Required: `document_id`
+Type: `ObjectID`
+
+#### Success Response
+```javascript
+code: 200
+content:
+{
+  success: true,
+  message: 'Document Deleted successfully'
+}
+```
+### Error
+```javascript
+code: 500
+content:
+{
+  error: err,
+  message: 'Error saving document',
+  status: '500: Server Error'
+}
+```
+#### Title
+Show a document that belongs to a specific user
+
+#### URL
+`/users/:creator_id/documents`
+
+#### Method
+`GET`
+
+### URL params
+Required: `creator_id`
+Type: `ObjectID`
+
+#### Success Response
+```javascript
+code: 200
+content:
+[
+  {
+  "_id": "57d13112ccb820a01934da3c",
+  "updatedAt": "2016-09-08T09:37:11.912Z",
+  "createdAt": "2016-09-08T09:36:18.640Z",
+  "_creatorId": "57d1218482900bbxxxxxx6142",
+  "privacy": "private",
+  "content": "Administrator things. Users not allowed!",
+  "title": "Admin things",
+  "__v": 0
+},
+]
+```
+### Error
+```javascript
+code: 404
+content:
+{
+  message: 'No documents were found for that user. \
+  The document you are referring to may be private',
+  status: '404: Resource Not Found'
+}
+```
