@@ -107,20 +107,18 @@ describe('Document tests', () => {
     });
   });
 
-// Write a test that validates that all documents are returned, limited by a specified number,
-// when Documents.all is called with a query parameter limit.
-  // it('Should return all documents, limited by a specified number', (done) => {
-  //   request
-  //   .get('api/documents/limit/2')
-  //   .set('x-access-token', token)
-  //   .end((err, res) => {
-  //     expect(res.status).toBe(200);
-  //     expect(res.body).toBeDefined();
-  //     expect(Array.isArray(res.body)).toBe(true);
-  //     expect(res.body.length).toBe(2);
-  //     done();
-  //   });
-  // });
+  it('Should return all documents, limited by a specified number', (done) => {
+    request
+    .get('/api/documents/limit/2')
+    .set('x-access-token', token)
+    .end((err, res) => {
+      expect(res.status).toBe(200);
+      expect(res.body).toBeDefined();
+      expect(Array.isArray(res.body)).toBe(true);
+      expect(res.body.length).toBe(2);
+      done();
+    });
+  });
 
   it('Should return all documents in order of their publishing date', (done) => {
     request
@@ -133,19 +131,18 @@ describe('Document tests', () => {
     });
   });
 
-  // // TODO: Test offset
-  // it('Should have the ability to return paginated documents', (done) => {
-  //   request
-  //   .get('api/documents/offset/1/1')
-  //   .set('x-access-token', token)
-  //   .end((err, res) => {
-  //     expect(res.status).toBe(200);
-  //     expect(res.status).not.toBe(400);
-  //     expect(res.body.status).not.toBe('400: Bad request');
-  //     expect(res.body.length).toBe(1);
-  //     done();
-  //   });
-  // });
+  it('Should have the ability to return paginated documents', (done) => {
+    request
+    .get('/api/documents/offset/1/1')
+    .set('x-access-token', token)
+    .end((err, res) => {
+      expect(res.status).toBe(200);
+      expect(res.status).not.toBe(400);
+      expect(res.body.status).not.toBe('400: Bad request');
+      expect(res.body.length).toBe(1);
+      done();
+    });
+  });
 
   // Write a test that validates that all documents, limited by a specified number,
   //  that were published on a certain date.
@@ -174,18 +171,16 @@ describe('Document tests', () => {
     });
   });
 
-  // it('Should return all documents that have been shared with someone', (done) => {
-  //   request
-  //   .get('api/documents/share/57c94278517ca48c9e5af00f')
-  //   .set('x-access-token', token)
-  //   .end((err, res) => {
-  //     // console.log("test res.body", res.body);
-  //     console.log('error here',err);
-  //     expect(res.status).toBe(200);
-  //     expect(res.body[0]).toBeDefined();
-  //     done();
-  //   });
-  // });
+  it('Should return all documents that have been shared with someone', (done) => {
+    request
+    .get('/api/documents/share/57c94278517ca48c9e5af00f')
+    .set('x-access-token', token)
+    .end((err, res) => {
+      expect(res.status).toBe(200);
+      expect(res.body[0]).toBeDefined();
+      done();
+    });
+  });
 
   it('Should validate that a document can be deleted by its id', (done) => {
     request
