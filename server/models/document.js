@@ -1,5 +1,5 @@
-const mongoose = require('mongoose'),
-  Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
   // A public document can be seen by everybody
   // A private document can only be seen by the person who created it
@@ -39,10 +39,10 @@ const DocumentSchema = new Schema({
     // Use permission title instead?
     type: Schema.Types.ObjectId,
     required: false,
-  }
+  },
 },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 

@@ -11,18 +11,17 @@ const roles = require('./roles');
 // Require mongoose model
 const User = require('../models/user');
 
-module.exports = function(apiRouter) {
-
+module.exports = (apiRouter) => {
   apiRouter.get('/', function(req, res) {
     res.json({
-      message: 'Welcome to the DOCHERO api'
+      message: 'Welcome to the DOCHERO api',
     });
   });
 
 // signup
   apiRouter.route('/signup')
-    .post(function(req, res) {
-      var user = new User();
+    .post(function (req, res) {
+      const user = new User();
 
       // Pass details of model instance to request
       user.firstname = req.body.firstname;
@@ -32,25 +31,21 @@ module.exports = function(apiRouter) {
       user.password = req.body.password;
       user.title = req.body.title;
 
-      user.save(function(err) {
+      user.save(function (err) {
         if (err) {
-          if (err.code == 11000) {
-            return res.json({
+          if (err.code === 11000) {
+            res.json({
               success: false,
-              message: 'Please provide a unique username'
+              message: 'Please provide a unique username',
             });
-          }
-          // It's another error
-          else {
+          } else {
             res.send(err);
           }
-        }
-        // No error
-        else {
+        } else {
           res.status(201).send({
             success: true,
             message: 'User created successfully',
-            status: '201: Resource created'
+            status: '201: Resource created',
           });
         }
       });
@@ -63,8 +58,8 @@ module.exports = function(apiRouter) {
     // Find the user
     // Select the password
     User.findOne({
-      username: req.body.username
-    }).select('username password title').exec(function(err, user) {
+      username: req.body.username,
+    }).select('username password title').exec(function (err, user) {
       if (err) {
         throw err;
       }
@@ -73,7 +68,7 @@ module.exports = function(apiRouter) {
       if (!user) {
         res.json({
           success: false,
-          message: 'Authentication failed. User not found'
+          message: 'Authentication failed. User not found',
         });
       }
       // If a user with that username exists
@@ -81,25 +76,25 @@ module.exports = function(apiRouter) {
         if (user) {
           // console.log('I am here', user);
           // Check if password matches
-          var validPassword = user.comparePassword(req.body.password);
+          const validPassword = user.comparePassword(req.body.password);
           if (!validPassword) {
             res.status(401).send({
               success: false,
               message: 'Wrong password. Failed to authenticate',
-              status: '401: Failed to authenticate'
+              status: '401: Failed to authenticate',
             });
           }
           // If username exists and password is right
           // Create a token
           else {
-            var token = jwt.sign({
+            const token = jwt.sign({
               firstname: user.firstname,
               username: user.username,
               id: user._id,
-              title: user.title
+              title: user.title,
             }, config.development.superSecret, {
               // Token will expire in a day
-              expiresIn: 86400
+              expiresIn: 86400,
             });
 
             // Return an object of the information along with the token
