@@ -38,7 +38,6 @@ module.exports = {
         $or: [ { _creatorId: req.decoded.id }, { privacy: 'public' } ]
       }
     )
-    // .where('privacy').equals('public')
     .sort('-createdAt')
     .exec(function(err, documents) {
       if (err) {
@@ -76,8 +75,12 @@ module.exports = {
     Document.findById(req.params.document_id)
     .where('_creatorId').equals(req.decoded.id)
     .exec(function(err, document) {
-      if (err) {
-        res.send(err);
+      if (err || document === null) {
+        res.status(404).send({
+          error: err,
+          message: 'Could not update document by the id entered',
+          status: '404: Resource Not Found'
+        });
       }
        // Only update if a change has happened
       if (req.body.title) document.title = req.body.title;
@@ -90,10 +93,10 @@ module.exports = {
       document.save(function(err) {
         // If there's an error, tell us
         if (err) {
-          res.status(500).send({
+          res.status(401).send({
             error: err,
             message: 'Error saving document',
-            status: '500: Server Error'
+            status: '401: Unauthorised'
           });
         }
         // Everything went well
@@ -194,16 +197,15 @@ module.exports = {
   getDocumentsWithLimit: (req, res) => {
     Document.find(
       {
-        $or: [  {_creatorId: req.decoded.id }, {privacy: 'public'} ]
+        $or: [{ _creatorId: req.decoded.id }, { privacy: 'public' }],
       }
     )
-     .limit(parseInt(req.params.limit))
+     .limit(parseInt(req.params.limit, 10))
      .sort('-createdAt')
-     .exec(function(err,documents) {
+     .exec((err, documents) => {
        if (err) {
          res.send(err);
-       }
-       else {
+       } else {
          res.status(200).send(documents);
        }
      });
@@ -249,10 +251,10 @@ module.exports = {
           else {
             // No results for the search
             if (documents[0] == null) {
-              return res.json({
+              return res.status(404).send({
                 success: false,
                 message: 'No results found.',
-                status: -1
+                status: '404: Resource Not Found'
               });
             }
             else {
@@ -282,36 +284,39 @@ module.exports = {
   getByOffset: (req, res) => {
     Document.find(
       {
-        $or: [  {_creatorId: req.decoded.id }, {privacy: 'public'} ]
+        $or: [{ _creatorId: req.decoded.id }, { privacy: 'public' }],
       }
     )
-    .skip(parseInt(req.params.offset))
-    .limit(parseInt(req.params.per_page))
-    .exec(function(err, documents) {
+    .skip(parseInt(req.params.offset, 10))
+    .limit(parseInt(req.params.per_page, 10))
+    .exec((err, documents) => {
       if (err) {
         res.send(err);
-      } else if (parseInt(req.params.offset) > documents.length) {
+      } else if (parseInt(req.params.offset, 10) > documents.length) {
         res.status(400).send({
           success: false,
           message: 'Offset greater than number of documents or limit param. Cannot fetch',
-          status: '400: Bad request'
+          status: '400: Bad request',
         });
-      }
-      else {
+      } else {
         res.status(200).send(documents);
       }
     });
   },
 
   getBySharedWith: (req, res) => {
-    Document.find({sharewith: req.params.share})
-    .exec(function(err, documents) {
+    Document.find({ sharewith: req.params.share })
+    .exec((err, documents) => {
       if (err) {
         res.send(err);
-      }
-      else {
+      } else if (!documents[0]) {
+        res.status(404).send({
+          message: 'No documents have been shared with you',
+          status: '404: Resource Not Found',
+        });
+      } else {
         res.status(200).send(documents);
       }
     });
-  }
+  },
 };
