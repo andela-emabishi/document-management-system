@@ -79,6 +79,7 @@ module.exports = function(apiRouter) {
       // If a user with that username exists
       else {
         if (user) {
+          // console.log('I am here', user);
           // Check if password matches
           var validPassword = user.comparePassword(req.body.password);
           if (!validPassword) {
@@ -105,7 +106,8 @@ module.exports = function(apiRouter) {
             res.json({
               success: true,
               message: 'Enjoy your token! You\'ve just been logged in',
-              token: token
+              token: token,
+              user: user,
             });
           }
         }
