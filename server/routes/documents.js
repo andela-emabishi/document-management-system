@@ -1,6 +1,6 @@
 const DocumentController = require('../controllers/document');
 
-module.exports = function(router) {
+module.exports = (router) => {
   router.route('/documents')
   .post(DocumentController.create)
   .get(DocumentController.getAll);
