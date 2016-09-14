@@ -76,15 +76,16 @@ module.exports = function(apiRouter) {
           message: 'Authentication failed. User not found'
         });
       }
-      // If a user with that usernmame exists
+      // If a user with that username exists
       else {
         if (user) {
           // Check if password matches
           var validPassword = user.comparePassword(req.body.password);
           if (!validPassword) {
-            res.json({
+            res.status(401).send({
               success: false,
-              message: 'Wrong password. Failed to authenticate'
+              message: 'Wrong password. Failed to authenticate',
+              status: '401: Failed to authenticate'
             });
           }
           // If username exists and password is right
@@ -130,8 +131,8 @@ module.exports = function(apiRouter) {
         }
         // Everything went well, we found and verified the token
         else {
-          console.log('Token owner');
-          console.log(decoded);
+          // console.log('Token owner');
+          // console.log(decoded);
 
           req.decoded = decoded;
 
