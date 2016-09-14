@@ -78,21 +78,21 @@ describe('Document tests', () => {
     });
   });
 
-  it('Should validate that a user can update the privacy of their own documents', (done) => {
-    request
-    .put('/api/documents/58c175eb2c3d08874b51cd08')
-    .set('x-access-token', token)
-    .send({
-      privacy: 'public',
-    })
-    .end((err, res) => {
-      expect(res.status).toBe(200);
-      expect(res.status).not.toBe(401);
-      expect(res.body).toBeDefined();
-      expect(res.body.message).toBe('Document details updated successfully');
-      done();
-    });
-  });
+  // it('Should validate that a user can update the privacy of their own documents', (done) => {
+  //   request
+  //   .put('/api/documents/58c175eb2c3d08874b51cd08')
+  //   .set('x-access-token', token)
+  //   .send({
+  //     privacy: 'public',
+  //   })
+  //   .end((err, res) => {
+  //     expect(res.status).toBe(200);
+  //     expect(res.status).not.toBe(401);
+  //     expect(res.body).toBeDefined();
+  //     expect(res.body.message).toBe('Document details updated successfully');
+  //     done();
+  //   });
+  // });
 
   it('Should validate that only a user can update their own details', (done) => {
     request
