@@ -3,7 +3,7 @@ const request = require('supertest')(app);
 const Document = require('../../server/models/document');
 
 describe('Document tests', () => {
-  // Before each test, log in victor hugo
+  // Before each test, log in Victor Hugo
   let token;
 
   beforeAll((done) => {
@@ -63,12 +63,27 @@ describe('Document tests', () => {
     });
   });
 
-  it('Should validate that a user can update their own documents', (done) => {
+  it('Should validate that a user can update the content of their own documents', (done) => {
     request
     .put('/api/documents/57c975eb2c3d08864b51cd08')
     .set('x-access-token', token)
     .send({
       content: 'It was the best of times, it was the worst of times. It was the age of wisdom, it was the age of...',
+    })
+    .end((err, res) => {
+      expect(res.status).toBe(200);
+      expect(res.status).not.toBe(401);
+      expect(res.body.message).toBe('Document details updated successfully');
+      done();
+    });
+  });
+
+  it('Should validate that a user can update the privacy of their own documents', (done) => {
+    request
+    .put('/api/documents/58c175eb2c3d08874b51cd08')
+    .set('x-access-token', token)
+    .send({
+      privacy: 'public',
     })
     .end((err, res) => {
       expect(res.status).toBe(200);
@@ -92,7 +107,6 @@ describe('Document tests', () => {
       done();
     });
   });
-
 
   it('Should return all documents created by a user using their user id', (done) => {
     request
