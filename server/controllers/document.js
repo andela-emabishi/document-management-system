@@ -225,12 +225,12 @@ module.exports = {
         $or: [{ _creatorId: req.decoded.id }, { privacy: 'public' }],
       }
     )
-    .exec((err) => {
+    .exec(function(err) {
       if (err) {
         res.send(err);
       } else {
         Document.find({ $text: { $search: req.params.search_string } }, { score: { $meta: 'textScore' } }).sort({ score: { $meta: 'textScore' } })
-        .exec((documents) => {
+        .exec(function (err, documents) {
           if (err) {
             res.send(err);
           } else {
