@@ -13,11 +13,8 @@ module.exports = (router) => {
   router.route('/users/:creator_id/documents')
   .get(DocumentController.getByCreatorId);
 
-  router.route('/documents/date/:date/:limit')
+  router.route('/documents/date/date')
   .get(DocumentController.getByDatePublished);
-
-  router.route('/documents/limit/:limit')
-  .get(DocumentController.getDocumentsWithLimit);
 
   router.route('/documents/access/public')
   .get(DocumentController.getPublicDocuments);
@@ -32,9 +29,4 @@ module.exports = (router) => {
   // get document by shared with
   router.route('/documents/share/:share')
   .get(DocumentController.getBySharedWith);
-
-  // Get all documents with limit and pagination offset
-  // Offset === start from nth number of documents
-  router.route('/documents/offset/:offset/:per_page')
-  .get(DocumentController.getByOffset);
 };
