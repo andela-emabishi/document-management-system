@@ -38,9 +38,17 @@ module.exports = {
       }
     )
     .sort('-createdAt')
+    .skip(parseInt(req.query.offset, 10))
+    .limit(parseInt(req.query.limit, 10))
     .exec((err, documents) => {
       if (err) {
         res.send(err);
+      } else if (parseInt(req.query.offset, 10) > documents.length) {
+        res.status(400).send({
+          success: false,
+          message: 'Offset greater than number of documents or limit param. Cannot fetch',
+          status: '400: Bad request',
+        });
       } else {
         res.status(200).send(documents);
       }
@@ -162,15 +170,20 @@ module.exports = {
 
   // GET all documents created on a specific date (query: date, limit)
   //  [Restricted] Cannot get private documents not yours
-  // TODO: Enable document fetch using date part of createdAt field
+
   getByDatePublished: (req, res) => {
+    const startDate = new Date(req.query.date);
+    const endDate = new Date(startDate.getTime() + (24 * 60 * 60 * 1000));
+
     Document.find({
       $or: [
-        { $and: [{ createdAt: req.params.date }, { privacy: 'public' }] },
-        { $and: [{ _creatorId: req.decoded.id }, { createdAt: req.params.date }] },
+        { $and: [{ createdAt: req.query.date }, { privacy: 'public' }] },
+        { $and: [{ _creatorId: req.decoded.id }, { createdAt: req.query.date }] },
+        { $and: [{ createdAt: { $gte: startDate, $lt: endDate } }, { privacy: 'public' }] },
       ],
     })
-    .limit(parseInt(req.params.limit, 10))
+    .sort('-createdAt')
+    .limit(parseInt(req.query.limit, 10))
     .exec((err, documents) => {
       if (err) {
         res.send(err);
@@ -178,25 +191,6 @@ module.exports = {
         res.status(200).send(documents);
       }
     });
-  },
-
-  // A route that (query: limit) returns all the documents in order of the dates they were created (ascending or descending).
-  // TODO: Merge with documents/date/limit route? If date param is null, fetch all documents regardless of created date
-  getDocumentsWithLimit: (req, res) => {
-    Document.find(
-      {
-        $or: [{ _creatorId: req.decoded.id }, { privacy: 'public' }],
-      }
-    )
-     .limit(parseInt(req.params.limit, 10))
-     .sort('-createdAt')
-     .exec((err, documents) => {
-       if (err) {
-         res.send(err);
-       } else {
-         res.status(200).send(documents);
-       }
-     });
   },
 
   // GET all public documents
@@ -259,30 +253,6 @@ module.exports = {
         res.send(err);
       } else {
         res.json(documents);
-      }
-    });
-  },
-
-// [Restricted]
-  getByOffset: (req, res) => {
-    Document.find(
-      {
-        $or: [{ _creatorId: req.decoded.id }, { privacy: 'public' }],
-      }
-    )
-    .skip(parseInt(req.params.offset, 10))
-    .limit(parseInt(req.params.per_page, 10))
-    .exec((err, documents) => {
-      if (err) {
-        res.send(err);
-      } else if (parseInt(req.params.offset, 10) > documents.length) {
-        res.status(400).send({
-          success: false,
-          message: 'Offset greater than number of documents or limit param. Cannot fetch',
-          status: '400: Bad request',
-        });
-      } else {
-        res.status(200).send(documents);
       }
     });
   },
