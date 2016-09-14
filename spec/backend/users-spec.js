@@ -2,26 +2,21 @@
 
 const app = require('../../index');
 const request = require('supertest')(app);
-const User =  require('../../server/models/user');
+const User = require('../../server/models/user');
 
 describe('User tests', () => {
-
   // Before each test, log in victor hugo
   let token;
-  let id;
-  let title;
 
   beforeAll((done) => {
     request
     .post('/api/login')
     .send({
       username: 'vichugo',
-      password: 'victorhugo'
+      password: 'victorhugo',
     })
     .end((err, res) => {
       token = res.body.token;
-      title = res.body.title;
-      id = res.body.id;
       done();
     });
   });
@@ -82,7 +77,7 @@ describe('User tests', () => {
     .put('/api/users/57c94278517ca48c9e5af00f')
     .set('x-access-token', token)
     .send({
-      username: 'victorhugo'
+      username: 'victorhugo',
     })
     .end((err, res) => {
       expect(res.status).toBe(200);
@@ -98,7 +93,7 @@ describe('User tests', () => {
     .put('/api/users/57d05aea1cd5386e0d2ca88a')
     .set('x-access-token', token)
     .send({
-      username: 'zod'
+      username: 'zod',
     })
     .end((err, res) => {
       expect(res.status).toBe(401);
@@ -130,16 +125,15 @@ describe('User tests', () => {
     });
   });
 
-  // it('Should validate that a new user created has a role defined', (done) => {
-  //   request
-  //   .get('api/users/me/role')
-  //   .set('x-access-token', token)
-  //   .end((err, res) => {
-  //     expect(res.body.title).toBeDefined();
-  //     expect(res.body.title).toBe('supra-admin');
-  //     expect(res.status).toBe(200);
-  //     done();
-  //   });
-  // });
-
+  it('Should validate that a new user created has a role defined', (done) => {
+    request
+    .get('/api/users/me/role')
+    .set('x-access-token', token)
+    .end((err, res) => {
+      expect(res.body.title).toBeDefined();
+      expect(res.body.title).toBe('supra-admin');
+      expect(res.status).toBe(200);
+      done();
+    });
+  });
 });
