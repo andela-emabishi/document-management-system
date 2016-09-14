@@ -3,7 +3,7 @@ const Role = require('../models/role');
 
 module.exports = {
   // [Restricted] supra admin role only
-  getAll: (req,res) => {
+  getAll: (req, res) => {
     if (req.decoded.title == 'supra-admin') {
       User.find(function(err, users) {
         if (err) {
@@ -93,38 +93,36 @@ module.exports = {
         _id: req.params.user_id
       }, function(err) {
         if (err) {
-          return res.send({
+          res.send({
             error: err,
             message: 'Error deleting user',
             status: '500: Server Error',
           });
-        }
-        else {
+        } else {
           res.status(200).send({
             success: true,
             message: 'User deleted successfully',
           });
         }
       });
-    }
-    else {
+    } else {
       res.status(401).send({
         success: false,
         message: 'Cannot delete another user. Can only delete yourself',
-        status: '401: Unauthorised'
+        status: '401: Unauthorised',
       });
     }
   },
 
-  // getRole: (req, res) => {
-  //   if (req.decoded.title) {
-  //     res.status(200).send(req.decoded.title);
-  //   }
-  //   else {
-  //     res.status(404).send({
-  //       message: 'No role found',
-  //       status: '404: Resource Not Found'
-  //     });
-  //   }
-  // }
+  getRole: (req, res) => {
+    if (req.decoded.title) {
+      res.status(200).send({
+        title: req.decoded.title });
+    } else {
+      res.status(404).send({
+        message: 'No role found',
+        status: '404: Resource Not Found',
+      });
+    }
+  },
 };
