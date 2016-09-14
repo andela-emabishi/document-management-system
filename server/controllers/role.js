@@ -25,6 +25,7 @@ module.exports = {
         res.status(201).send({
           success: true,
           message: 'Role created successfully',
+          status: '201: Resource Created',
         });
       }
     });
@@ -37,7 +38,7 @@ module.exports = {
       if (err) {
         res.status(404).send({
           error: err,
-          message: 'Error ocuured while fetching roles',
+          message: 'Error ocurred while fetching roles',
           status: '404: Resource Not Found',
         });
       } else {
@@ -75,7 +76,7 @@ module.exports = {
       });
     } else {
       res.status(401).send({
-        message: 'Unauthorised tp update roles',
+        message: 'Unauthorised to update roles',
         status: '401: Unauthorised',
       });
     }
