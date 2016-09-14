@@ -5,28 +5,26 @@ module.exports = {
   // roleRouter.route('/roles')
 
   // Create a role
-  create: function(req, res) {
-    var role = new Role();
+  create: (req, res) => {
+    const role = new Role();
 
     role.title = req.body.title;
     role.permission = req.body.permission;
 
     role.save(function(err) {
       if (err) {
-        if (err.code == 11000) {
-          return res.json({
+        if (err.code === 11000) {
+          res.json({
             success: false,
-            message: 'Please provide a unique title'
+            message: 'Please provide a unique title',
           });
-        }
-        else {
+        } else {
           res.send(err);
         }
-      }
-      else {
+      } else {
         res.status(201).send({
           success: true,
-          message: 'Role created successfully'
+          message: 'Role created successfully',
         });
       }
     });
@@ -34,7 +32,8 @@ module.exports = {
 
 // Get all roles
   getAll: (req, res) => {
-    Role.find(function(err, roles) {
+    Role.find()
+    .exec((err, roles) => {
       if (err) {
         res.status(404).send({
           error: err,
@@ -49,7 +48,7 @@ module.exports = {
 
 // roleRouter.route('/roles/:role_id')
   updateRoleById: (req, res) => {
-    if (req.decoded.title == 'supra-admin') {
+    if (req.decoded.title === 'supra-admin') {
       Role.findById(req.params.role_id, (err, role) => {
         if (err) {
           res.send(err);
@@ -64,7 +63,7 @@ module.exports = {
           if (err) {
             res.send({
               error: err,
-              message: 'Error updating role'
+              message: 'Error updating role',
             });
           } else {
             res.status(200).send({
@@ -82,11 +81,11 @@ module.exports = {
     }
   },
 
-  deleteRoleById: function(req, res) {
+  deleteRoleById: (req, res) => {
     if (req.decoded.title === 'supra-admin') {
       Role.remove({
         _id: req.params.role_id,
-      }, function(err) {
+      }, function (err) {
         if (err) {
           res.send({
             error: err,
