@@ -9,7 +9,7 @@ module.exports = {
       username: 'charl',
       email: 'charlote@bronte.com',
       password: 'charlottebronte',
-      title: 'editor'
+      title: 'editor',
     },
     {
       _id: mongoose.Types.ObjectId('57c94278517ca48c9e5af00f'),
@@ -18,7 +18,7 @@ module.exports = {
       username: 'vichugo',
       email: 'victor@hugo.com',
       password: 'victorhugo',
-      title: 'supra-admin'
+      title: 'supra-admin',
     },
     {
       _id: mongoose.Types.ObjectId('57c942a8517ca48c9e5af010'),
@@ -27,7 +27,7 @@ module.exports = {
       username: 'al',
       email: 'aldous@huxley.com',
       password: 'aldoushuxley',
-      title: 'admin'
+      title: 'admin',
     },
     {
       _id: mongoose.Types.ObjectId('57d05aea1cd5386e0d2ca88a'),
@@ -100,30 +100,39 @@ module.exports = {
       title: 'Administrator things',
       content: 'Only for adminnistrators',
       privacy: 'private',
-      access: mongoose.Types.ObjectId('55c975eb2c3d08864b51cd08')
+      access: mongoose.Types.ObjectId('55c975eb2c3d08864b51cd08'),
     },
+    {
+      _id: mongoose.Types.ObjectId('58c175eb2c3d08874b51cd08'),
+      // Victor Hugo
+      _creatorId: mongoose.Types.ObjectId('57c94278517ca48c9e5af00f'),
+      title: 'The Hunchback of Notre Dame',
+      content: 'Quasimodo watched the sky awash with brilliant blue..',
+      privacy: 'private',
+    },
+
   ],
 
   roles: [
     {
       _id: mongoose.Types.ObjectId('55c975eb2c3d08864b51cd08'),
       title: 'supra-admin',
-      permission: 'readWriteDelete'
+      permission: 'readWriteDelete',
     },
     {
       _id: mongoose.Types.ObjectId('65c975eb2c3d08864b51cd08'),
       title: 'editor',
-      permission: 'readWrite'
+      permission: 'readWrite',
     },
     {
       _id: mongoose.Types.ObjectId('45c975eb2c3d08864b51cd08'),
       title: 'viewer',
-      permission: 'read'
+      permission: 'read',
     },
     {
       _id: mongoose.Types.ObjectId('55c975eb2c3d08864b53cd08'),
       title: 'admin',
-      permission: 'readWrite'
+      permission: 'readWrite',
     },
-  ]
+  ],
 };
