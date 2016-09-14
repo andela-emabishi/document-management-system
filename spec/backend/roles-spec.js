@@ -33,6 +33,21 @@ describe('Role tests', () => {
       });
   });
 
+  it('Should validate that a new role can be created', (done) => {
+    request
+    .post('/api/roles')
+    .set('x-access-token', token)
+    .send({
+      title: 'manager',
+      permission: 'readWrite',
+    })
+    .end((err, res) => {
+      expect(res.status).toBe(201);
+      expect(res.body.status).toBe('201: Resource Created');
+      done();
+    });
+  });
+
   it('Should validate that all roles are returned', (done) => {
     request
     .get('/api/roles')
@@ -46,7 +61,7 @@ describe('Role tests', () => {
     });
   });
 
-  it('Should validate that only a supra-admin can update role information', (done) => {
+  it('Should validate that a supra-admin can update role information', (done) => {
     request
     .put('/api/roles/65c975eb2c3d08864b51cd08')
     .set('x-access-token', token)
@@ -61,6 +76,20 @@ describe('Role tests', () => {
       done();
     });
   });
+
+  // it('Should validate that only a supra-admin can update roles', (done) => {
+  //   request
+  //   .put('/api/roles/65c975eb2c3d08864b51cd08')
+  //   .set('x-access-token', '')
+  //   .send({
+  //     title: 'super-duper-editor',
+  //   })
+  //   .end((err, res) => {
+  //     expect(res.status).toBe(401);
+  //     expect(res.body.status).toBe('401: Unauthorised');
+  //     done();
+  //   });
+  // });
 
   it('Should validate that a user is able to get a role by its id', () => {
     request
