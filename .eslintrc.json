@@ -33,6 +33,9 @@
             "error",
             "unix"
         ],
+        "new-cap": [
+          "off"
+        ],
         "quotes": [
             "error",
             "single"
