@@ -52,7 +52,6 @@ describe('User tests', () => {
     .end((err, res) => {
       expect(res.status).toBe(200);
       expect(res.status).not.toBe(401);
-      // expect(res.body.title).toBe('supra-admin');
       expect(res.body).toBeDefined();
       expect(Array.isArray(res.body)).toBe(true);
       done();
