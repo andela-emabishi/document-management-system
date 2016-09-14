@@ -128,14 +128,13 @@ module.exports = function(apiRouter) {
         if (err) {
           return res.status(403).send({
             success: false,
-            message: 'Failed to authenticate token'
+            message: 'Failed to authenticate token',
           });
         }
         // Everything went well, we found and verified the token
         else {
           // console.log('Token owner');
           // console.log(decoded);
-
           req.decoded = decoded;
 
           next();
