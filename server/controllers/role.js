@@ -33,68 +33,90 @@ module.exports = {
   },
 
 // Get all roles
-  getAll: function(req, res) {
+  getAll: (req, res) => {
     Role.find(function(err, roles) {
       if (err) {
-        res.send(err);
-      }
-      else {
-        res.send(roles);
+        res.status(404).send({
+          error: err,
+          message: 'Error ocuured while fetching roles',
+          status: '404: Resource Not Found',
+        });
+      } else {
+        res.status(200).send(roles);
       }
     });
   },
 
 // roleRouter.route('/roles/:role_id')
-  updateRoleById: function(req, res) {
-    Role.findById(req.params.role_id, function(err, role) {
-      if (err) {
-        res.send(err);
-      }
-      // Only update if a change has happened
-      if (req.body.title) role.title = req.body.title;
-      if (req.body.permission) role.permission = req.body.permission;
-
-      // Then save the role
-      role.save(function(err) {
-        // If there's an error, tell us
+  updateRoleById: (req, res) => {
+    if (req.decoded.title == 'supra-admin') {
+      Role.findById(req.params.role_id, (err, role) => {
         if (err) {
           res.send(err);
         }
-        // Everything went well
-        else {
-          res.json({
-            success: true,
-            message: 'Role details updated successfully'
-          });
-        }
+        // Only update if a change has happened
+        if (req.body.title) role.title = req.body.title;
+        if (req.body.permission) role.permission = req.body.permission;
+
+        // Then save the role
+        role.save((err) => {
+          // If there's an error, tell us
+          if (err) {
+            res.send({
+              error: err,
+              message: 'Error updating role'
+            });
+          } else {
+            res.status(200).send({
+              success: true,
+              message: 'Role details updated successfully',
+            });
+          }
+        });
       });
-    });
+    } else {
+      res.status(401).send({
+        message: 'Unauthorised tp update roles',
+        status: '401: Unauthorised',
+      });
+    }
   },
 
   deleteRoleById: function(req, res) {
-    Role.remove({
-      _id: req.params.role_id
-    }, function(err) {
+    if (req.decoded.title === 'supra-admin') {
+      Role.remove({
+        _id: req.params.role_id,
+      }, function(err) {
+        if (err) {
+          res.send({
+            error: err,
+            message: 'Error deleting role',
+          });
+        } else {
+          res.status(200).send({
+            success: true,
+            message: 'Role deleted successfully',
+          });
+        }
+      });
+    } else {
+      res.status(401).send({
+        message: 'Not authorised to delete role',
+        status: '401: Unauthorised',
+      });
+    }
+  },
+
+  getRoleById: (req, res) => {
+    Role.findById(req.params.role_id, (err, role) => {
       if (err) {
-        return res.send(err);
-      }
-      else {
-        res.json({
-          success: true,
-          message: 'Role deleted successfully'
+        res.send({
+          error: err,
+          message: 'Error fetching role',
         });
+      } else {
+        res.status(404).send(role);
       }
     });
   },
-
-  getRoleById: function(req, res) {
-    Role.findById(req.params.role_id, function(err, role) {
-      if (err) {
-        res.send(err);
-      }
-      else {
-        res.send(role);
-      }
-    });
-  }
 };
