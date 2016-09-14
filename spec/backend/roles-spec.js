@@ -77,20 +77,6 @@ describe('Role tests', () => {
     });
   });
 
-  // it('Should validate that only a supra-admin can update roles', (done) => {
-  //   request
-  //   .put('/api/roles/65c975eb2c3d08864b51cd08')
-  //   .set('x-access-token', '')
-  //   .send({
-  //     title: 'super-duper-editor',
-  //   })
-  //   .end((err, res) => {
-  //     expect(res.status).toBe(401);
-  //     expect(res.body.status).toBe('401: Unauthorised');
-  //     done();
-  //   });
-  // });
-
   it('Should validate that a user is able to get a role by its id', () => {
     request
     .get('/api/users/45c975eb2c3d08864b51cd09')
