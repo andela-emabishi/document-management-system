@@ -1,56 +1,50 @@
 const User = require('../models/user');
-const Role = require('../models/role');
 
 module.exports = {
   // [Restricted] supra admin role only
   getAll: (req, res) => {
-    if (req.decoded.title == 'supra-admin') {
+    if (req.decoded.title === 'supra-admin') {
       User.find(function(err, users) {
         if (err) {
           res.status(404).send({
             success: false,
             error: err,
-            status: '404: Resource Not Found'
+            status: '404: Resource Not Found',
           });
-        }
-        else {
+        } else {
           res.status(200).send(users);
         }
       });
-    }
-    else {
+    } else {
       res.status(401).send({
         success: false,
         message: 'Invalid operation. No access',
         status: '401: Unauthorised',
       });
     }
-
   },
 
 // [Unrestricted]
-  getUserById: (req,res) => {
+  getUserById: (req, res) => {
     User.findById(req.params.user_id, function(err, user) {
       if (err) {
-        // Something happened and we can't find the user
-        // 404 Not found
         res.status(404).send({
           success: false,
           error: err,
           message: 'User not found',
-          status: '404: Resource Not Found'
+          status: '404: Resource Not Found',
         });
-      }
-      else {
+      } else {
         res.status(200).send(user);
       }
     });
   },
 
-// [Restricted] Can only update your own documents
-  updateUserById: (req,res) => {
-    User.findById(req.params.user_id, function(err, user) {
-      if (req.decoded.id == req.params.user_id) {
+// [Restricted] A user can only update their own documents
+  updateUserById: (req, res) => {
+    User.findById(req.params.user_id)
+    .exec((err, user) => {
+      if (req.decoded.id === req.params.user_id) {
         // Only update if a change has happened
         if (req.body.firstname) user.firstname = req.body.firstname;
         if (req.body.lastname) user.lastname = req.body.lastname;
@@ -61,25 +55,21 @@ module.exports = {
 
         // Then save the user details
         user.save(function(err) {
-          // If there's an error, tell us
           if (err) {
             res.send(err);
-          }
-          // Everything went well
-          else {
+          } else {
             res.status(200).send({
               success: true,
-              message: 'User details updated successfully'
+              message: 'User details updated successfully',
             });
           }
         });
-      }
-      else {
+      } else {
         res.status(401).send({
           success: false,
           error: err,
           message: 'Cannot update another users details',
-          status: '401: Unauthorised'
+          status: '401: Unauthorised',
         });
       }
     });
@@ -88,9 +78,9 @@ module.exports = {
 // [Restricted] to admin or logged in user.
 // TODO: Once a user is deleted, all their notes should be too.
   deleteUserById: (req, res) => {
-    if ((req.decoded.id == req.params.user_id) || (req.decoded.title == 'supra-admin')) {
+    if ((req.decoded.id === req.params.user_id) || (req.decoded.title == 'supra-admin')) {
       User.remove({
-        _id: req.params.user_id
+        _id: req.params.user_id,
       }, function(err) {
         if (err) {
           res.send({
