@@ -1,5 +1,7 @@
 # Dochero
 
+[![Build Status](https://travis-ci.org/andela-emabishi/document-management-system.svg?branch=dev)](https://travis-ci.org/andela-emabishi/document-management-system) [![Coverage Status](https://coveralls.io/repos/github/andela-emabishi/document-management-system/badge.svg?branch=dev)](https://coveralls.io/github/andela-emabishi/document-management-system?branch=dev)
+
 Dochero is a lightweight API built in the Javascript language that serves as the backbone for a document management system.
 
 Dochero allows and restricts access to documents stored using a permissions based,role based and access sharing framework.
