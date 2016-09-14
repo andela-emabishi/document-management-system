@@ -1,9 +1,8 @@
 const app = require('../../index');
 const request = require('supertest')(app);
-const Document =  require('../../server/models/document');
+const Document = require('../../server/models/document');
 
 describe('Document tests', () => {
-
   // Before each test, log in victor hugo
   let token;
 
@@ -12,7 +11,7 @@ describe('Document tests', () => {
     .post('/api/login')
     .send({
       username: 'vichugo',
-      password: 'victorhugo'
+      password: 'victorhugo',
     })
     .end((err, res) => {
       token = res.body.token;
@@ -33,7 +32,7 @@ describe('Document tests', () => {
     .send({
       title: 'An idea',
       content: 'Whose time has come',
-      privacy: 'private'
+      privacy: 'private',
     })
     .end((err, res) => {
       expect(res.status).toBe(201);
@@ -69,7 +68,7 @@ describe('Document tests', () => {
     .put('/api/documents/57c975eb2c3d08864b51cd08')
     .set('x-access-token', token)
     .send({
-      content: 'It was the best of times, it was the worst of times. It was the age of wisdom, it was the age of...'
+      content: 'It was the best of times, it was the worst of times. It was the age of wisdom, it was the age of...',
     })
     .end((err, res) => {
       expect(res.status).toBe(200);
@@ -80,18 +79,19 @@ describe('Document tests', () => {
     });
   });
 
-  // it('Should validate that only a user can update their own details', (done) => {
-  //   request
-  //   .put('/api/documents/57c975eb2c3d08864b51cd0a')
-  //   .set('x-access-token', token)
-  //   .send({
-  //     content: 'It was the best of times, it was the worst of times.'
-  //   })
-  //   .end((err, res) => {
-  //     expect(res.status).toBe(401);
-  //     done();
-  //   });
-  // });
+  it('Should validate that only a user can update their own details', (done) => {
+    request
+    .put('/api/documents/57c975eb2c3d08864b51cd0a')
+    .set('x-access-token', token)
+    .send({
+      content: 'It was the best of times, it was the worst of times.',
+    })
+    .end((err, res) => {
+      expect(res.status).toBe(404);
+      expect(res.body.message).toBe('Could not update document by the id entered');
+      done();
+    });
+  });
 
 
   it('Should return all documents created by a user using their user id', (done) => {
@@ -176,10 +176,13 @@ describe('Document tests', () => {
 
   // it('Should return all documents that have been shared with someone', (done) => {
   //   request
-  //   .get('api/documents/share/:sharewith')
+  //   .get('api/documents/share/57c94278517ca48c9e5af00f')
+  //   .set('x-access-token', token)
   //   .end((err, res) => {
+  //     // console.log("test res.body", res.body);
+  //     console.log('error here',err);
   //     expect(res.status).toBe(200);
-  //     expect(res.body[0].sharewith);
+  //     expect(res.body[0]).toBeDefined();
   //     done();
   //   });
   // });
@@ -194,5 +197,4 @@ describe('Document tests', () => {
       done();
     });
   });
-
 });
