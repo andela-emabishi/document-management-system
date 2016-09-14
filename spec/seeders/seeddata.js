@@ -74,8 +74,8 @@ module.exports = {
       title: 'Topology of the Marianas Trench',
       content: 'The Marianas Trench',
       privacy: 'private',
-      // Clark Kent
-      sharewith: mongoose.Types.ObjectId('57d1a854a13e763a1d5b89f1'),
+      // Victor Hugo
+      sharewith: mongoose.Types.ObjectId('57c94278517ca48c9e5af00f'),
     },
     {
       _id: mongoose.Types.ObjectId('57c975eb2c3d08864b51cd07'),
