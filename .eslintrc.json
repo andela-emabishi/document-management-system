@@ -5,7 +5,7 @@
         "es6": true,
         "jasmine": true
     },
-    "extends": "eslint:recommended",
+    "extends": "airbnb",
     "parserOptions": {
         "sourceType": "module"
     },
@@ -15,6 +15,9 @@
             2
         ],
         "import/newline-after-import": [
+          "off"
+        ],
+        "import/no-extraneous-dependencies": [
           "off"
         ],
         "linebreak-style": [
