@@ -2,10 +2,10 @@
   "name": "document-management-system",
   "version": "1.0.0",
   "description": "Document Management System Application API",
-  "main": "index.js",
+  "main": "nodemon index.js && mongo < mongo-prod.js",
   "scripts": {
     "pretest": "node spec/seeders/dropdb.js & \n sleep 3 \n node spec/seeders/seeddb.js",
-    "test": "NODE_ENV='test' mongo < mongo-raw.js && istanbul cover jasmine && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+    "test": "NODE_ENV='test' mongo < mongo-test.js && istanbul cover jasmine && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "serve": "nodemon index.js"
   },
   "repository": {
