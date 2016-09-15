@@ -57,25 +57,25 @@ describe('Document tests', () => {
     });
   });
 
-  // it('Should return results for a search query if words are found', (done) => {
-  //   request
-  //   .get('/api/search/string?search_string=Quasimodo')
-  //   .set('x-access-token', token)
-  //   .end((err, res) => {
-  //     expect(res.status).toBe(200);
-  //     // expect((res.body[0].content).includes('Quasimodo')).toBe(true);
-  //     done();
-  //   });
-  // });
+  it('Should return results for a search query if words are found', (done) => {
+    request
+    .get('/api/search/string?search_string=Quasimodo')
+    .set('x-access-token', token)
+    .end((err, res) => {
+      expect(res.status).toBe(200);
+      // expect((res.body[0].content).includes('Quasimodo')).toBe(true);
+      done();
+    });
+  });
 
-  // it('Should return a message if no results for a search query have been found', (done) => {
-  //   request
-  //   .get('/api/search/string?search_string=Quasi')
-  //   .set('x-access-token', token)
-  //   .end((err, res) => {
-  //     expect(res.status).toBe(404);
-  //     expect(res.body.status).toBe('404: Resource Not Found');
-  //     done();
-  //   });
-  // });
+  it('Should return a message if no results for a search query have been found', (done) => {
+    request
+    .get('/api/search/string?search_string=Quasi')
+    .set('x-access-token', token)
+    .end((err, res) => {
+      expect(res.status).toBe(404);
+      expect(res.body.status).toBe('404: Resource Not Found');
+      done();
+    });
+  });
 });
