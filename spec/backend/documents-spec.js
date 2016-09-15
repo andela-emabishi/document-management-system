@@ -203,4 +203,27 @@ describe('Document tests', () => {
       done();
     });
   });
+
+  it('Should return a document shared with a user by the id of the sharee', (done) => {
+    request
+    .get('/api/documents/share/57c94278517ca48c9e5af00f')
+    .set('x-access-token', token)
+    .end((err, res) => {
+      if (res.body.length !== 0) {
+        expect(res.status).toBe(200);
+      }
+      done();
+    });
+  });
+
+  it('Should return a document shared with a user by the id of the sharee', (done) => {
+    request
+    .get('/api/documents/share/57c94278517ca48f9e5af00f')
+    .set('x-access-token', token)
+    .end((err, res) => {
+      expect(res.status).toBe(404);
+      expect(res.body.message).toBe('No documents have been shared with you');
+      done();
+    });
+  });
 });
