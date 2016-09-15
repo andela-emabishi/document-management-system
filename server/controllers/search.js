@@ -48,14 +48,14 @@ module.exports = {
             res.send(err);
           } else {
             // No results for the search
-            if (documents[0] == null) {
+            if (documents.length === 0) {
               res.status(404).send({
                 success: false,
                 message: 'No results found.',
                 status: '404: Resource Not Found',
               });
             } else {
-              res.json(documents);
+              res.status(200).send(documents);
             }
           }
         });
