@@ -13,18 +13,8 @@ module.exports = (router) => {
   router.route('/users/:creator_id/documents')
   .get(DocumentController.getByCreatorId);
 
-  router.route('/documents/date/date')
-  .get(DocumentController.getByDatePublished);
-
   router.route('/documents/access/public')
   .get(DocumentController.getPublicDocuments);
-
-  // [Restricted route] Search public documents for title and content for phrase
-  router.route('/documents/search/:search_string')
-  .get(DocumentController.search);
-
-  router.route('/documents/role/:role/:limit')
-  .get(DocumentController.getByRole);
 
   // get document by shared with
   router.route('/documents/share/:share')

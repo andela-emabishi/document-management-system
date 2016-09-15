@@ -123,13 +123,13 @@ describe('Document tests', () => {
 
   it('Should return all documents, limited by a specified number', (done) => {
     request
-    .get('/api/documents/limit/2')
+    .get('/api/documents?limit=2')
     .set('x-access-token', token)
     .end((err, res) => {
       expect(res.status).toBe(200);
       expect(res.body).toBeDefined();
       expect(Array.isArray(res.body)).toBe(true);
-      expect(res.body.length).toBe(2);
+      expect(res.body.length).not.toBeGreaterThan(2);
       done();
     });
   });
@@ -147,40 +147,24 @@ describe('Document tests', () => {
 
   it('Should have the ability to return paginated documents', (done) => {
     request
-    .get('/api/documents/offset/1/1')
+    .get('/api/documents?offset=1&limit=1')
     .set('x-access-token', token)
     .end((err, res) => {
       expect(res.status).toBe(200);
       expect(res.status).not.toBe(400);
       expect(res.body.status).not.toBe('400: Bad request');
-      expect(res.body.length).toBe(1);
+      expect(res.body.length).not.toBeGreaterThan(1);
       done();
     });
   });
 
-  // Write a test that validates that all documents, limited by a specified number,
-  //  that were published on a certain date.
-  // it('Should return all documents published on a certain date, limited by a number', (done) => {
-  //   request
-  //   .get('/api/documents/date/2016-09-10T07:22:40.044Z/1')
-  //   .set('x-access-token', token)
-  //   .end((err, res) => {
-  //     expect(res.status).toBe(200);
-  //     expect(res.body[0].createdAt).toBe('2016-09-10T07:22:40.044Z');
-  //     expect(res.body.length).toBe(1);
-  //     done();
-  //   });
-  // });
-
-  it('Should return all documents limited by a specific number that can be accessed by a specified role', (done) => {
+  it('Should return an error when a query has a greater offset than limit or documents', (done) => {
     request
-    .get('/api/documents/role/55c975eb2c3d08864b51cd08/1')
+    .get('/api/documents?offset=10&limit=1')
     .set('x-access-token', token)
     .end((err, res) => {
-      expect(res.status).toBe(200);
-      expect(res.status).not.toBe(401);
-      expect(res.body).toBeDefined();
-      expect((Object.keys(res.body)).length).toBe(1);
+      expect(res.status).toBe(400);
+      expect(res.body.status).toBe('400: Bad request');
       done();
     });
   });
