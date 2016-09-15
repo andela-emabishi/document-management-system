@@ -174,13 +174,17 @@ module.exports = {
     Document.find({ privacy: 'public' })
       .exec((err, documents) => {
         if (err) {
-          res.send(err);
           res.json({
+            error: err,
             success: false,
-            message: 'Cannot get private documents that are not the logged in users',
+          });
+        } else if (documents.length === 0) {
+          res.status(404).send({
+            message: 'No public documents found',
+            status: '404: Resource Not Found',
           });
         } else {
-          res.send(documents);
+          res.status(200).send(documents);
         }
       });
   },
@@ -190,7 +194,7 @@ module.exports = {
     .exec((err, documents) => {
       if (err) {
         res.send(err);
-      } else if (!documents[0]) {
+      } else if (documents.length === 0) {
         res.status(404).send({
           message: 'No documents have been shared with you',
           status: '404: Resource Not Found',
