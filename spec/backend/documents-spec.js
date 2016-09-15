@@ -190,4 +190,15 @@ describe('Document tests', () => {
       done();
     });
   });
+
+  it('Should be able to get all public documents', (done) => {
+    request
+    .get('/api/documents/access/public')
+    .set('x-access-token', token)
+    .end((err, res) => {
+      expect(res.status).toBe(200);
+      expect(res.body.length).not.toBe(0);
+      done();
+    });
+  });
 });
