@@ -62,7 +62,7 @@ module.exports = {
     .exec((err, documents) => {
       if (err) {
         res.send(err);
-      } else if (!documents) {
+      } else if (documents.length === 0) {
         res.status(401).send({
           success: false,
           message: 'Cannot access document by that id',
@@ -157,7 +157,7 @@ module.exports = {
         if (err) {
           res.send(err);
           return;
-        } else if (documents[0] == null) {
+        } else if (documents.length === 0) {
           res.status(404).send({
             message: 'No documents were found for that user. The document you are referring to may be private',
             status: '404: Resource Not Found',
