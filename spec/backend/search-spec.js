@@ -63,7 +63,7 @@ describe('Document tests', () => {
     .set('x-access-token', token)
     .end((err, res) => {
       expect(res.status).toBe(200);
-      // expect((res.body[0].content).includes('Quasimodo')).toBe(true);
+      expect((res.body[0].content).includes('Quasimodo')).toBe(true);
       done();
     });
   });
