@@ -110,6 +110,16 @@ module.exports = {
       content: 'Quasimodo watched the sky awash with brilliant blue..',
       privacy: 'private',
     },
+    {
+      _id: mongoose.Types.ObjectId('58c175eb1d3d08874b51cd08'),
+      // Arthur Curry
+      _creatorId: mongoose.Types.ObjectId('57d05aea1cd5386e0d2ca88a'),
+      title: 'The population of reef fish globally',
+      content: 'The colourful reef fish...',
+      // Victor Hugo
+      sharewith: mongoose.Types.ObjectId('57c94278517ca48c9e5af00f'),
+      privacy: 'private',
+    },
 
   ],
 
