@@ -28,10 +28,13 @@ module.exports = {
   getUserById: (req, res) => {
     User.findById(req.params.user_id, function(err, user) {
       if (err) {
+        res.send({
+          error: err,
+        });
+      } else if (!user) {
         res.status(404).send({
           success: false,
-          error: err,
-          message: 'User not found',
+          message: 'No user by that id found',
           status: '404: Resource Not Found',
         });
       } else {
@@ -107,7 +110,8 @@ module.exports = {
   getRole: (req, res) => {
     if (req.decoded.title) {
       res.status(200).send({
-        title: req.decoded.title });
+        title: req.decoded.title,
+      });
     } else {
       res.status(404).send({
         message: 'No role found',

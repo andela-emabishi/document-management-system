@@ -114,8 +114,13 @@ module.exports = {
           error: err,
           message: 'Error fetching role',
         });
+      } else if (!role) {
+        res.status(404).send({
+          message: 'No role by that id found',
+          status: '404: Resource Not Found',
+        });
       } else {
-        res.status(404).send(role);
+        res.status(200).send(role);
       }
     });
   },

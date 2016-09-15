@@ -114,13 +114,14 @@ describe('User tests', () => {
     });
   });
 
-  it('Should return an error if a user was not found', () => {
+  it('Should return an error if a user was not found', (done) => {
     request
-    .get('/api/users/65c975eb2c4d08864b51cd08')
+    .get('/api/users/57c942a8517ca48c9e5af012')
     .set('x-access-token', token)
     .end((err, res) => {
       expect(res.status).toBe(404);
       expect(res.body.status).toBe('404: Resource Not Found');
+      done();
     });
   });
 

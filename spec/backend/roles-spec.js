@@ -77,19 +77,31 @@ describe('Role tests', () => {
     });
   });
 
-  it('Should validate that a user is able to get a role by its id', () => {
+  it('Should validate that a user is able to get a role by its id', (done) => {
     request
-    .get('/api/users/45c975eb2c3d08864b51cd09')
+    .get('/api/roles/65c975eb2c3d08864b51cd08')
     .set('x-access-token', token)
     .end((err, res) => {
       expect(res.status).toBe(200);
       expect(res.body.message).not.toBe('Error fetching role');
+      done();
+    });
+  });
+
+  it('Should return a message if no role by a user provided id is not found', (done) => {
+    request
+    .get('/api/roles/65c975eb2c4d08864b51cd08')
+    .set('x-access-token', token)
+    .end((err, res) => {
+      expect(res.status).toBe(404);
+      expect(res.body.message).toBe('No role by that id found');
+      done();
     });
   });
 
   it('Should validate that a role can be deleted', (done) => {
     request
-    .delete('/api/roles/45c975eb2c3d08864b51cd08')
+    .delete('/api/roles/57da83ac2f1cc5c32bedb1db')
     .set('x-access-token', token)
     .end((err, res) => {
       expect(res.status).toBe(200);
