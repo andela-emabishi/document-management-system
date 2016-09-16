@@ -1,6 +1,6 @@
 const UserController = require('../controllers/user');
 
-module.exports = function(router){
+module.exports = (router) => {
   router.route('/users')
   .get(UserController.getAll);
 
@@ -8,7 +8,7 @@ module.exports = function(router){
   .get(UserController.getUserById)
   .put(UserController.updateUserById)
   .delete(UserController.deleteUserById);
-  //
+
   router.route('/users/me/role')
   .get(UserController.getRole);
 };

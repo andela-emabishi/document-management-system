@@ -18,7 +18,7 @@ describe('Authentication tests', () => {
         username: 'ada',
         password: 'analyticalengine',
         email: 'ada@lovelace.com',
-        title: 'admin'
+        title: 'admin',
       })
       .end((err, res) => {
         expect(res.status).toBe(201);
@@ -27,12 +27,12 @@ describe('Authentication tests', () => {
       });
   });
 
-  it('A user should be able to login', (done) => {
+  it('A user should be able to log in', (done) => {
     request
     .post('/api/login')
     .send({
       username: 'ada',
-      password: 'analyticalengine'
+      password: 'analyticalengine',
     })
     .end((err, res) => {
       expect(res.body.message).toBe('Enjoy your token! You\'ve just been logged in');
@@ -46,7 +46,7 @@ describe('Authentication tests', () => {
       .post('/api/login')
       .send({
         username: 'ada',
-        password: 'analyticalengines'
+        password: 'analyticalengines',
       })
       .end((err, res) => {
         expect(res.body.message).toBe('Wrong password. Failed to authenticate');
@@ -60,7 +60,7 @@ describe('Authentication tests', () => {
     .post('/api/login')
     .send({
       username: 'cbabbage',
-      password: 'charlesbabbage'
+      password: 'charlesbabbage',
     })
     .end((err, res) => {
       expect(res.body.message).toBe('Authentication failed. User not found');
@@ -78,5 +78,4 @@ describe('Authentication tests', () => {
       done();
     });
   });
-
-})
+});
