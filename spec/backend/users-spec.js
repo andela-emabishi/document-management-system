@@ -1,5 +1,3 @@
-// TODO: Write a test that validates that a new user created has a role defined.
-
 const app = require('../../index');
 const request = require('supertest')(app);
 const User = require('../../server/models/user');

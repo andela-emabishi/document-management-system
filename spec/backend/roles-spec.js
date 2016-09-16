@@ -1,8 +1,9 @@
 const app = require('../../index');
 const request = require('supertest')(app);
+const Role = require('../../server/models/role');
 
 describe('Role tests', () => {
-  // Before each test, log in victor hugo
+  // Before all tests, log in Victor Hugo
   let token;
 
   beforeAll((done) => {
@@ -18,7 +19,7 @@ describe('Role tests', () => {
     });
   });
 
-  it('Should validate that a new role created is unique', (done) => {
+  it('Should validate that a new role created has a unique title', (done) => {
     request
       .post('/api/roles')
       .set('x-access-token', token)
@@ -27,6 +28,8 @@ describe('Role tests', () => {
         permission: 'readWrite',
       })
       .end((err, res) => {
+        const title = Role.schema.path('title');
+        expect(title.options.unique).toBe(true);
         expect(res.body.message).toBe('Please provide a unique title');
         expect(res.status).not.toBe(201);
         done();
@@ -88,7 +91,7 @@ describe('Role tests', () => {
     });
   });
 
-  it('Should return a message if no role by a user provided id is not found', (done) => {
+  it('Should return a message if a user provided role id is not matched to a role', (done) => {
     request
     .get('/api/roles/65c975eb2c4d08864b51cd08')
     .set('x-access-token', token)

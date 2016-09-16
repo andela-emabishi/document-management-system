@@ -1,7 +1,7 @@
 const app = require('../../index');
 const request = require('supertest')(app);
 
-describe('Document tests', () => {
+describe('Search tests', () => {
   // Before each test, log in Victor Hugo
   let token;
 
@@ -35,7 +35,7 @@ describe('Document tests', () => {
 
   it('Should return documents published on a specific date when searched by publishing date', (done) => {
     request
-    .get('/api/search/date?date=2016-09-15')
+    .get('/api/search/date?date=2016-09-16')
     .set('x-access-token', token)
     .end((err, res) => {
       expect(res.status).toBe(200);

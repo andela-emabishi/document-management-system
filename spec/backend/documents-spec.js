@@ -3,7 +3,7 @@ const request = require('supertest')(app);
 const Document = require('../../server/models/document');
 
 describe('Document tests', () => {
-  // Before each test, log in Victor Hugo
+  // Before all tests, log in Victor Hugo
   let token;
 
   beforeAll((done) => {
@@ -19,7 +19,7 @@ describe('Document tests', () => {
     });
   });
 
-  it('Should validate that a new user document created has a published date defined', (done) => {
+  it('Should validate that a new document created has a published date defined', (done) => {
     const datePublished = Document.schema.path('createdAt');
     expect(datePublished).toBeDefined();
     done();
@@ -121,7 +121,7 @@ describe('Document tests', () => {
     });
   });
 
-  it('Should return all documents, limited by a specified number', (done) => {
+  it('Should return all documents, limited by a specified number, using a query parameter limit', (done) => {
     request
     .get('/api/documents?limit=2')
     .set('x-access-token', token)
