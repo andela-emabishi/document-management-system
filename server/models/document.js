@@ -2,8 +2,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
   // A public document can be seen by everybody
-  // A private document can only be seen by the person who created it
-  // var privacyLevel = ['public', 'private'];
+  /* A private document can only be seen by the person who created it,
+  * a role that has access to it
+  * and anyone who the owner shared the document with
+  */
 
 const DocumentSchema = new Schema({
   // Different from the document's own document-id
@@ -30,13 +32,11 @@ const DocumentSchema = new Schema({
   },
   sharewith: {
     ref: 'User',
-    // Use username instead?
     type: Schema.Types.ObjectId,
     required: false,
   },
   access: {
     ref: 'Role',
-    // Use permission title instead?
     type: Schema.Types.ObjectId,
     required: false,
   },

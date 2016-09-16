@@ -94,8 +94,7 @@ module.exports = {
       if (req.body.access) document.access = req.body.access;
 
       // Then save the user details
-      document.save((err) => {
-        // If there's an error, tell us
+      document.save(() => {
         if (err) {
           res.status(401).send({
             error: err,
@@ -124,7 +123,7 @@ module.exports = {
           {
             $and: [{ _creatorId: req.decoded.id }, { _id: req.params.document_id }],
           }
-      , function(err) {
+      , () => {
           if (err) {
             res.status(500).send({
               error: err,
