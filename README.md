@@ -4,7 +4,7 @@
 
 Dochero is a lightweight API built in the Javascript language that serves as the backbone for a document management system.
 
-Dochero allows and restricts access to documents stored using a permissions based,role based and access sharing framework.
+Dochero allows and restricts access to documents stored using a permissions based, role based and access sharing framework.
 
 The system abstracts its resources into the following:
 * Users
@@ -14,15 +14,9 @@ The system abstracts its resources into the following:
 ### HTTP VERBS & ENDPOINTS
 
 ### Users
-
-#### Title
-Show all users
-
-#### URL
-`/users`
-
-#### Method
-`GET`
+| Title  	|  URL 	|  Method 	| URL params
+|---	|---	|---	|----  |
+| Show all users  	| `/users`  	| `GET`  	| None|
 
 #### Success Response
 ```javascript
@@ -57,18 +51,9 @@ OR
 ```
 Note: This route is restricted to a user with the role `supra-admin`
 
-#### Title
-Retrieve user information for a single user
-
-#### URL
-`/users/:user_id`
-
-#### Method
-`GET`
-
-### URL params
-Required: `user_id`
-Type: `ObjectID`
+| Title  	|  URL 	|  Method 	| URL params
+|---	|---	|---	|---         |
+| Retrieve user information for a single user 	|`/users/:user_id` 	| `GET`  	| Required: `user_id` Type: `ObjectID`
 
 #### Success Response
 ```javascript
@@ -96,18 +81,10 @@ content:
 
 ```
 
-#### Title
-Update user information for a single user
+|  Title 	|  URL 	| Method  	| URL params  	|
+|---	|---	|---	|---	|
+| Update user information for a single user  	| `/users/:user_id`  	|   `PUT` 	 	| Required: `user_id` Type: `ObjectID` |
 
-#### URL
-`/users/:user_id`
-
-#### Method
-`PUT`
-
-### URL params
-Required: `user_id`
-Type: `ObjectID`
 
 ### Data params
 ```javascript
@@ -147,18 +124,10 @@ content:
 ```
 Notes: This route is restricted to the logged in user and their details.
 
-#### Title
-Delete a single users' information
-
-#### URL
-`/users/:user_id`
-
-#### Method
-`DELETE`
-
-### URL params
-Required: `user_id`
-Type: `ObjectID`
+| Title  	| URL  	|Method   	| URL params  	|
+|---	|---	|---	|---	|
+| Delete a single users' information  	| `/users/:user_id`  	|`DELETE`   	| Required: `user_id`
+Type: `ObjectID`  	|
 
 #### Success Response
 ```javascript
@@ -188,14 +157,10 @@ OR
 Notes: This route is restricted to the logged in user and their details.
 
 ### Documents
-#### Title
-Create a document
 
-#### URL
-`/documents`
-
-#### Method
-`POST`
+| Title  	| URL  	|  Method 	| URL params|
+|---	|---	|---	|--- |
+| Create a document  	|  `/documents` 	| `POST`  	|None
 
 ### Data params
 ```javascript
@@ -229,14 +194,10 @@ content:
   status: '500: Internal Server Error'
 }
 ```
-#### Title
-Show all documents
 
-#### URL
-`/documents`
-
-#### Method
-`GET`
+| Title  	|  URL 	| Method  	| URL params
+|---	|---	|---	|----  |
+|  Show all documents 	| `/documents`  	| `GET`  	| None|
 
 #### Success Response
 ```javascript
@@ -256,18 +217,9 @@ content:
 ```
 Note: This route is restricted to the logged in users documents and all public documents
 
-#### Title
-Show a specific document
-
-#### URL
-`/documents/:document_id`
-
-#### Method
-`GET`
-
-### URL params
-Required: `document_id`
-Type: `ObjectID`
+|  Title 	|  URL 	|  Method 	| URL params
+|---	|---	|---	|----  |
+| Show a specific document  	| `/documents/:document_id`  	|   `GET`	|Required: `document_id` Type: `ObjectID`|
 
 #### Success Response
 ```javascript
@@ -297,18 +249,10 @@ content:
 ```
 Note: This route is restricted to the logged in users' documents
 
-#### Title
-Edit a specific document
+|  Title 	|  URL 	| Method  	|URL params
+|---	|---	|---	|----- |
+| Edit a specific document  	|  `/documents/:document_id` 	|  `PUT` 	| Required: `document_id` Type: `ObjectID` |
 
-#### URL
-`/documents/:document_id`
-
-#### Method
-`PUT`
-
-### URL params
-Required: `document_id`
-Type: `ObjectID`
 
 ### Data params
 ```javascript
@@ -340,18 +284,10 @@ content:
   status: '500: Server Error'
 }
 ```
-#### Title
-Delete a specific document
-
-#### URL
-`/documents/:document_id`
-
-#### Method
-`DELETE`
-
-### URL params
-Required: `document_id`
-Type: `ObjectID`
+|  Title 	| URL  	|  Method 	| URL params  	|
+|---	|---	|---	|---	|
+| Delete a specific document  	| `/documents/:document_id`  	| `DELETE`  	| Required: `document_id`
+Type: `ObjectID`  	|
 
 #### Success Response
 ```javascript
@@ -372,18 +308,10 @@ content:
   status: '500: Server Error'
 }
 ```
-#### Title
-Show a document that belongs to a specific user
-
-#### URL
-`/users/:creator_id/documents`
-
-#### Method
-`GET`
-
-### URL params
-Required: `creator_id`
-Type: `ObjectID`
+| Title  	|  URL 	| Method  	|  URL params  	|
+|---	|---	|---	|---	|
+| Show a document that belongs to a specific user  	| `/users/:creator_id/documents`  	| `GET`  	| Required: `creator_id`
+Type: `ObjectID` 	|
 
 #### Success Response
 ```javascript
