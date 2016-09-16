@@ -70,6 +70,11 @@ module.exports = {
     .exec((err, documents) => {
       if (err) {
         res.send(err);
+      } else if (documents.length === 0) {
+        res.status(404).send({
+          message: 'No documents available to that role',
+          status: '404: Resource Not Found',
+        });
       } else {
         res.status(200).send(documents);
       }
