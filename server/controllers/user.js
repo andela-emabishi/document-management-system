@@ -4,7 +4,7 @@ module.exports = {
   // [Restricted] supra admin role only
   getAll: (req, res) => {
     if (req.decoded.title === 'supra-admin') {
-      User.find(function(err, users) {
+      User.find((err, users) => {
         if (err) {
           res.status(404).send({
             success: false,
@@ -26,7 +26,7 @@ module.exports = {
 
 // [Unrestricted]
   getUserById: (req, res) => {
-    User.findById(req.params.user_id, function(err, user) {
+    User.findById(req.params.user_id, (err, user) => {
       if (err) {
         res.send({
           error: err,
@@ -57,7 +57,7 @@ module.exports = {
         if (req.body.role) user.role = req.body.role;
 
         // Then save the user details
-        user.save(function(err) {
+        user.save(() => {
           if (err) {
             res.send(err);
           } else {
@@ -81,10 +81,10 @@ module.exports = {
 // [Restricted] to admin or logged in user.
 // TODO: Once a user is deleted, all their notes should be too.
   deleteUserById: (req, res) => {
-    if ((req.decoded.id === req.params.user_id) || (req.decoded.title == 'supra-admin')) {
+    if ((req.decoded.id === req.params.user_id) || (req.decoded.title === 'supra-admin')) {
       User.remove({
         _id: req.params.user_id,
-      }, function(err) {
+      }, (err) => {
         if (err) {
           res.send({
             error: err,

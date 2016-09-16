@@ -12,7 +12,7 @@ const search = require('./search');
 const User = require('../models/user');
 
 module.exports = (apiRouter) => {
-  apiRouter.get('/', function(req, res) {
+  apiRouter.get('/', (req, res) => {
     res.json({
       message: 'Welcome to the DOCHERO api',
     });
@@ -20,7 +20,7 @@ module.exports = (apiRouter) => {
 
 // signup
   apiRouter.route('/signup')
-    .post(function (req, res) {
+    .post((req, res) => {
       const user = new User();
 
       // Pass details of model instance to request
@@ -31,7 +31,7 @@ module.exports = (apiRouter) => {
       user.password = req.body.password;
       user.title = req.body.title;
 
-      user.save(function (err) {
+      user.save((err) => {
         if (err) {
           if (err.code === 11000) {
             res.json({
@@ -51,15 +51,13 @@ module.exports = (apiRouter) => {
       });
     });
 
-
   // If they have the correct password, give them a token
-  apiRouter.post('/login', function(req, res) {
-
+  apiRouter.post('/login', (req, res) => {
     // Find the user
     // Select the password
     User.findOne({
       username: req.body.username,
-    }).select('username password title').exec(function (err, user) {
+    }).select('username password title').exec((err, user) => {
       if (err) {
         throw err;
       }
@@ -112,16 +110,15 @@ module.exports = (apiRouter) => {
 
   // Route middlewear to verify a token before routing a user
   // Runs everytime a request is made
-  apiRouter.use(function(req, res, next) {
-
+  apiRouter.use((req, res, next) => {
     // Authenticate them
     // Check for token
-    var token = req.body.token || req.param('token') || req.headers['x-access-token'];
+    const token = req.body.token || req.param('token') || req.headers['x-access-token'];
 
     if (token) {
-      jwt.verify(token, config.development.superSecret, function(err, decoded) {
+      jwt.verify(token, config.development.superSecret, (err, decoded) => {
         if (err) {
-          return res.status(403).send({
+          res.status(403).send({
             success: false,
             message: 'Failed to authenticate token',
           });
@@ -139,9 +136,10 @@ module.exports = (apiRouter) => {
     // No token was found
     // Return 403 Access Forbidden and an error message
     else {
-      return res.status(403).send({
+      res.status(403).send({
         success: false,
-        message: 'No token provided'
+        message: 'No token provided',
+        status: '403: Access Forbidden',
       });
     }
   });
