@@ -2,7 +2,7 @@ const Role = require('../models/role');
 
 module.exports = {
 
-  // roleRouter.route('/roles')
+  // ('/roles')
 
   // Create a role
   create: (req, res) => {
@@ -47,7 +47,7 @@ module.exports = {
     });
   },
 
-// roleRouter.route('/roles/:role_id')
+// ('/roles/:role_id')
   updateRoleById: (req, res) => {
     if (req.decoded.title === 'supra-admin') {
       Role.findById(req.params.role_id, (err, role) => {
