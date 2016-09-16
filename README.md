@@ -126,8 +126,8 @@ Notes: This route is restricted to the logged in user and their details.
 
 | Title  	| URL  	|Method   	| URL params  	|
 |---	|---	|---	|---	|
-| Delete a single users' information  	| `/users/:user_id`  	|`DELETE`   	| Required: `user_id`
-Type: `ObjectID`  	|
+| Delete a single users' information  	| `/users/:user_id`  	|`DELETE`   	| Required: `user_id` Type: `ObjectID`	|
+
 
 #### Success Response
 ```javascript
@@ -286,8 +286,8 @@ content:
 ```
 |  Title 	| URL  	|  Method 	| URL params  	|
 |---	|---	|---	|---	|
-| Delete a specific document  	| `/documents/:document_id`  	| `DELETE`  	| Required: `document_id`
-Type: `ObjectID`  	|
+| Delete a specific document  	| `/documents/:document_id`  	| `DELETE`  	| Required: `document_id` Type: `ObjectID` |
+
 
 #### Success Response
 ```javascript
@@ -310,8 +310,8 @@ content:
 ```
 | Title  	|  URL 	| Method  	|  URL params  	|
 |---	|---	|---	|---	|
-| Show a document that belongs to a specific user  	| `/users/:creator_id/documents`  	| `GET`  	| Required: `creator_id`
-Type: `ObjectID` 	|
+| Show a document that belongs to a specific user  	| `/users/:creator_id/documents`  	| `GET`  	| Required: `creator_id` Type: `ObjectID` |
+
 
 #### Success Response
 ```javascript
