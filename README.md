@@ -6,19 +6,40 @@ Dochero is a lightweight API built in the Javascript language that serves as the
 
 Dochero allows and restricts access to documents stored using a permissions based, role based and access sharing framework.
 
+#### Usage
+* Clone this repository with the command: `git clone https://github.com/andela-emabishi/document-management-system.git`
+* Install [node.js v6.2.2] (https://nodejs.org/en/) on your machine.
+* Start up a terminal instance and run the command `npm install` at the root project folder. This will install all the project dependencies. More information about the project's dependencies can be viewed in its `package.json` file.
+* To start the server and apply a few settings your database will need, at the root folder of the project, run the command `npm start`
+
+#### Run Tests
+* Change directory into the root of the repository and run the command `npm install` like above.
+* Run the command `npm test`. This will run the tests and generate an istanbul test coverage report which can also be accessed through the path `coverage/lcov-report/index.html`.
+
+#### Notes
+The Dochero server, in production mode,listens to port `3000`. You can change this configuration in the `config.js` file in the `server` folder.
+Read the API Reference documentation below for more information on dochero's routing structure.
+
+#### License
+This project was created under a GNU Public License. See [here] (https://github.com/andela-emabishi/document-management-system/blob/dev/LICENSE) for more information.
+
+#### Let's chat
+You can find the author [@emabishi] (https://github.com/emabishi) or [@andela-emabishi] (https://github.com/andela-emabishi) on github and @emabishi on twitter.
+
+#### API Reference
 The system abstracts its resources into the following:
 * Users
 * Documents
 * Roles
 
-### HTTP VERBS & ENDPOINTS
+#### HTTP VERBS & ENDPOINTS
 
-### Users
+##### Users
 | Title  	|  URL 	|  Method 	| URL params
 |---	|---	|---	|----  |
 | Show all users  	| `/users`  	| `GET`  	| None|
 
-#### Success Response
+##### Success Response
 ```javascript
 code: 200
 content:
@@ -32,7 +53,7 @@ content:
     "__v": 0
   }]
 ```
-### Error
+#### Error
 ```javascript
 code: 401 / 404
 content:
@@ -55,7 +76,7 @@ Note: This route is restricted to a user with the role `supra-admin`
 |---	|---	|---	|---         |
 | Retrieve user information for a single user 	|`/users/:user_id` 	| `GET`  	| Required: `user_id` Type: `ObjectID`
 
-#### Success Response
+##### Success Response
 ```javascript
 code: 200
 content:
@@ -68,7 +89,7 @@ content:
     "__v": 0
   }
 ```
-### Error
+#### Error
 ```javascript
 code: 404
 content:
@@ -86,7 +107,7 @@ content:
 | Update user information for a single user  	| `/users/:user_id`  	|   `PUT` 	 	| Required: `user_id` Type: `ObjectID` |
 
 
-### Data params
+#### Data params
 ```javascript
 {
   firstname: [String],
@@ -98,7 +119,7 @@ content:
 }
 ```
 
-#### Success Response
+##### Success Response
 ```javascript
 code: 200
 content:
@@ -111,7 +132,7 @@ content:
     "__v": 0
   }
 ```
-### Error
+#### Error
 ```javascript
 code: 401
 content:
@@ -129,7 +150,7 @@ Notes: This route is restricted to the logged in user and their details.
 | Delete a single users' information  	| `/users/:user_id`  	|`DELETE`   	| Required: `user_id` Type: `ObjectID`	|
 
 
-#### Success Response
+##### Success Response
 ```javascript
 code: 200
 content:
@@ -138,7 +159,7 @@ content:
   message: 'User deleted successfully'
 }
 ```
-### Error
+#### Error
 ```javascript
 code: 401
 content:
@@ -156,13 +177,13 @@ OR
 ```
 Notes: This route is restricted to the logged in user and their details.
 
-### Documents
+#### Documents
 
 | Title  	| URL  	|  Method 	| URL params|
 |---	|---	|---	|--- |
 | Create a document  	|  `/documents` 	| `POST`  	|None
 
-### Data params
+#### Data params
 ```javascript
 {
   title: [String],
@@ -173,7 +194,7 @@ Notes: This route is restricted to the logged in user and their details.
 }
 ```
 
-#### Success Response
+##### Success Response
 ```javascript
 code: 201
 content:
@@ -184,7 +205,7 @@ content:
   }
 
 ```
-### Error
+#### Error
 ```javascript
 code: 401
 content:
@@ -199,7 +220,7 @@ content:
 |---	|---	|---	|----  |
 |  Show all documents 	| `/documents`  	| `GET`  	| None|
 
-#### Success Response
+##### Success Response
 ```javascript
 code: 201
 content:
@@ -221,7 +242,7 @@ Note: This route is restricted to the logged in users documents and all public d
 |---	|---	|---	|----  |
 | Show a specific document  	| `/documents/:document_id`  	|   `GET`	|Required: `document_id` Type: `ObjectID`|
 
-#### Success Response
+##### Success Response
 ```javascript
 code: 201
 content:
@@ -237,7 +258,7 @@ content:
    "__v": 0
  }
 ```
-### Error
+#### Error
 ```javascript
 code: 401
 content:
@@ -254,7 +275,7 @@ Note: This route is restricted to the logged in users' documents
 | Edit a specific document  	|  `/documents/:document_id` 	|  `PUT` 	| Required: `document_id` Type: `ObjectID` |
 
 
-### Data params
+#### Data params
 ```javascript
 {
   title: [String], Required
@@ -265,7 +286,7 @@ Note: This route is restricted to the logged in users' documents
 }
 ```
 
-#### Success Response
+##### Success Response
 ```javascript
 code: 200
 content:
@@ -274,7 +295,7 @@ content:
   message: 'Document details updated successfully'
 }
 ```
-### Error
+#### Error
 ```javascript
 code: 500
 content:
@@ -289,7 +310,7 @@ content:
 | Delete a specific document  	| `/documents/:document_id`  	| `DELETE`  	| Required: `document_id` Type: `ObjectID` |
 
 
-#### Success Response
+##### Success Response
 ```javascript
 code: 200
 content:
@@ -298,7 +319,7 @@ content:
   message: 'Document Deleted successfully'
 }
 ```
-### Error
+#### Error
 ```javascript
 code: 500
 content:
@@ -313,7 +334,7 @@ content:
 | Show a document that belongs to a specific user  	| `/users/:creator_id/documents`  	| `GET`  	| Required: `creator_id` Type: `ObjectID` |
 
 
-#### Success Response
+##### Success Response
 ```javascript
 code: 200
 content:
@@ -330,7 +351,7 @@ content:
 },
 ]
 ```
-### Error
+#### Error
 ```javascript
 code: 404
 content:
@@ -342,7 +363,7 @@ content:
 ```
 Notes: This route is restricted to the logged in users' documents and public documents
 
-### Roles
+#### Roles
 The role resource is managed be the following routes and has a similar format of results as the users and documents resources.
 
 `POST/GET /roles`
