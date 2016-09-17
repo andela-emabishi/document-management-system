@@ -10,7 +10,7 @@ Dochero allows and restricts access to documents stored using a permissions base
 * Clone this repository with the command: `git clone https://github.com/andela-emabishi/document-management-system.git`
 * Install [node.js v6.2.2] (https://nodejs.org/en/) on your machine.
 * Start up a terminal instance and run the command `npm install` at the root project folder. This will install all the project dependencies. More information about the project's dependencies can be viewed in its `package.json` file.
-* To start the server and apply a few settings your database will need, at the root folder of the project, run the command `npm start`
+* To start the server and apply a few settings your database will need, at the root folder of the project, run the command `npm start`.
 
 #### Run Tests
 * Change directory into the root of the repository and run the command `npm install` like above.
