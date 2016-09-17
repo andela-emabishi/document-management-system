@@ -17,8 +17,8 @@ Dochero allows and restricts access to documents stored using a permissions base
 * Run the command `npm test`. This will run the tests and generate an istanbul test coverage report which can also be accessed through the path `coverage/lcov-report/index.html`.
 
 #### Notes
-The Dochero server, in production mode,listens to port `3000`. You can change this configuration in the `config.js` file in the `server` folder.
-Read the API Reference documentation below for more information on dochero's routing structure.
+* The Dochero server, in production mode, listens to port `3000`. You can change this configuration in the `config.js` file in the `server` folder.
+* Read the API Reference documentation below for more information on dochero's routing structure.
 
 #### License
 This project was created under a GNU Public License. See [here] (https://github.com/andela-emabishi/document-management-system/blob/dev/LICENSE) for more information.
