@@ -143,7 +143,8 @@ content:
   status: '401: Unauthorised'
 }
 ```
-Notes: This route is restricted to the logged in user and their details.
+* Note
+**This route is restricted to the logged in user and their details.**
 
 | Title  	| URL  	|Method   	| URL params  	|
 |---	|---	|---	|---	|
@@ -175,7 +176,8 @@ OR
   status: '500: Server Error',
 }
 ```
-Notes: This route is restricted to the logged in user and their details.
+* Note
+**This route is restricted to the logged in user and their details.**
 
 #### Documents
 
@@ -189,7 +191,7 @@ Notes: This route is restricted to the logged in user and their details.
   title: [String],
   content: [String],
   privacy: [String],
-  sharewith: [ObjectID],
+  sharewith: [ObjectID]
   access: [ObjectID],
 }
 ```
@@ -215,6 +217,10 @@ content:
   status: '500: Internal Server Error'
 }
 ```
+* Notes
+**The sharewith field takes in the ObjectID of the user you want to share your document with.**
+**The access field takes in the ObjectID of the role you want to access your document.**
+
 
 | Title  	|  URL 	| Method  	| URL params
 |---	|---	|---	|----  |
@@ -236,7 +242,8 @@ content:
    "__v": 0
  }]
 ```
-Note: This route is restricted to the logged in users documents and all public documents
+* Note
+**This route is restricted to the logged in users documents and all public documents.**
 
 |  Title 	|  URL 	|  Method 	| URL params
 |---	|---	|---	|----  |
@@ -268,7 +275,8 @@ content:
   status: '401: Unauthorised'
 }
 ```
-Note: This route is restricted to the logged in users' documents
+* Note
+**This route is restricted to the logged in users' documents.**
 
 |  Title 	|  URL 	| Method  	|URL params
 |---	|---	|---	|----- |
@@ -361,7 +369,8 @@ content:
   status: '404: Resource Not Found'
 }
 ```
-Notes: This route is restricted to the logged in users' documents and public documents
+* Notes
+**This route is restricted to the logged in users' documents and public documents.**
 
 #### Roles
 The role resource is managed be the following routes and has a similar format of results as the users and documents resources.
