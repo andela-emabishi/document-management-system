@@ -97,6 +97,7 @@ module.exports = {
       _id: mongoose.Types.ObjectId('57c975eb2c3d08874b51cd08'),
       // Victor Hugo
       _creatorId: mongoose.Types.ObjectId('57c94278517ca48c9e5af00f'),
+      createdAt: new Date('2016-09-16T06:51:01.160Z'),
       title: 'Administrator things',
       content: 'Only for adminnistrators',
       privacy: 'private',
@@ -106,6 +107,7 @@ module.exports = {
       _id: mongoose.Types.ObjectId('58c175eb2c3d08874b51cd08'),
       // Victor Hugo
       _creatorId: mongoose.Types.ObjectId('57c94278517ca48c9e5af00f'),
+      createdAt: new Date('2016-09-16T06:51:01.160Z'),
       title: 'The Hunchback of Notre Dame',
       content: 'Quasimodo watched the sky awash with brilliant blue..',
       privacy: 'private',
