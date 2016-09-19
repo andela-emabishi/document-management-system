@@ -24,6 +24,7 @@ module.exports = {
           success: true,
           message: 'Document created successfully',
           status: '201: Resource Created',
+          document: document,
         });
       }
     });
@@ -45,7 +46,6 @@ module.exports = {
         res.send(err);
       } else if (parseInt(req.query.offset, 10) > documents.length) {
         res.status(400).send({
-          success: false,
           message: 'Offset greater than number of documents or limit param. Cannot fetch',
           status: '400: Bad request',
         });
@@ -55,16 +55,19 @@ module.exports = {
     });
   },
 
-// [Restricted] Can only fetch documents of logged in user
+// [Restricted] Can only fetch documents of logged in user or public documents
   getDocumentById: (req, res) => {
-    Document.findById(req.params.document_id)
-    .where('_creatorId').equals(req.decoded.id)
+    Document.find({
+      $or: [
+        { $and: [{ _id: req.params.document_id }, { privacy: 'public' }] },
+        { $and: [{ _creatorId: req.decoded.id }, { _id: req.params.document_id }] },
+      ],
+    })
     .exec((err, documents) => {
       if (err) {
         res.send(err);
       } else if (documents.length === 0) {
         res.status(401).send({
-          success: false,
           message: 'Cannot access document by that id',
           status: '401: Unauthorised',
         });
@@ -142,20 +145,23 @@ module.exports = {
   },
 
   // Find all documents that belong to a particular user of a certain user id
-  // [Restricted] One must only see their own documents or public documents
+  // [Restricted] A user sees their own documents or public documents
   getByCreatorId: (req, res) => {
     Document.find(
       {
         $or: [
           { $and: [{ _creatorId: req.params.creator_id }, { privacy: 'public' }] },
-          { $and: [{ _creatorId: req.decoded.id }] },
+          { $and: [{ _creatorId: req.decoded.id }, { _creatorId: req.params.creator_id }] },
         ],
       }
     )
       .exec((err, documents) => {
         if (err) {
-          res.send(err);
-          return;
+          res.status(500).send({
+            error: err,
+            message: 'Cannot fetch documents',
+            status: '500: Server Error',
+          });
         } else if (documents.length === 0) {
           res.status(404).send({
             message: 'No documents were found for that user. The document you are referring to may be private',
@@ -187,9 +193,10 @@ module.exports = {
         }
       });
   },
-
+// [Restricted] A user can only get documents that have been shared with them
   getBySharedWith: (req, res) => {
     Document.find({ sharewith: req.params.share })
+    .where('sharewith').equals(req.decoded.id)
     .exec((err, documents) => {
       if (err) {
         res.send(err);
