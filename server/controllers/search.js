@@ -2,7 +2,7 @@ const Document = require('../models/document');
 
 module.exports = {
     // GET all documents created on a specific date (query: date, limit)
-    //  [Restricted] Cannot get private documents not yours
+    //  [Restricted] Cannot get private documents that belong to other users'
   getByDatePublished: (req, res) => {
     const startDate = new Date(req.query.date);
     const endDate = new Date(startDate.getTime() + (24 * 60 * 60 * 1000));
@@ -17,7 +17,11 @@ module.exports = {
     .limit(parseInt(req.query.limit, 10))
     .exec((err, documents) => {
       if (err) {
-        res.send(err);
+        res.status(500).send({
+          error: err,
+          message: 'Error fetching documents.',
+          status: '500: Server Error',
+        });
       } else if (documents.length === 0) {
         res.status(404).send({
           message: 'No documents found that were published on that date',
@@ -31,8 +35,6 @@ module.exports = {
 
   // [Restricted]: Able to search logged in users documents and public documents
   search: (req, res) => {
-    // To create the index on the documents collection, do this in the terminal
-    // db.documents.createIndex({"title":"text","content":"text"})
     Document.find(
       {
         $or: [{ _creatorId: req.decoded.id }, { privacy: 'public' }],
@@ -63,8 +65,8 @@ module.exports = {
     });
   },
 
+  // Find all documents that can be accessed by a certain role
   getByRole: (req, res) => {
-    // Find all documents that can be accessed by a certain role
     Document.find({ access: req.query.role })
     .limit(parseInt(req.query.limit, 10))
     .exec((err, documents) => {
