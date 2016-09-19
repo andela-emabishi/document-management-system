@@ -33,16 +33,15 @@
     "istanbul": "^0.4.4",
     "jasmine": "^2.4.1",
     "jasmine-core": "^2.4.1",
-    "mongoose-seeder": "^1.2.1",
     "nodemon": "^1.10.2",
     "supertest": "^2.0.0"
   },
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
-    "mongoose": "^4.5.10",
-    "bcrypt-nodejs": "0.0.3",
     "jsonwebtoken": "^7.1.9",
+    "mongoose": "^4.5.10",
     "morgan": "^1.7.0"
   }
 }
