@@ -195,8 +195,7 @@ module.exports = {
   },
 // [Restricted] A user can only get documents that have been shared with them
   getBySharedWith: (req, res) => {
-    Document.find({ sharewith: req.params.share })
-    .where('sharewith').equals(req.decoded.id)
+    Document.find({ sharewith: req.decoded.id })
     .exec((err, documents) => {
       if (err) {
         res.send(err);
