@@ -46,19 +46,4 @@ const DocumentSchema = new Schema({
   }
 );
 
-// DocumentSchema.add(
-//   {
-//     sharewith: {
-//       ref: 'User',
-//       type: Schema.Types.ObjectId,
-//       required: false,
-//     },
-//     access: {
-//       ref: 'Role',
-//       type: Schema.Types.ObjectId,
-//       required: false,
-//     }
-//   }
-// );
-
 module.exports = mongoose.model('Document', DocumentSchema);
