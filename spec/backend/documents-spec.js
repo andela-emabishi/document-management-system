@@ -171,17 +171,6 @@ describe('Document tests', () => {
     });
   });
 
-  it('Should return all documents that have been shared with someone', (done) => {
-    request
-    .get('/api/documents/share/57c94278517ca48c9e5af00f')
-    .set('x-access-token', token)
-    .end((err, res) => {
-      expect(res.status).toBe(200);
-      expect(res.body[0]).toBeDefined();
-      done();
-    });
-  });
-
   it('Should validate that a document can be deleted by its id', (done) => {
     request
     .delete('/api/documents/57c975eb2c3d08864b51cd08')
@@ -204,25 +193,18 @@ describe('Document tests', () => {
     });
   });
 
-  it('Should return a document shared with a user by the id of the sharee', (done) => {
+  it('Should return documents that have been shared with the user', (done) => {
     request
-    .get('/api/documents/share/57c94278517ca48c9e5af00f')
+    .get('/api/share')
     .set('x-access-token', token)
     .end((err, res) => {
       if (res.body.length !== 0) {
         expect(res.status).toBe(200);
+        expect(res.body[0]).toBeDefined();
+      } else {
+        expect(res.status).toBe(404);
+        expect(res.body.message).toBe('No documents have been shared with you');
       }
-      done();
-    });
-  });
-
-  it('Should return a document shared with a user by the id of the sharee', (done) => {
-    request
-    .get('/api/documents/share/57c94278517ca48f9e5af00f')
-    .set('x-access-token', token)
-    .end((err, res) => {
-      expect(res.status).toBe(404);
-      expect(res.body.message).toBe('No documents have been shared with you');
       done();
     });
   });
