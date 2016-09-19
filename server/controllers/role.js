@@ -2,8 +2,6 @@ const Role = require('../models/role');
 
 module.exports = {
 
-  // ('/roles')
-
   // Create a role
   create: (req, res) => {
     const role = new Role();
@@ -15,15 +13,17 @@ module.exports = {
       if (err) {
         if (err.code === 11000) {
           res.json({
-            success: false,
             message: 'Please provide a unique title',
           });
         } else {
-          res.send(err);
+          res.status(500).send({
+            error: err,
+            message: 'Failed to save document',
+            status: '500: Server Error',
+          });
         }
       } else {
         res.status(201).send({
-          success: true,
           message: 'Role created successfully',
           status: '201: Resource Created',
         });
@@ -47,7 +47,7 @@ module.exports = {
     });
   },
 
-// ('/roles/:role_id')
+// [Restricted] Only supra-admin role can update roles
   updateRoleById: (req, res) => {
     if (req.decoded.title === 'supra-admin') {
       Role.findById(req.params.role_id, (err, role) => {
@@ -59,8 +59,7 @@ module.exports = {
         if (req.body.permission) role.permission = req.body.permission;
 
         // Then save the role
-        role.save((err) => {
-          // If there's an error, tell us
+        role.save(() => {
           if (err) {
             res.send({
               error: err,
@@ -68,8 +67,8 @@ module.exports = {
             });
           } else {
             res.status(200).send({
-              success: true,
               message: 'Role details updated successfully',
+              role: role,
             });
           }
         });
@@ -82,6 +81,7 @@ module.exports = {
     }
   },
 
+// [Restricted] Only supra-admin role can delete roles
   deleteRoleById: (req, res) => {
     if (req.decoded.title === 'supra-admin') {
       Role.remove({
