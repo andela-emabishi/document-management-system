@@ -125,8 +125,8 @@ module.exports = (apiRouter) => {
         }
         // Everything went well, we found and verified the token
         else {
-          console.log('Token owner');
-          console.log(decoded);
+          // console.log('Token owner');
+          // console.log(decoded);
           req.decoded = decoded;
 
           next();
