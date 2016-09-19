@@ -16,6 +16,6 @@ module.exports = (router) => {
   router.route('/documents/access/public')
   .get(DocumentController.getPublicDocuments);
 
-  router.route('/documents/share/:share')
+  router.route('/share')
   .get(DocumentController.getBySharedWith);
 };
