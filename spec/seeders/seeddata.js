@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-
 module.exports = {
   users: [
     {
@@ -114,12 +113,20 @@ module.exports = {
     },
     {
       _id: mongoose.Types.ObjectId('58c175eb1d3d08874b51cd08'),
-      // Arthur Curry
+      // Kal El
       _creatorId: mongoose.Types.ObjectId('57d05aea1cd5386e0d2ca88a'),
       title: 'The population of reef fish globally',
       content: 'The colourful reef fish...',
       // Victor Hugo
       sharewith: mongoose.Types.ObjectId('57c94278517ca48c9e5af00f'),
+      privacy: 'private',
+    },
+    {
+      _id: mongoose.Types.ObjectId('58c175eb1d3d08883b51cd08'),
+      // Wonder Woman
+      _creatorId: mongoose.Types.ObjectId('57d00913bc185f810bcd0d87'),
+      title: 'Wonder Woman',
+      content: 'Zeus and Athena',
       privacy: 'private',
     },
 
