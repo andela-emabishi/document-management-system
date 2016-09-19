@@ -174,14 +174,14 @@ module.exports = {
   },
 
   // GET all public documents
-  // Set 'public' in route as param to enable get private docs. Document.find({privacy: req.params.public})
   getPublicDocuments: (req, res) => {
     Document.find({ privacy: 'public' })
       .exec((err, documents) => {
         if (err) {
           res.json({
             error: err,
-            success: false,
+            message: 'Cannot fetch documents',
+            status: '500: Server Error',
           });
         } else if (documents.length === 0) {
           res.status(404).send({
