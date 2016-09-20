@@ -90,9 +90,10 @@ module.exports = {
         _id: req.params.role_id,
       }, (err) => {
         if (err) {
-          res.send({
+          res.status(500).send({
             error: err,
             message: 'Error deleting role',
+            status: '500: Server Error',
           });
         } else {
           res.status(200).send({
@@ -112,9 +113,10 @@ module.exports = {
   getRoleById: (req, res) => {
     Role.findById(req.params.role_id, (err, role) => {
       if (err) {
-        res.send({
+        res.status(500).send({
           error: err,
           message: 'Error fetching role',
+          status: '500: Server Error',
         });
       } else if (!role) {
         res.status(404).send({
