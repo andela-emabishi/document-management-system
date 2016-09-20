@@ -177,7 +177,29 @@ describe('Document tests', () => {
     .set('x-access-token', token)
     .end((err, res) => {
       expect(res.status).toBe(200);
-      expect(res.body.success).toBe(true);
+      expect(res.body.message).toBe('Document deleted successfully');
+      done();
+    });
+  });
+
+  it('Should return an error message if a user attempts to delete a non existence document', (done) => {
+    request
+    .delete('/api/documents/57d975eb2c3d08864b51cd09')
+    .set('x-access-token', token)
+    .end((err, res) => {
+      expect(res.status).toBe(404);
+      expect(res.body.message).toBe('No such document found');
+      done();
+    });
+  });
+
+  it('Should return an error message if a user attempts to delete a document that does not belong to them', (done) => {
+    request
+    .delete('/api/documents/57c975eb2c3d08864b51cd0a')
+    .set('x-access-token', token)
+    .end((err, res) => {
+      expect(res.status).toBe(401);
+      expect(res.body.message).toBe('Unauthorised to delete document');
       done();
     });
   });
