@@ -107,7 +107,7 @@ describe('User tests', () => {
     .end((err, res) => {
       expect(res.status).toBe(200);
       expect(res.body.status).not.toBe('401: Unauthorised');
-      expect(res.body.message).toBe('User deleted successfully');
+      expect(res.body.message).toBe('User and document details deleted successfully');
       done();
     });
   });
