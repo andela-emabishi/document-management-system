@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-/* eslint-disable no-unused-vars */
 
 const express = require('express');
 const app = express();
@@ -8,7 +7,7 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 
 const config = require('./server/config');
-const routes = require('./server/routes/');
+const routes = require('./server/routes');
 
 const apiRouter = express.Router();
 
