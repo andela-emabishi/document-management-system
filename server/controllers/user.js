@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const Document = require('../models/document');
 
 module.exports = {
   // [Restricted] supra admin role only
@@ -73,28 +74,39 @@ module.exports = {
   },
 
 // [Restricted] to admin or logged in user.
-// TODO: Once a user is deleted, all their notes should be too.
   deleteUserById: (req, res) => {
     if ((req.decoded.id === req.params.user_id) || (req.decoded.title === 'supra-admin')) {
-      User.remove({
-        _id: req.params.user_id,
-      }, (err) => {
+      // Remove all documents by user
+      Document.remove({ _creatorId: req.params.user_id })
+      .exec(function (err) {
         if (err) {
-          res.send({
+          res.status(500).send({
             error: err,
-            message: 'Error deleting user',
+            message: 'Failed to delete documents.',
             status: '500: Server Error',
           });
         } else {
-          res.status(200).send({
-            message: 'User deleted successfully',
+          // Then delete the user
+          User.remove({ _id: req.params.user_id })
+          .exec(function (err) {
+            if (err) {
+              res.status(500).send({
+                error: err,
+                message: 'Could not delete user details',
+                status: '500: Server Error',
+              });
+            } else {
+              res.status(200).send({
+                message: 'User and document details delted successfully',
+              });
+            }
           });
         }
       });
     } else {
       res.status(401).send({
-        message: 'Cannot delete another user. Can only delete yourself',
-        status: '401: Unauthorised',
+        message: 'Unauthorised',
+        status: '401: Not authorised',
       });
     }
   },
