@@ -35,7 +35,6 @@ module.exports = (apiRouter) => {
         if (err) {
           if (err.code === 11000) {
             res.json({
-              success: false,
               message: 'Please provide a unique username',
             });
           } else {
@@ -43,7 +42,6 @@ module.exports = (apiRouter) => {
           }
         } else {
           res.status(201).send({
-            success: true,
             message: 'User created successfully',
             status: '201: Resource created',
           });
@@ -54,30 +52,26 @@ module.exports = (apiRouter) => {
   // If they have the correct password, give them a token
   apiRouter.post('/login', (req, res) => {
     // Find the user
-    // Select the password
     User.findOne({
       username: req.body.username,
     }).select('username password title').exec((err, user) => {
       if (err) {
         throw err;
       }
-
       // No user with that username was found
       if (!user) {
-        res.json({
-          success: false,
+        res.status(404).send({
           message: 'Authentication failed. User not found',
+          status: '404: Resource Not Found',
         });
       }
       // If a user with that username exists
       else {
         if (user) {
-          // console.log('I am here', user);
           // Check if password matches
           const validPassword = user.comparePassword(req.body.password);
           if (!validPassword) {
             res.status(401).send({
-              success: false,
               message: 'Wrong password. Failed to authenticate',
               status: '401: Failed to authenticate',
             });
@@ -97,7 +91,6 @@ module.exports = (apiRouter) => {
 
             // Return an object of the information along with the token
             res.json({
-              success: true,
               message: 'Enjoy your token! You\'ve just been logged in',
               token: token,
               user: user,
@@ -125,8 +118,6 @@ module.exports = (apiRouter) => {
         }
         // Everything went well, we found and verified the token
         else {
-          // console.log('Token owner');
-          // console.log(decoded);
           req.decoded = decoded;
 
           next();
@@ -137,7 +128,6 @@ module.exports = (apiRouter) => {
     // Return 403 Access Forbidden and an error message
     else {
       res.status(403).send({
-        success: false,
         message: 'No token provided',
         status: '403: Access Forbidden',
       });

@@ -18,9 +18,8 @@ mongoose.connection.on('connected', () => {
   User.remove({}, (err) => {
     if (err) {
       console.log('Error un-unseeding users from test database', err);
-    }
-    else {
-      console.log('successfully removed seeded users from the test db');
+    } else {
+      console.log('Successfully removed users from the test db');
     }
   });
 

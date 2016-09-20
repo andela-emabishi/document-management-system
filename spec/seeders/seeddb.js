@@ -16,30 +16,17 @@ mongoose.connect(config.test.database, (err) => {
 });
 
 // After a successful connection
-mongoose.connection.on('connected', function () {
-  console.log('Mongoose default connection open to ' + config.test.port);
+mongoose.connection.on('connected', () => {
+  console.log('Mongoose default connection open to ', config.test.port);
 });
 
-// // If the connection throws an error
-mongoose.connection.on('error',function (err) {
-  console.log('===========================================');
-  console.log('Mongoose default connection error: ' + err);
-  console.log('========================================');
+// If the connection throws an error
+mongoose.connection.on('error', (err) => {
+  console.log('Mongoose default connection error: ', err);
 });
 
 // Seed data to test database
 mongoose.connection.on('connected', () => {
-
-  User.create(seedData.users, (err) => {
-    if (err) {
-      console.log('Error seeding users into test database', err);
-    }
-    else {
-      console.log('successfully seeded users into the test db');
-    }
-    process.exit();
-  });
-
   Document.create(seedData.documents, (err) => {
     if (err) {
       console.log('Eror seeding documents into test database');
@@ -57,9 +44,19 @@ mongoose.connection.on('connected', () => {
       console.log('Successfully seeded roles into the test db');
     }
   });
+
+  User.create(seedData.users, (err) => {
+    if (err) {
+      console.log('Error seeding users into test database', err);
+    }
+    else {
+      console.log('Successfully seeded users into the test db');
+    }
+    process.exit();
+  });
 });
 
 // When the connection is disconnected
-mongoose.connection.on('disconnected', function () {
+mongoose.connection.on('disconnected', () => {
   console.log('Mongoose default connection disconnected');
 });
