@@ -9,10 +9,11 @@ module.exports = {
     role.title = req.body.title;
     role.permission = req.body.permission;
 
-    role.save(function(err) {
+    role.save((err) => {
       if (err) {
         if (err.code === 11000) {
           res.json({
+            error: err,
             message: 'Please provide a unique title',
           });
         } else {
@@ -26,6 +27,7 @@ module.exports = {
         res.status(201).send({
           message: 'Role created successfully',
           status: '201: Resource Created',
+          role: role,
         });
       }
     });
@@ -86,7 +88,7 @@ module.exports = {
     if (req.decoded.title === 'supra-admin') {
       Role.remove({
         _id: req.params.role_id,
-      }, function (err) {
+      }, (err) => {
         if (err) {
           res.send({
             error: err,
