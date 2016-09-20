@@ -116,27 +116,32 @@ module.exports = {
 
 // [Restricted] To logged in user
   deleteDocumentById: (req, res) => {
-    Document.find()
-    .where('_creatorId').equals(req.decoded.id)
-    .exec((err) => {
+    Document.findById({ _id: req.params.document_id })
+    .exec((err, document) => {
       if (err) {
-        res.send(err);
+        res.status(500).send({
+          error: err,
+          message: 'Error deleting document',
+          status: '500: Server Error',
+        });
+      } else if (!document) {
+        res.status(404).send({
+          message: 'No such document found',
+          status: '404: Resource Not Found',
+        });
+      } else if (req.decoded.id != document._creatorId) {
+        res.status(401).send({
+          message: 'Unauthorised to delete document',
+          status: '401: Unauthorised',
+        });
       } else {
-        Document.remove(
-          {
-            $and: [{ _creatorId: req.decoded.id }, { _id: req.params.document_id }],
-          }
-      , () => {
+        Document.remove({ _id: req.params.document_id })
+        .exec(() => {
           if (err) {
-            res.status(500).send({
-              error: err,
-              message: 'Error deleting document',
-              status: '500: Server Error',
-            });
+            res.send(err);
           } else {
             res.status(200).send({
-              success: true,
-              message: 'Document Deleted successfully if document was yours. Failed to delete another users\' documents',
+              message: 'Document deleted successfully',
             });
           }
         });
@@ -178,7 +183,7 @@ module.exports = {
     Document.find({ privacy: 'public' })
       .exec((err, documents) => {
         if (err) {
-          res.json({
+          res.status(500).send({
             error: err,
             message: 'Cannot fetch documents',
             status: '500: Server Error',
