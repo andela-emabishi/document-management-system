@@ -36,6 +36,18 @@
         "new-cap": [
           "off"
         ],
+        "object-shorthand":[
+          "off"
+        ],
+        "consistent-return": [
+          "off"
+        ],
+        "array-callback-return": [
+          "off"
+        ],
+        "brace-style": [
+          "off"
+        ],
         "quotes": [
             "error",
             "single"
