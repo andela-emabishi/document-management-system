@@ -48,6 +48,9 @@
         "brace-style": [
           "off"
         ],
+        "eqeqeq": [
+          "off"
+        ],
         "quotes": [
             "error",
             "single"
