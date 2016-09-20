@@ -12,9 +12,10 @@ module.exports = {
     role.save((err) => {
       if (err) {
         if (err.code === 11000) {
-          res.json({
+          res.status(409).send({
             error: err,
             message: 'Please provide a unique title',
+            status: '409: Conflict with Existing Resource',
           });
         } else {
           res.status(500).send({
@@ -86,9 +87,8 @@ module.exports = {
 // [Restricted] Only supra-admin role can delete roles
   deleteRoleById: (req, res) => {
     if (req.decoded.title === 'supra-admin') {
-      Role.remove({
-        _id: req.params.role_id,
-      }, (err) => {
+      Role.remove({ _id: req.params.role_id },
+      (err) => {
         if (err) {
           res.status(500).send({
             error: err,
