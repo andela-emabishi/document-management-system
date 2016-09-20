@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+/* istanbul ignore next */
 
 const express = require('express');
 const app = express();
