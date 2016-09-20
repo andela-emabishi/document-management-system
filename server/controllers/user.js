@@ -74,11 +74,12 @@ module.exports = {
   },
 
 // [Restricted] to admin or logged in user.
+// Once a user is deleted, all their documents are deleted
   deleteUserById: (req, res) => {
     if ((req.decoded.id === req.params.user_id) || (req.decoded.title === 'supra-admin')) {
       // Remove all documents by user
       Document.remove({ _creatorId: req.params.user_id })
-      .exec(function (err) {
+      .exec((err) => {
         if (err) {
           res.status(500).send({
             error: err,
@@ -88,7 +89,7 @@ module.exports = {
         } else {
           // Then delete the user
           User.remove({ _id: req.params.user_id })
-          .exec(function (err) {
+          .exec(() => {
             if (err) {
               res.status(500).send({
                 error: err,
@@ -97,7 +98,7 @@ module.exports = {
               });
             } else {
               res.status(200).send({
-                message: 'User and document details delted successfully',
+                message: 'User and document details deleted successfully',
               });
             }
           });
