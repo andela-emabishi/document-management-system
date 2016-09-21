@@ -74,7 +74,7 @@ module.exports = {
   },
 
 // [Restricted] to admin or logged in user.
-// Once a user is deleted, all their documents are deleted
+// Once a user is deleted, all their documents are deleted.
   deleteUserById: (req, res) => {
     if ((req.decoded.id === req.params.user_id) || (req.decoded.title === 'supra-admin')) {
       // Remove all documents by user
@@ -106,7 +106,7 @@ module.exports = {
       });
     } else {
       res.status(401).send({
-        message: 'Unauthorised',
+        message: 'Unauthorised to delete user.',
         status: '401: Not authorised',
       });
     }
