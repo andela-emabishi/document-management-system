@@ -8,7 +8,6 @@ Dochero allows and restricts access to documents stored using a permissions base
 
 #### Usage
 * Clone this repository with the command: `git clone https://github.com/andela-emabishi/document-management-system.git`
-* Install [node.js v6.2.2] (https://nodejs.org/en/) on your machine.
 * Start up a terminal instance and run the command `npm install` at the root project folder. This will install all the project dependencies. More information about the project's dependencies can be viewed in its `package.json` file.
 * To start the server and apply a few settings your database will need, at the root folder of the project, run the command `npm start`.
 
@@ -58,13 +57,11 @@ content:
 code: 401 / 404
 content:
 {
-  success: false,
   message: 'Invalid operation. No access',
   status: '401: Unauthorised',
 }
 OR
 {
-  success: false,
   error: err,
   status: '404: Resource Not Found'
 }
@@ -94,7 +91,6 @@ content:
 code: 404
 content:
 {
-  success: false,
   error: err,
   message: 'User not found',
   status: '404: Resource Not Found'
@@ -137,7 +133,6 @@ content:
 code: 401
 content:
 {
-  success: false,
   error: err,
   message: 'Cannot update another users details',
   status: '401: Unauthorised'
@@ -165,7 +160,6 @@ content:
 code: 401
 content:
 {
-  success: false,
   message: 'Cannot delete another user. Can only delete yourself',
   status: '401: Unauthorised'
 }
@@ -201,7 +195,6 @@ OR
 code: 201
 content:
   {
-    success: true,
     message: 'Document created successfully',
     status: '201: Resource Created'
   }
@@ -243,7 +236,7 @@ content:
  }]
 ```
 * Note
-**This route is restricted to the logged in users documents and all public documents.**
+**This route is restricted to the logged in users' documents and all public documents.**
 
 |  Title 	|  URL 	|  Method 	| URL params
 |---	|---	|---	|----  |
@@ -270,7 +263,6 @@ content:
 code: 401
 content:
 {
-  success: false,
   message: 'Cannot access document by that id',
   status: '401: Unauthorised'
 }
@@ -299,7 +291,6 @@ content:
 code: 200
 content:
 {
-  success: true,
   message: 'Document details updated successfully'
 }
 ```
@@ -323,7 +314,6 @@ content:
 code: 200
 content:
 {
-  success: true,
   message: 'Document Deleted successfully'
 }
 ```
@@ -373,7 +363,7 @@ content:
 **This route is restricted to the logged in users' documents and public documents.**
 
 #### Roles
-The role resource is managed be the following routes and has a similar format of results as the users and documents resources.
+The role resource is managed by the following routes and has a similar format of results as the users and documents resources.
 
 `POST/GET /roles`
 `GET/PUT/DELETE /roles/:role_id`
