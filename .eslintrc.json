@@ -20,9 +20,6 @@
         "import/no-extraneous-dependencies": [
           "off"
         ],
-        "max-len": [
-          "off"
-        ],
         "no-underscore-dangle": [
           "off"
         ],
