@@ -7,9 +7,14 @@ module.exports = {
     if (req.decoded.title === 'supra-admin') {
       User.find((err, users) => {
         if (err) {
-          res.status(404).send({
+          res.status(500).send({
             error: err,
+          });
+        } else if (!users) {
+          res.status(404).send({
+            message: 'No users were found',
             status: '404: Resource Not Found',
+            users: [],
           });
         } else {
           res.status(200).send(users);
@@ -26,8 +31,9 @@ module.exports = {
   getUserById: (req, res) => {
     User.findById(req.params.user_id, (err, user) => {
       if (err) {
-        res.send({
+        res.status(500).send({
           error: err,
+          message: '500: Server Error',
         });
       } else if (!user) {
         res.status(404).send({
@@ -60,6 +66,7 @@ module.exports = {
           } else {
             res.status(200).send({
               message: 'User details updated successfully',
+              user: user,
             });
           }
         });
