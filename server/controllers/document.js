@@ -45,9 +45,9 @@ module.exports = {
       if (err) {
         res.send(err);
       } else if (parseInt(req.query.offset, 10) > documents.length) {
-        res.status(400).send({
+        res.status(404).send({
           message: 'Offset greater than number of documents or limit param. Cannot fetch',
-          status: '400: Bad request',
+          documents: [],
         });
       } else {
         res.status(200).send(documents);
@@ -82,11 +82,16 @@ module.exports = {
     Document.findById(req.params.document_id)
     .where('_creatorId').equals(req.decoded.id)
     .exec((err, document) => {
-      if (err || document === null) {
-        res.status(404).send({
+      if (err) {
+        res.status(500).send({
           error: err,
+          status: '500: Server Error',
+        });
+      } if (!document || (req.decoded.id != document._creatorId)) {
+        res.status(401).send({
           message: 'Could not update document by the id entered',
-          status: '404: Resource Not Found',
+          status: '401: Unauthorised',
+          document: [],
         });
       }
        // Only update if a change has happened
@@ -106,8 +111,8 @@ module.exports = {
           });
         } else {
           res.status(200).send({
-            success: true,
             message: 'Document details updated successfully',
+            document: document,
           });
         }
       });
@@ -169,7 +174,8 @@ module.exports = {
           });
         } else if (documents.length === 0) {
           res.status(404).send({
-            message: 'No documents were found for that user. The document you are referring to may be private',
+            message: 'No documents were found for that user.'
+            + ' The document you are referring to may be private',
             status: '404: Resource Not Found',
           });
         } else {
