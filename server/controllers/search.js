@@ -5,30 +5,25 @@ module.exports = {
     const startDate = new Date(req.query.date);
     // i.e. One day after the start date
     const endDate = new Date(startDate.getTime() + (24 * 60 * 60 * 1000));
-    const $query = {
+    const query = {
       $and: [
         { $or: [{ _creatorId: req.decoded.id }, { privacy: 'public' }] },
       ],
     };
-    // Search by date published
-    //  [Restricted] Cannot get private documents that belong to other users
     if (req.query.date) {
       const dateQuery = { createdAt: { $gte: startDate, $lt: endDate } };
-      $query.$and.push(dateQuery);
+      query.$and.push(dateQuery);
     }
-    /* [Restricted]: Able to search logged in users' documents
-    * and public documents title and content
-    */
     if (req.query.q) {
       const textQuery = { $text: { $search: req.query.q } };
-      $query.$and.push(textQuery);
+      query.$and.push(textQuery);
     }
     // Find all documents that can be accessed by a certain role
     if (req.query.role) {
-      $query.access = req.query.role;
+      query.access = req.query.role;
     }
 
-    Document.find($query)
+    Document.find(query)
     .sort('-createdAt')
     .skip(parseInt(req.query.offset || 0, 10))
     .limit(parseInt(req.query.limit || 10, 10))
