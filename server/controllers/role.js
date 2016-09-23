@@ -97,7 +97,6 @@ module.exports = {
           });
         } else {
           res.status(200).send({
-            success: true,
             message: 'Role deleted successfully',
           });
         }

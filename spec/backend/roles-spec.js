@@ -8,15 +8,15 @@ describe('Role tests', () => {
 
   beforeAll((done) => {
     request
-    .post('/api/users/login')
-    .send({
-      username: 'vichugo',
-      password: 'victorhugo',
-    })
-    .end((err, res) => {
-      token = res.body.token;
-      done();
-    });
+      .post('/api/users/login')
+      .send({
+        username: 'vichugo',
+        password: 'victorhugo',
+      })
+      .end((err, res) => {
+        token = res.body.token;
+        done();
+      });
   });
 
   it('Should validate that a new role created has a unique title', (done) => {
@@ -38,30 +38,31 @@ describe('Role tests', () => {
 
   it('Should validate that a new role can be created', (done) => {
     request
-    .post('/api/roles')
-    .set('x-access-token', token)
-    .send({
-      title: 'manager',
-      permission: 'readWrite',
-    })
-    .end((err, res) => {
-      expect(res.status).toBe(201);
-      expect(res.body.status).toBe('201: Resource Created');
-      done();
-    });
+      .post('/api/roles')
+      .set('x-access-token', token)
+      .send({
+        title: 'manager',
+        permission: 'readWrite',
+      })
+      .end((err, res) => {
+        expect(res.status).toBe(201);
+        expect(res.body.role._id).toBeDefined();
+        expect(res.body.role.title).toBe('manager');
+        expect(res.body.status).toBe('201: Resource Created');
+        done();
+      });
   });
 
   it('Should validate that all roles are returned', (done) => {
     request
-    .get('/api/roles')
-    .set('x-access-token', token)
-    .end((err, res) => {
-      expect(res.status).toBe(200);
-      expect(res.status).not.toBe(404);
-      expect(res.body).toBeDefined();
-      expect(Array.isArray(res.body)).toBe(true);
-      done();
-    });
+      .get('/api/roles')
+      .set('x-access-token', token)
+      .end((err, res) => {
+        expect(res.status).toBe(200);
+        expect(res.body).toBeDefined();
+        expect(Array.isArray(res.body)).toBe(true);
+        done();
+      });
   });
 
   it('Should validate that a supra-admin can update role information', (done) => {
@@ -73,7 +74,7 @@ describe('Role tests', () => {
     })
     .end((err, res) => {
       expect(res.status).toBe(200);
-      expect(res.status).not.toBe(401);
+      expect(res.body.role.title).toBe('super-editor');
       expect(res.body).toBeDefined();
       expect(res.body.message).toBe('Role details updated successfully');
       done();
@@ -86,12 +87,14 @@ describe('Role tests', () => {
     .set('x-access-token', token)
     .end((err, res) => {
       expect(res.status).toBe(200);
+      expect(res.body.title).toBeDefined();
       expect(res.body.message).not.toBe('Error fetching role');
       done();
     });
   });
 
-  it('Should return a message if a user provided role id is not matched to a role', (done) => {
+  it('Should return a message if a user provided role id is not'
+  + 'matched to a role', (done) => {
     request
     .get('/api/roles/65c975eb2c4d08864b51cd08')
     .set('x-access-token', token)
@@ -108,7 +111,6 @@ describe('Role tests', () => {
     .set('x-access-token', token)
     .end((err, res) => {
       expect(res.status).toBe(200);
-      expect(res.body.status).not.toBe('401: Unauthorised');
       expect(res.body.message).toBe('Role deleted successfully');
       done();
     });
