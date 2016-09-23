@@ -19,7 +19,7 @@ module.exports = (apiRouter) => {
   });
 
 // signup
-  apiRouter.route('/signup')
+  apiRouter.route('/users')
     .post((req, res) => {
       const user = new User();
 
@@ -41,16 +41,28 @@ module.exports = (apiRouter) => {
             res.send(err);
           }
         } else {
+          // Generate the token on signup
+          const token = jwt.sign({
+            firstname: user.firstname,
+            username: user.username,
+            id: user._id,
+            title: user.title,
+          }, config.development.superSecret, {
+            // Token will expire in a day
+            expiresIn: 86400,
+          });
           res.status(201).send({
             message: 'User created successfully',
             status: '201: Resource created',
+            user: user,
+            token: token,
           });
         }
       });
     });
 
   // If they have the correct password, give them a token
-  apiRouter.post('/login', (req, res) => {
+  apiRouter.post('/users/login', (req, res) => {
     // Find the user
     User.findOne({
       username: req.body.username,
@@ -61,7 +73,7 @@ module.exports = (apiRouter) => {
       // No user with that username was found
       if (!user) {
         res.status(404).send({
-          message: 'Authentication failed. User not found',
+          message: 'User not found',
           status: '404: Resource Not Found',
         });
       }
@@ -90,7 +102,7 @@ module.exports = (apiRouter) => {
             });
 
             // Return an object of the information along with the token
-            res.json({
+            res.send(200).status({
               message: 'Enjoy your token! You\'ve just been logged in',
               token: token,
               user: user,
@@ -111,8 +123,7 @@ module.exports = (apiRouter) => {
     if (token) {
       jwt.verify(token, config.development.superSecret, (err, decoded) => {
         if (err) {
-          res.status(403).send({
-            success: false,
+          res.status(401).send({
             message: 'Failed to authenticate token',
           });
         }
@@ -125,11 +136,10 @@ module.exports = (apiRouter) => {
       });
     }
     // No token was found
-    // Return 403 Access Forbidden and an error message
     else {
-      res.status(403).send({
+      res.status(401).send({
         message: 'No token provided',
-        status: '403: Access Forbidden',
+        status: '401: Unauthorised',
       });
     }
   });
