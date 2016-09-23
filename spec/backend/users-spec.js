@@ -100,54 +100,68 @@ describe('User tests', () => {
       done();
     });
   });
-  //
-  // it('Should validate that a user can be deleted by their id', (done) => {
-  //   request
-  //   .delete('/api/users/57d05aea1cd5386e0d2ca88b')
-  //   .set('x-access-token', token)
-  //   .end((err, res) => {
-  //     expect(res.status).toBe(200);
-  //     expect(res.body.status).not.toBe('401: Unauthorised');
-  //     expect(res.body.message).toBe('User and document details deleted successfully');
-  //     done();
-  //   });
-  // });
-  //
-  // it('Should return an error if a user was not found', (done) => {
-  //   request
-  //   .get('/api/users/57c942a8517ca48c9e5af012')
-  //   .set('x-access-token', token)
-  //   .end((err, res) => {
-  //     expect(res.status).toBe(404);
-  //     expect(res.body.status).toBe('404: Resource Not Found');
-  //     done();
-  //   });
-  // });
-  //
-  // it('Should validate that a new user created has a role defined', (done) => {
-  //   request
-  //   .get('/api/users/me/role')
-  //   .set('x-access-token', token)
-  //   .end((err, res) => {
-  //     expect(res.body.title).toBeDefined();
-  //     expect(res.body.title).toBe('supra-admin');
-  //     expect(res.status).toBe(200);
-  //     done();
-  //   });
-  // });
-  //
-  // it('Should throw an error when the getAll function is called and there are no users', (done) => {
-  //   sinon.stub(User, 'find', (callback, err) => {
-  //     callback({ error: err });
-  //   });
-  //   request
-  //   .get('/api/users')
-  //   .set('x-access-token', token)
-  //   .end((err, res) => {
-  //     expect(res.status).toBe(404);
-  //     expect(res.body.message).toBe('No users were found');
-  //     done();
-  //     User.find.restore();
-  //   });
-  // });
+
+  it('Should validate that a user can be deleted by their id', (done) => {
+    request
+    .delete('/api/users/57d05aea1cd5386e0d2ca88b')
+    .set('x-access-token', token)
+    .end((err, res) => {
+      expect(res.status).toBe(200);
+      expect(res.body.message).toBe('User and document details deleted successfully');
+      done();
+    });
+  });
+
+  it('Should return an error if a user was not found', (done) => {
+    request
+    .get('/api/users/57c942a8517ca48c9e5af012')
+    .set('x-access-token', token)
+    .end((err, res) => {
+      expect(res.status).toBe(404);
+      expect(res.body.status).toBe('404: Resource Not Found');
+      done();
+    });
+  });
+
+  it('Should validate that a new user created has a role defined', (done) => {
+    request
+    .get('/api/users/me/role')
+    .set('x-access-token', token)
+    .end((err, res) => {
+      expect(res.body.title).toBeDefined();
+      expect(res.body.title).toBe('supra-admin');
+      expect(res.status).toBe(200);
+      done();
+    });
+  });
+
+  it('Should throw an error when the getAll function is called and there are no users', (done) => {
+    sinon.stub(User, 'find', (callback, err) => {
+      callback({ error: err });
+    });
+    request
+    .get('/api/users')
+    .set('x-access-token', token)
+    .end((err, res) => {
+      expect(res.status).toBe(500);
+      expect(res.body.error).toBeDefined();
+      done();
+      User.find.restore();
+    });
+  });
+
+  it('Should throw an error when the findById function is called and there'
+  + 'is a server error', (done) => {
+    sinon.stub(User, 'findById', (callback, err) => {
+      callback({ error: err });
+    });
+    request
+    .get('/api/users/57c942a8517ca48c9e5af010')
+    .set('x-access-token', token)
+    .end((err, res) => {
+      expect(res.status).toBe(500);
+      done();
+      User.findById.restore();
+    });
+  });
 });
