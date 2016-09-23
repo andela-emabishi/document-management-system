@@ -222,21 +222,16 @@ describe('Document tests', () => {
         done();
       });
   });
-// Query not route
+
   it('Should return documents that have been shared with the user', (done) => {
     request
-    .get('/api/documents?shared=true')
-    .set('x-access-token', token)
-    .end((err, res) => {
-      if (res.body.length !== 0) {
+      .get('/api/share')
+      .set('x-access-token', token)
+      .end((err, res) => {
         expect(res.status).toBe(200);
         expect(res.body[0]).toBeDefined();
         expect(res.body[0]._id.length).toBe(24);
-      } else {
-        expect(res.status).toBe(404);
-        expect(res.body.message).toBe('No documents have been shared with you');
-      }
-      done();
-    });
+        done();
+      });
   });
 });
