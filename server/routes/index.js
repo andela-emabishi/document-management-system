@@ -102,7 +102,7 @@ module.exports = (apiRouter) => {
             });
 
             // Return an object of the information along with the token
-            res.send(200).status({
+            res.status(200).send({
               message: 'Enjoy your token! You\'ve just been logged in',
               token: token,
               user: user,
@@ -125,6 +125,7 @@ module.exports = (apiRouter) => {
         if (err) {
           res.status(401).send({
             message: 'Failed to authenticate token',
+            status: '401: Unauthorised',
           });
         }
         // Everything went well, we found and verified the token

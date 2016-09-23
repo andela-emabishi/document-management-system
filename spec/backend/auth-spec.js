@@ -80,11 +80,8 @@ describe('Authentication tests', () => {
 
   it('Should fail to authenticate a user with an invalid token', (done) => {
     request
-      .post('/api/users/login')
-      .send({
-        username: 'ada',
-        password: 'analyticalengine',
-      })
+      .post('/api/documents')
+      .set('x-access-token', 'abcdefghijk')
       .end((err, res) => {
         expect(res.body.message).toBe('Failed to authenticate token');
         expect(res.status).toBe(401);
