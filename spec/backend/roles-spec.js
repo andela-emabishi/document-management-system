@@ -8,7 +8,7 @@ describe('Role tests', () => {
 
   beforeAll((done) => {
     request
-    .post('/api/login')
+    .post('/api/users/login')
     .send({
       username: 'vichugo',
       password: 'victorhugo',
