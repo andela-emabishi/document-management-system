@@ -34,10 +34,16 @@ module.exports = {
           message: 'Error fetching documents.',
           status: '500: Server Error',
         });
+      } else if (parseInt(req.query.offset, 10) > documents.length) {
+        res.status(404).send({
+          message: 'Offset greater than number of documents or limit param. Cannot fetch',
+          documents: [],
+        });
       } else if (documents.length === 0) {
         res.status(404).send({
-          message: 'No documents found.',
+          message: 'No documents or terms found.',
           status: '404: Resource Not Found',
+          documents: [],
         });
       } else {
         res.status(200).send(documents);
