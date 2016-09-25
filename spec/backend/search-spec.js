@@ -7,7 +7,7 @@ describe('Search tests', () => {
 
   beforeAll((done) => {
     request
-      .post('/api/login')
+      .post('/api/users/login')
       .send({
         username: 'vichugo',
         password: 'victorhugo',
@@ -37,7 +37,7 @@ describe('Search tests', () => {
   it('Should return documents published on a specific date when '
   + 'searched by publishing date', (done) => {
     request
-    .get('/api/docuement?date=2016-09-16')
+    .get('/api/documents?date=2016-09-16')
       .set('x-access-token', token)
       .end((err, res) => {
         expect(res.status).toBe(200);
@@ -51,7 +51,7 @@ describe('Search tests', () => {
   it('Should return a message if documents published on a'
   + 'specific date when searched were not found', (done) => {
     request
-      .get('/api/docuement?date=2000-09-15')
+      .get('/api/documents?date=2000-09-15')
       .set('x-access-token', token)
       .end((err, res) => {
         expect(res.status).toBe(404);
