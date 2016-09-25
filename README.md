@@ -243,12 +243,15 @@ The `documents` resource may be queried for specific documents. The queries are 
 **date**
   * Functionality: Filters the documents resource for documents published on a specific date.
   * Usage: `documents/date?=2016-09-20` or `documents/date?=September 20 2016`
+
 **q**
   * Functionality: Filters the documents resource for a keyword(s)
   * Usage: `documents/q?=Quasimodo` or `documents/q?=Quasimodo was struck speechless`
+
 **role**
   * Functionality: Filters the documents resource for documents that can be accessed by a role with a specific role_id.
   * Usage: `documents/role?=57c9f4ec500ff262b2e87338`
+  
 
 |  Title 	|  URL 	|  Method 	| URL params
 |---	|---	|---	|----  |
