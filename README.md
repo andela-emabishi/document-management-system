@@ -238,15 +238,15 @@ content:
 * Note
 **This route is restricted to the logged in users' documents and all public documents.**
 
-###### Queries
+##### Queries
 The `documents` resource may be queried for specific documents. The queries are of the format, `documents/query-name?=query-param` and are:
-1. date
+* date
   - Functionality: Filters the documents resource for documents published on a specific date.
   - Usage: `documents/date?=2016-09-20` or `documents/date?=September 20 2016`
-2. q
+* q
   - Functionality: Filters the documents resource for a keyword(s)
   - Usage: `documents/q?=Quasimodo` or `documents/q?=Quasimodo was struck speechless`
-3. role
+* role
   - Functionality: Filters the documents resource for documents that can be accessed by a role with a specific role_id.
   - Usage: `documents/role?=57c9f4ec500ff262b2e87338`
 
