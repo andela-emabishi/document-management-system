@@ -6,7 +6,6 @@ const config = require('../config');
 const users = require('./user');
 const documents = require('./documents');
 const roles = require('./roles');
-const search = require('./search');
 
 // Require mongoose model
 const User = require('../models/user');
@@ -148,7 +147,6 @@ module.exports = (apiRouter) => {
   users(apiRouter);
   documents(apiRouter);
   roles(apiRouter);
-  search(apiRouter);
 
   return apiRouter;
 };
