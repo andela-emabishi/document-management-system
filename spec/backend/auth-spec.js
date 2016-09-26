@@ -4,8 +4,8 @@ const request = require('supertest')(app);
 describe('Authentication tests', () => {
   it('Displays a welcome message', (done) => {
     request
-    .get('/api')
-    .expect('Welcome to the DOCHERO api', done);
+      .get('/api')
+      .expect('Welcome to the DOCHERO api', done);
   });
 
   // Assert that a user can signup

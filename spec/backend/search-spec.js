@@ -37,7 +37,7 @@ describe('Search tests', () => {
   it('Should return documents published on a specific date when '
   + 'searched by publishing date', (done) => {
     request
-    .get('/api/documents?date=2016-09-16')
+      .get('/api/documents?date=2016-09-16')
       .set('x-access-token', token)
       .end((err, res) => {
         expect(res.status).toBe(200);

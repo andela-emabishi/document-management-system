@@ -67,52 +67,52 @@ describe('Role tests', () => {
 
   it('Should validate that a supra-admin can update role information', (done) => {
     request
-    .put('/api/roles/65c975eb2c3d08864b51cd08')
-    .set('x-access-token', token)
-    .send({
-      title: 'super-editor',
-    })
-    .end((err, res) => {
-      expect(res.status).toBe(200);
-      expect(res.body.role.title).toBe('super-editor');
-      expect(res.body).toBeDefined();
-      expect(res.body.message).toBe('Role details updated successfully');
-      done();
-    });
+      .put('/api/roles/65c975eb2c3d08864b51cd08')
+      .set('x-access-token', token)
+      .send({
+        title: 'super-editor',
+      })
+      .end((err, res) => {
+        expect(res.status).toBe(200);
+        expect(res.body.role.title).toBe('super-editor');
+        expect(res.body).toBeDefined();
+        expect(res.body.message).toBe('Role details updated successfully');
+        done();
+      });
   });
 
   it('Should validate that a user is able to get a role by its id', (done) => {
     request
-    .get('/api/roles/65c975eb2c3d08864b51cd08')
-    .set('x-access-token', token)
-    .end((err, res) => {
-      expect(res.status).toBe(200);
-      expect(res.body.title).toBeDefined();
-      expect(res.body.message).not.toBe('Error fetching role');
-      done();
-    });
+      .get('/api/roles/65c975eb2c3d08864b51cd08')
+      .set('x-access-token', token)
+      .end((err, res) => {
+        expect(res.status).toBe(200);
+        expect(res.body.title).toBeDefined();
+        expect(res.body.message).not.toBe('Error fetching role');
+        done();
+      });
   });
 
   it('Should return a message if a user provided role id is not'
   + 'matched to a role', (done) => {
     request
-    .get('/api/roles/65c975eb2c4d08864b51cd08')
-    .set('x-access-token', token)
-    .end((err, res) => {
-      expect(res.status).toBe(404);
-      expect(res.body.message).toBe('No role by that id found');
-      done();
-    });
+      .get('/api/roles/65c975eb2c4d08864b51cd08')
+      .set('x-access-token', token)
+      .end((err, res) => {
+        expect(res.status).toBe(404);
+        expect(res.body.message).toBe('No role by that id found');
+        done();
+      });
   });
 
   it('Should validate that a role can be deleted', (done) => {
     request
-    .delete('/api/roles/57da83ac2f1cc5c32bedb1db')
-    .set('x-access-token', token)
-    .end((err, res) => {
-      expect(res.status).toBe(200);
-      expect(res.body.message).toBe('Role deleted successfully');
-      done();
-    });
+      .delete('/api/roles/57da83ac2f1cc5c32bedb1db')
+      .set('x-access-token', token)
+      .end((err, res) => {
+        expect(res.status).toBe(200);
+        expect(res.body.message).toBe('Role deleted successfully');
+        done();
+      });
   });
 });

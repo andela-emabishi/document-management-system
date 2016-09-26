@@ -129,63 +129,63 @@ describe('Document tests', () => {
   it('Should return all documents, limited by a specified number, '
   + 'using a query parameter limit', (done) => {
     request
-    .get('/api/documents?limit=2')
-    .set('x-access-token', token)
-    .end((err, res) => {
-      expect(res.status).toBe(200);
-      expect(res.body).toBeDefined();
-      expect(Array.isArray(res.body)).toBe(true);
-      expect(res.body.length).toEqual(2);
-      done();
-    });
+      .get('/api/documents?limit=2')
+      .set('x-access-token', token)
+      .end((err, res) => {
+        expect(res.status).toBe(200);
+        expect(res.body).toBeDefined();
+        expect(Array.isArray(res.body)).toBe(true);
+        expect(res.body.length).toEqual(2);
+        done();
+      });
   });
 
   it('Should return all documents in order of their publishing date', (done) => {
     request
-    .get('/api/documents')
-    .set('x-access-token', token)
-    .end((err, res) => {
-      expect(res.status).toBe(200);
-      if (res.body.length > 1) {
-        expect(res.body[0].createdAt).toBeGreaterThan(res.body[1].createdAt);
-      }
-      done();
-    });
+      .get('/api/documents')
+      .set('x-access-token', token)
+      .end((err, res) => {
+        expect(res.status).toBe(200);
+        if (res.body.length > 1) {
+          expect(res.body[0].createdAt).toBeGreaterThan(res.body[1].createdAt);
+        }
+        done();
+      });
   });
 
   it('Should have the ability to return paginated documents', (done) => {
     request
-    .get('/api/documents?offset=1&limit=1')
-    .set('x-access-token', token)
-    .end((err, res) => {
-      expect(res.status).toBe(200);
-      expect(res.body.status).not.toBe('400: Bad request');
-      expect(res.body.length).toBe(1);
-      done();
-    });
+      .get('/api/documents?offset=1&limit=1')
+      .set('x-access-token', token)
+      .end((err, res) => {
+        expect(res.status).toBe(200);
+        expect(res.body.status).not.toBe('400: Bad request');
+        expect(res.body.length).toBe(1);
+        done();
+      });
   });
 
   it('Should return an error when a query has a greater offset than'
     + ' limit or documents', (done) => {
     request
-    .get('/api/documents?offset=10&limit=1')
-    .set('x-access-token', token)
-    .end((err, res) => {
-      expect(res.status).toBe(404);
-      expect((res.body.documents).length).toBe(0);
-      done();
-    });
+      .get('/api/documents?offset=10&limit=1')
+      .set('x-access-token', token)
+      .end((err, res) => {
+        expect(res.status).toBe(404);
+        expect((res.body.documents).length).toBe(0);
+        done();
+      });
   });
 
   it('Should validate that a document can be deleted by its id', (done) => {
     request
-    .delete('/api/documents/57c975eb2c3d08864b51cd08')
-    .set('x-access-token', token)
-    .end((err, res) => {
-      expect(res.status).toBe(200);
-      expect(res.body.message).toBe('Document deleted successfully');
-      done();
-    });
+      .delete('/api/documents/57c975eb2c3d08864b51cd08')
+      .set('x-access-token', token)
+      .end((err, res) => {
+        expect(res.status).toBe(200);
+        expect(res.body.message).toBe('Document deleted successfully');
+        done();
+      });
   });
 
   it('Should return an error message if a user attempts to delete a '
