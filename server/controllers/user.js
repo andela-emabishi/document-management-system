@@ -14,7 +14,7 @@ module.exports = {
           res.status(404).send({
             message: 'No users were found',
             status: '404: Resource Not Found',
-            users: [],
+            users: users,
           });
         } else {
           res.status(200).send(users);

@@ -39,9 +39,14 @@ module.exports = {
     Role.find()
     .exec((err, roles) => {
       if (err) {
-        res.status(404).send({
+        res.status(500).send({
           error: err,
           message: 'Error ocurred while fetching roles',
+          status: '500: Server Error',
+        });
+      } else if (!roles) {
+        res.status(404).send({
+          message: 'No roles found',
           status: '404: Resource Not Found',
         });
       } else {
@@ -64,9 +69,10 @@ module.exports = {
         // Then save the role
         role.save(() => {
           if (err) {
-            res.send({
+            res.status(500).send({
               error: err,
               message: 'Error updating role',
+              status: '500: Server Error',
             });
           } else {
             res.status(200).send({

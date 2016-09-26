@@ -74,7 +74,7 @@ module.exports = {
         res.status(404).send({
           message: 'No documents or terms found.',
           status: '404: Resource Not Found',
-          documents: [],
+          documents: documents,
         });
       } else {
         res.status(200).send(documents);
@@ -90,16 +90,17 @@ module.exports = {
         { $and: [{ _creatorId: req.decoded.id }, { _id: req.params.document_id }] },
       ],
     })
-    .exec((err, documents) => {
+    .exec((err, document) => {
       if (err) {
         res.send(err);
-      } else if (documents.length === 0) {
+      } else if (document.length === 0) {
         res.status(401).send({
           message: 'Cannot access document by that id',
           status: '401: Unauthorised',
+          document: document,
         });
       } else {
-        res.status(200).send(documents);
+        res.status(200).send(document);
       }
     });
   },
@@ -118,7 +119,7 @@ module.exports = {
         res.status(401).send({
           message: 'Could not update document by the id entered',
           status: '401: Unauthorised',
-          document: [],
+          document: document,
         });
       }
        // Only update if a change has happened
