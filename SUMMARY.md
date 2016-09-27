@@ -1,4 +1,0 @@
-# Summary
-
-* [documents](documents.md)
-
