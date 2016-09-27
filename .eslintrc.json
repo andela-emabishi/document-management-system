@@ -2,7 +2,8 @@
     "env": {
         "browser": true,
         "commonjs": true,
-        "es6": true
+        "es6": true,
+        "jasmine": true
     },
     "extends": "airbnb",
     "parserOptions": {
@@ -13,9 +14,39 @@
             "error",
             2
         ],
+        "import/newline-after-import": [
+          "off"
+        ],
+        "import/no-extraneous-dependencies": [
+          "off"
+        ],
+        "no-underscore-dangle": [
+          "off"
+        ],
+        "no-param-reassign": [
+          "off"
+        ],
         "linebreak-style": [
             "error",
             "unix"
+        ],
+        "new-cap": [
+          "off"
+        ],
+        "object-shorthand":[
+          "off"
+        ],
+        "consistent-return": [
+          "off"
+        ],
+        "array-callback-return": [
+          "off"
+        ],
+        "brace-style": [
+          "off"
+        ],
+        "eqeqeq": [
+          "off"
         ],
         "quotes": [
             "error",
