@@ -65,7 +65,7 @@ describe('Document tests', () => {
         done();
       });
   });
-// Return new document with update
+
   it('Should validate that a user can update the content of their own documents', (done) => {
     request
       .put('/api/documents/57c975eb2c3d08864b51cd08')

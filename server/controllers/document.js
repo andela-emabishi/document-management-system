@@ -119,7 +119,7 @@ module.exports = {
         res.status(401).send({
           message: 'Could not update document by the id entered',
           status: '401: Unauthorised',
-          document: document,
+          document: [],
         });
       }
        // Only update if a change has happened
@@ -205,6 +205,7 @@ module.exports = {
             message: 'No documents were found for that user.'
             + ' The document you are referring to may be private',
             status: '404: Resource Not Found',
+            documents: [],
           });
         } else {
           res.status(200).send(documents);
@@ -226,6 +227,7 @@ module.exports = {
           res.status(404).send({
             message: 'No public documents found',
             status: '404: Resource Not Found',
+            documents: [],
           });
         } else {
           res.status(200).send(documents);
@@ -242,6 +244,7 @@ module.exports = {
         res.status(404).send({
           message: 'No documents have been shared with you',
           status: '404: Resource Not Found',
+          documents: [],
         });
       } else {
         res.status(200).send(documents);
