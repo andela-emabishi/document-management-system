@@ -100,6 +100,20 @@ describe('Document tests', () => {
       });
   });
 
+  it('Should validate that only a user can update their own documents', (done) => {
+    request
+      .put('/api/documents/57d0086ebc185f810bcd0d88')
+      .set('x-access-token', token)
+      .send({
+        content: 'It was the best of times, it was the worst of times.',
+      })
+      .end((err, res) => {
+        expect(res.status).toBe(401);
+        expect(res.body.message).toBe('Could not update document by the id entered');
+        done();
+      });
+  });
+
   it('Should return all documents created by a user using their user id', (done) => {
     request
       .get('/api/users/57c94278517ca48c9e5af00f/documents')

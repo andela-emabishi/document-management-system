@@ -107,16 +107,18 @@ module.exports = {
 
   // [Restricted] Can only edit documents of logged in user
   updateDocumentById: (req, res) => {
-    Document.findOne({
-      $and: [
-        { _id: req.params.document_id }, { _creatorId: req.decoded.id },
-      ],
-    })
+    Document.findById({ _id: req.params.document_id })
     .exec((err, document) => {
       if (err) {
         res.status(500).send({
           error: err,
           status: '500: Server Error',
+        });
+      } else if (document === null) {
+        res.status(401).send({
+          message: 'Could not update document by the id entered',
+          status: '401: Unauthorised',
+          document: document,
         });
       } else if (req.decoded.id == document._creatorId) {
         // Only update if a change has happened
@@ -139,12 +141,6 @@ module.exports = {
               document: document,
             });
           }
-        });
-      } else {
-        res.status(404).send({
-          message: 'Could not update document by the id entered',
-          status: '401: Unauthorised',
-          document: [],
         });
       }
     });
