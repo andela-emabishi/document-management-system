@@ -110,6 +110,7 @@ describe('Document tests', () => {
       .end((err, res) => {
         expect(res.status).toBe(401);
         expect(res.body.message).toBe('Could not update document by the id entered');
+        expect(res.body.document).toBe(null);
         done();
       });
   });
