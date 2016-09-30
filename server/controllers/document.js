@@ -107,43 +107,46 @@ module.exports = {
 
   // [Restricted] Can only edit documents of logged in user
   updateDocumentById: (req, res) => {
-    Document.findById(req.params.document_id)
-    .where('_creatorId').equals(req.decoded.id)
+    Document.findOne({
+      $and: [
+        { _id: req.params.document_id }, { _creatorId: req.decoded.id },
+      ],
+    })
     .exec((err, document) => {
       if (err) {
         res.status(500).send({
           error: err,
           status: '500: Server Error',
         });
-      } if (!document || (req.decoded.id != document._creatorId)) {
-        res.status(401).send({
+      } else if (req.decoded.id == document._creatorId) {
+        // Only update if a change has happened
+        if (req.body.title) { document.title = req.body.title; }
+        if (req.body.content) { document.content = req.body.content; }
+        if (req.body.privacy) { document.privacy = req.body.privacy; }
+        if (req.body.sharewith) { document.sharewith = req.body.sharewith; }
+        if (req.body.access) { document.access = req.body.access; }
+       // Then save the user details
+        document.save(() => {
+          if (err) {
+            res.status(401).send({
+              error: err,
+              message: 'Error saving document',
+              status: '401: Unauthorised',
+            });
+          } else {
+            res.status(200).send({
+              message: 'Document details updated successfully',
+              document: document,
+            });
+          }
+        });
+      } else {
+        res.status(404).send({
           message: 'Could not update document by the id entered',
           status: '401: Unauthorised',
           document: [],
         });
       }
-       // Only update if a change has happened
-      if (req.body.title) document.title = req.body.title;
-      if (req.body.content) document.content = req.body.content;
-      if (req.body.privacy) document.privacy = req.body.privacy;
-      if (req.body.sharewith) document.sharewith = req.body.sharewith;
-      if (req.body.access) document.access = req.body.access;
-
-      // Then save the user details
-      document.save(() => {
-        if (err) {
-          res.status(401).send({
-            error: err,
-            message: 'Error saving document',
-            status: '401: Unauthorised',
-          });
-        } else {
-          res.status(200).send({
-            message: 'Document details updated successfully',
-            document: document,
-          });
-        }
-      });
     });
   },
 
