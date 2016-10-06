@@ -6,6 +6,12 @@ Dochero is a lightweight API built in the Javascript language that serves as the
 
 Dochero allows and restricts access to documents stored using a permissions based, role based and access sharing framework.
 
+#### Dependencies
+Install the following on your machine:
+* [MongoDB] (https://docs.mongodb.com/)
+* [NodeJS] (https://nodejs.org/en/)
+* Optional: [Postman] (https://www.getpostman.com/)
+
 #### Usage
 * Clone this repository with the command: `git clone https://github.com/andela-emabishi/document-management-system.git`
 * Start up a terminal instance and run the command `npm install` at the root project folder. This will install all the project dependencies. More information about the project's dependencies can be viewed in its `package.json` file.
