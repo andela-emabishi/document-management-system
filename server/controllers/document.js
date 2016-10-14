@@ -92,7 +92,10 @@ module.exports = {
     })
     .exec((err, document) => {
       if (err) {
-        res.send(err);
+        res.status(500).send({
+          error: err,
+          status: '500: Server Error',
+        });
       } else if (document.length === 0) {
         res.status(401).send({
           message: 'Cannot access document by that id',
@@ -238,7 +241,10 @@ module.exports = {
     Document.find({ sharewith: req.decoded.id })
     .exec((err, documents) => {
       if (err) {
-        res.send(err);
+        res.status(500).send({
+          error: err,
+          status: '500: Server Error',
+        });
       } else if (documents.length === 0) {
         res.status(404).send({
           message: 'No documents have been shared with you',

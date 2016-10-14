@@ -9,6 +9,7 @@ module.exports = {
         if (err) {
           res.status(500).send({
             error: err,
+            status: '500: Server Error',
           });
         } else if (!users) {
           res.status(404).send({
@@ -62,7 +63,10 @@ module.exports = {
         // Then save the user details
         user.save(() => {
           if (err) {
-            res.send(err);
+            res.status(500).send({
+              error: err,
+              status: '500: Server Error',
+            });
           } else {
             res.status(200).send({
               message: 'User details updated successfully',
